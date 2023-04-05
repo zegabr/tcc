@@ -1,0 +1,39 @@
+\documentclass[10pt, a4paper]{article}
+
+%PACOTES
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{changepage}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{cite}
+
+
+\graphicspath{ {images/} }
+
+\begin{document}
+
+	\include{capa}
+	\newpage
+	\clearpage
+    \setcounter{page}{1}
+	\include{resumo}
+	\newpage
+	\include{introducao}
+	\newpage
+	\include{objetivos}
+	\newpage
+	\include{metodologia}
+	\newpage
+	\include{cronograma}
+	\newpage
+	\bibliography{library}{}
+	\bibliographystyle{plain}
+	\newpage
+	\include{posAval}
+\end{document}
