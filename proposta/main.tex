@@ -1,9 +1,10 @@
 \documentclass[10pt, a4paper]{article}
 
 %PACOTES
-\usepackage[utf8]{inputenc}
+% \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[brazil]{babel}
+\usepackage[style=ieee]{biblatex}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -11,8 +12,9 @@
 \usepackage{changepage}
 \usepackage{verbatim}
 \usepackage{float}
-\usepackage{cite}
+\usepackage{csquotes}
 
+\addbibresource{library.bib}
 
 \graphicspath{ {images/} }
 
@@ -27,13 +29,16 @@
 	\include{introducao}
 	\newpage
 	\include{objetivos}
-	\newpage
-	\include{metodologia}
+	% \newpage
+	% \include{metodologia}
 	\newpage
 	\include{cronograma}
 	\newpage
-	\bibliography{library}{}
-	\bibliographystyle{plain}
+	\printbibliography
 	\newpage
 	\include{posAval}
+	\newpage
+	\include{assinaturas}
 \end{document}
+
+
