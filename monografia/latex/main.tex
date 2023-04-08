@@ -1,5 +1,6 @@
 \documentclass[bsc, oneside]{ufpethesis}
 
+\usepackage{paralist}
 \usepackage[style=ieee]{biblatex}
 \usepackage{csquotes}
 
@@ -16,6 +17,7 @@
 
 
 \begin{document}
+\frontmatter
 \frontpage
 \presentationpage
 
@@ -25,8 +27,13 @@
 \tableofcontents
 \listoffigures
 \listoftables
-% TODO? ir pra o 3.4 do manual
 
+\mainmatter
+% include other chapters
+
+\backmatter
+\appendix
 \printbibliography
 
+\colophon
 \end{document}
