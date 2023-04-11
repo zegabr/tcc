@@ -16,25 +16,14 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +200 template.tex
-badd +32 main.tex
+badd +164 template.tex
+badd +45 main.tex
 badd +28 resumo.tex
-badd +1 agradecimentos.tex
-badd +1 library.bib
-badd +1 tableTemplate.tex
-badd +1 referenciacruzadaTemplate.tex
-badd +2 listatemplate.tex
+badd +19 avaliacao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit template.tex
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
+edit avaliacao.tex
 argglobal
 balt main.tex
 setlocal fdm=manual
@@ -47,12 +36,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 187 - ((30 * winheight(0) + 25) / 50)
+let s:l = 19 - ((18 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 187
-normal! 0
+keepjumps 19
+normal! 093|
 lcd ~/tcc/monografia/latex
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -61,8 +50,6 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
