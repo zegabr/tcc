@@ -17,13 +17,13 @@ else
   set shortmess=aoO
 endif
 badd +164 template.tex
-badd +45 main.tex
-badd +28 resumo.tex
+badd +39 main.tex
 badd +19 avaliacao.tex
+badd +0 motivacao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit avaliacao.tex
+edit motivacao.tex
 argglobal
 balt main.tex
 setlocal fdm=manual
@@ -36,12 +36,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 19 - ((18 * winheight(0) + 35) / 70)
+let s:l = 1 - ((0 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 093|
+keepjumps 1
+normal! 027|
 lcd ~/tcc/monografia/latex
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -55,7 +55,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost
