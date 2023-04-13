@@ -16,16 +16,17 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +164 template.tex
-badd +39 main.tex
+badd +16 template.tex
+badd +1 main.tex
 badd +19 avaliacao.tex
-badd +0 motivacao.tex
+badd +1 motivacao.tex
+badd +74 introducao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit motivacao.tex
+edit main.tex
 argglobal
-balt main.tex
+balt template.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -41,7 +42,7 @@ if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
 keepjumps 1
-normal! 027|
+normal! 022|
 lcd ~/tcc/monografia/latex
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
