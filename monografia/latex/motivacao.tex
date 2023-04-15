@@ -1,3 +1,33 @@
 \section{Merge Estruturado}
+Como alternativa ao uso de merge não estruturado, existem as abordagens
+semiestruturadas ou completamente estruturadas. Ao contrário da abordagem não
+estruturada, essas abordagens levam em consideração a estrutura sintática da
+linguagem de programação para identificar conflitos com maior precisão e resolvê-los de 
+forma mais correta. Essas abordagens criam árvores sintáticas para
+cada versão dos arquivos a serem integrados (\emph{base}, \emph{left} e \emph{right}) 
+e comparam essas árvores para identificar nós comuns
+e adições ou remoções em cada árvore. Dessa forma, cada elemento sintático
+é representado em nós distintos, e conflitos são sinalizados quando as mudanças
+a serem integradas estão relacionadas ao mesmo nó da árvore. Isso significa
+que, em vez de usar linhas como a unidade básica para comparação, essas ferramentas usam
+nós sintáticos como unidade.
+
+Essas ferramentas estruturadas e semiestruturadas conseguem evitar falsos conflitos
+encontrados na abordagem não estruturada. Por exemplo, duas situações em
+que dois desenvolvedores adicionam separadamente dois novos métodos com diferentes
+assinaturas em uma mesma área do texto podem ser conciliadas com sucesso.
+As mudanças ocorrem na mesma linha, mas cada declaração é representada por
+um nó diferente, pois o identificador do método é parte do nó,
+e os dois nós são mantidos na árvore resultante da integração.
+
+TODO: adicionar figuras do exemplo decente
+
+Da mesma forma, uma ferramenta estruturada para Python evitaria o
+conflito apresentado na Figura 4. A ferramenta, utilizando a estrutura da
+linguagem, identifica que, apesar das mudanças representadas na Figura 2 e na
+Figura 3 ocorrerem na mesma linha, elas estão associadas a nós diferentes na árvore
+sintática. A ferramenta então concilia as mudanças em uma versão resultante que contém a
+nova condição proposta por left e a extração de constante proposta por right,
+evitando o falso conflito.
 \section{Merge Semiestruturado e Estruturado}
-\section{Merge Não Estrurado com Comparadores}
+\section{Merge Não Estrurado com Separadores}

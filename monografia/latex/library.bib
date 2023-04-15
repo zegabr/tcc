@@ -1,4 +1,5 @@
-@inproceedings{khanna2007formal,
+% [7]
+@inproceedings{khan07,
   title={A formal investigation of diff3},
   author={Khanna, Sanjeev and Kunal, Keshav and Pierce, Benjamin C},
   booktitle={International Conference on Foundations of Software Technology and Theoretical Computer Science},
@@ -7,7 +8,8 @@
   organization={Springer}
 }
 
-@article{brindescu2020empirical,
+% [6]
+@article{brin20,
   title={An empirical investigation into merge conflicts and their effect on software quality},
   author={Brindescu, Caius and Ahmed, Iftekhar and Jensen, Carlos and Sarma, Anita},
   journal={Empirical Software Engineering},
@@ -18,10 +20,109 @@
   publisher={Springer}
 }
 
-@inproceedings{clementino2021textual,
+@inproceedings{clem21,
   title={Textual merge based on language-specific syntactic separators},
   author={Clementino, J{\^o}natas and Borba, Paulo and Cavalcanti, Guilherme},
   booktitle={Brazilian Symposium on Software Engineering},
   pages={243--252},
   year={2021}
+}
+
+% [2]
+@article{koc11,
+  title={A survey of version control systems},
+  author={Koc, Ali and Tansel, Abdullah Uz},
+  journal={ICEME 2011},
+  year={2011}
+}
+
+% [5]
+@inproceedings{brun11,
+author = {Brun, Yuriy and Holmes, Reid and Ernst, Michael D. and Notkin, David},
+title = {Proactive Detection of Collaboration Conflicts},
+year = {2011},
+isbn = {9781450304436},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2025113.2025139},
+doi = {10.1145/2025113.2025139},
+abstract = {Collaborative development can be hampered when conflicts arise because developers have inconsistent copies of a shared project. We present an approach to help developers identify and resolve conflicts early, before those conflicts become severe and before relevant changes fade away in the developers' memories. This paper presents three results.First, a study of open-source systems establishes that conflicts are frequent, persistent, and appear not only as overlapping textual edits but also as subsequent build and test failures. The study spans nine open-source systems totaling 3.4 million lines of code; our conflict data is derived from 550,000 development versions of the systems.Second, using previously-unexploited information, we precisely diagnose important classes of conflicts using the novel technique of speculative analysis over version control operations.Third, we describe the design of Crystal, a publicly-available tool that uses speculative analysis to make concrete advice unobtrusively available to developers, helping them identify, manage, and prevent conflicts.},
+booktitle = {Proceedings of the 19th ACM SIGSOFT Symposium and the 13th European Conference on Foundations of Software Engineering},
+pages = {168–178},
+numpages = {11},
+keywords = {collaborative development, speculative analysis, version control, crystal, developer awareness, collaboration conflicts},
+location = {Szeged, Hungary},
+series = {ESEC/FSE '11}
+}
+
+% [3]
+@ARTICLE{mens02,
+  author={Mens, T.},
+  journal={IEEE Transactions on Software Engineering},
+  title={A state-of-the-art survey on software merging},
+  year={2002},
+  volume={28},
+  number={5},
+  pages={449-462},
+  doi={10.1109/TSE.2002.1000449}}
+
+% [8]
+@inproceedings{apel11,
+author = {Apel, Sven and Liebig, J\"{o}rg and Brandl, Benjamin and Lengauer, Christian and K\"{a}stner, Christian},
+title = {Semistructured Merge: Rethinking Merge in Revision Control Systems},
+year = {2011},
+isbn = {9781450304436},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2025113.2025141},
+doi = {10.1145/2025113.2025141},
+abstract = {An ongoing problem in revision control systems is how to resolve conflicts in a merge of independently developed revisions. Unstructured revision control systems are purely text-based and solve conflicts based on textual similarity. Structured revision control systems are tailored to specific languages and use language-specific knowledge for conflict resolution. We propose semistructured revision control systems that inherit the strengths of both: the generality of unstructured systems and the expressiveness of structured systems. The idea is to provide structural information of the underlying software artifacts --- declaratively, in the form of annotated grammars. This way, a wide variety of languages can be supported and the information provided can assist in the automatic resolution of two classes of conflicts: ordering conflicts and semantic conflicts. The former can be resolved independently of the language and the latter using specific conflict handlers. We have been developing a tool that supports semistructured merge and conducted an empirical study on 24 software projects developed in Java, C#, and Python comprising 180 merge scenarios. We found that semistructured merge reduces the number of conflicts in 60% of the sample merge scenarios by, on average, 34%, compared to unstructured merge. We found also that renaming is challenging in that it can increase the number of conflicts during semistructured merge, and that a combination of unstructured and semistructured merge is a pragmatic way to go.},
+booktitle = {Proceedings of the 19th ACM SIGSOFT Symposium and the 13th European Conference on Foundations of Software Engineering},
+pages = {190–200},
+numpages = {11},
+keywords = {semistructured merge, version control, revision control, software merging, fstmerge, featurehouse},
+location = {Szeged, Hungary},
+series = {ESEC/FSE '11}
+}
+
+% [9]
+@INPROCEEDINGS{cavalcanti15,
+author={Cavalcanti, Guilherme and Accioly, Paola and Borba, Paulo},
+booktitle={2015 ACM/IEEE International Symposium on Empirical Software Engineering and Measurement (ESEM)},
+title={Assessing Semistructured Merge in Version Control Systems: A Replicated Experiment},
+year={2015},
+volume={},
+number={},
+pages={1-10},
+doi={10.1109/ESEM.2015.7321191}}
+
+% [10]
+@INPROCEEDINGS{cavalcanti19,
+  author={Cavalcanti, Guilherme and Borba, Paulo and Seibt, Georg and Apel, Sven},
+  booktitle={2019 34th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  title={The Impact of Structure on Software Merging: Semistructured Versus Structured Merge},
+  year={2019},
+  volume={},
+  number={},
+  pages={1002-1013},
+  doi={10.1109/ASE.2019.00097}}
+
+% [11]
+@article{cavalcanti17,
+author = {Cavalcanti, Guilherme and Borba, Paulo and Accioly, Paola},
+title = {Evaluating and Improving Semistructured Merge},
+year = {2017},
+issue_date = {October 2017},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {1},
+number = {OOPSLA},
+url = {https://doi.org/10.1145/3133883},
+doi = {10.1145/3133883},
+abstract = {While unstructured merge tools rely only on textual analysis to detect and resolve conflicts, semistructured merge tools go further by partially exploiting the syntactic structure and semantics of the involved artifacts. Previous studies compare these merge approaches with respect to the number of reported conflicts, showing, for most projects and merge situations, reduction in favor of semistructured merge. However, these studies do not investigate whether this reduction actually leads to integration effort reduction (productivity) without negative impact on the correctness of the merging process (quality). To analyze that, and better understand how merge tools could be improved, in this paper we reproduce more than 30,000 merges from 50 open source projects, identifying conflicts incorrectly reported by one approach but not by the other (false positives), and conflicts correctly reported by one approach but missed by the other (false negatives). Our results and complementary analysis indicate that, in the studied sample, the number of false positives is significantly reduced when using semistructured merge. We also find evidence that its false positives are easier to analyze and resolve than those reported by unstructured merge. However, we find no evidence that semistructured merge leads to fewer false negatives, and we argue that they are harder to detect and resolve than unstructured merge false negatives. Driven by these findings, we implement an improved semistructured merge tool that further combines both approaches to reduce the false positives and false negatives of semistructured merge. We find evidence that the improved tool, when compared to unstructured merge in our sample, reduces the number of reported conflicts by half, has no additional false positives, has at least 8% fewer false negatives, and is not prohibitively slower.},
+journal = {Proc. ACM Program. Lang.},
+month = {oct},
+articleno = {59},
+numpages = {27},
+keywords = {collaborative development, version control systems, software merging}
 }

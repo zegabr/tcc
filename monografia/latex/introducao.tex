@@ -1,76 +1,81 @@
 
-TODO: deixar merge em italico
-
 TODO: ajeitar referencias de acondo com joc
 
 Com o crescimento da complexidade dos sistemas de software, surge a necessidade
 de que múltiplas pessoas trabalhem num mesmo projeto. Essas modificações, com o
 objetivo de trazer mais produtividade, costumam ser executadas de forma paralela e podem acontecer em
-trechos de código em comum [1]. Tendo como objetivo auxiliar os desenvolvedores a
+trechos de código em comum. Tendo como objetivo auxiliar os desenvolvedores a
 controlar e versionar suas modificações no código, ferramentas de controle de versão de
 código foram criadas. Essas ferramentas auxiliam a reduzir o trabalho extra quando se trata de
-modificações paralelas que precisam ser unidas [2]. O processo de unir duas modificações
-paralelas de código é chamado de merge [3].
+modificações paralelas que precisam ser unidas. O processo de unir duas modificações
+paralelas de código é chamado de \emph{merge}~\cite{mens02}.
 
-No processo de merge, quando dois desenvolvedores modificam o mesmo trecho de
+No processo de \emph{merge}, quando dois desenvolvedores modificam o mesmo trecho de
 código e essas mudanças interferem uma na outra, é gerado um conflito. Esses conflitos,
 quando detectados, algumas vezes precisam ser resolvidos por um ou ambos os desenvolvedores, o
-que acaba impactando na produtividade, dado que resolvê-los geralmente é uma tarefa tediosa
-e que demanda tempo [4] [5]. Além do impacto na produtividade do time, quando esses conflitos
-não são detectados pela ferramenta de merge, ou quando são detectados e mal resolvidos, eles
-podem levar à introdução de bugs dentro do código, o que influencia na qualidade do produto final [6].
+que acaba impactando na produtividade, dado que resolvê-los geralmente é uma tarefa que geralmente demanda tempo~\cite{brun11}.
+Além do impacto na produtividade do time, quando esses conflitos
+não são detectados pela ferramenta de \emph{merge}, ou quando são detectados e mal resolvidos, eles
+podem levar à introdução de bugs dentro do código, o que influencia na qualidade do produto final~\cite{brin20}.
 
-A abordagem de merge mais utilizada na indústria atualmente é o merge não estruturado [7],
+A abordagem de \emph{merge} mais utilizada na indústria atualmente é o \emph{merge} não estruturado~\cite{khan07},
 que se utiliza de uma análise puramente textual, equiparando linha a linha trechos do código
 para detectar e resolver conflitos. Porém, por não utilizar a estrutura do código que está sendo
 integrado, por muitas vezes essa abordagem gera falsos conflitos. Ao observar isso, pesquisadores
 propuseram ferramentas que se baseiam na estrutura dos arquivos que estão sendo integrados, criando
-uma árvore sintática a partir do texto dos arquivos e de sua linguagem de programação [8].
+uma árvore sintática a partir do texto dos arquivos e de sua linguagem de programação~\cite{apel11}.
 Essas abordagens são chamadas estruturadas e semiestruturadas.
 
-Estudos anteriores [8] [9] [10] compararam as duas abordagens (estruturada e semiestruturada)
-em relação à não estruturada e mostraram que, para a maioria das situações de merge dos projetos,
+Estudos anteriores~\cite{apel11,cavalcanti15,cavalcanti19} compararam as duas abordagens (estruturada e semiestruturada)
+em relação à não estruturada e mostraram que, para a maioria das situações de \emph{merge} dos projetos,
 houve uma redução de conflitos em favor da semi ou da estruturada. Essa redução se dá por conta
 de falsos conflitos que possuem resolução óbvia, como por exemplo, quando os desenvolvedores adicionam
-dois métodos diferentes e independentes numa mesma região do código [11].
+dois métodos diferentes e independentes numa mesma região do código~\cite{cavalcanti17}.
 
 Esse benefício advém da exploração da estrutura gerada pela análise sintática,
-também chamada de análise gramatical. Ela envolve o agrupamento dos tokens do programa fonte em frases.
+também chamada de análise gramatical. Ela envolve o agrupamento dos tokens (palavras) do programa fonte em frases.
 Cada linguagem possui conjuntos de tokens, onde alguns servem como divisores de elementos sintáticos e escopo semântico,
 como por exemplo as chaves ('{', '}') numa linguagem como Java. Estes tokens,
-especificamente, são definidos aqui simplesmente como separadores sintáticos. TODO: transformar o "separadores" em negrito
+especificamente, são definidos aqui simplesmente como \textbf{separadores} sintáticos.
 
 A solução não estruturada mais utilizada, o Diff3, se baseia somente na quebra de linha como o divisor de contexto para
-detecção de conflitos. Assim, o algoritmo de merge compara as linhas mantidas, adicionadas, e removidas por cada desenvolvedor
+detecção de conflitos. Assim, o algoritmo de \emph{merge} compara as linhas mantidas, adicionadas,
+e removidas por cada desenvolvedor
 e, com base nisso, reporta conflito quando as mudanças ocorrem em uma mesma área do texto, isto é,
 quando não há uma linha mantida que separa as mudanças feitas por um desenvolvedor das mudanças feitas pelo outro.
 
 Como forma de melhorar os resultados do Diff3, o CSDiff, proposto em trabalhos anteriores, utiliza-se dos separadores
-mencionados acima para dividir o contexto de cada linha de código. Assim, o algoritmo de merge consegue, por exemplo, resolver
-conflitos em uma mesma linha, contanto que esses conflitos estejam separados por um dos separadores definidos.
+mencionados acima para dividir o contexto de cada linha de código. Assim, o algoritmo de \emph{merge} consegue,
+por exemplo, resolver
+conflitos em uma mesma linha, contanto que esses conflitos estejam separados por pelo menos um dos separadores definidos.
 
 Contudo, o CSDiff possui limitações, pois linguagens como Python, possuem poucos separadores (seu principal separador
 é a própria indentação do código, que não é considerado pelo CSDiff atual). Este trabalho propõe uma modificação
 para o CSDiff, que utiliza a indentação como um separador sintático, de forma a tentar
-resolver esse problema, e analisa os resultados em comparação ao merge não estruturado puramente textual.
+resolver esse problema, e analisa os resultados em comparação ao \emph{merge} não estruturado puramente textual.
 Em particular, investiga-se as seguintes perguntas de pesquisa:
 
 \begin{compactenum}[1)]
-	\item PP1: A nova solução de merge não estruturado, utilizando indentação,
-	reduz a quantidade de conflitos reportados em comparação ao merge puramente textual?
-	\item PP2: A nova solução de merge não estruturado, utilizando indentação,
-	reduz a quantidade de cenários com conflitos reportados em comparação ao merge puramente textual?
-	\item PP3: A nova solução de merge não estruturado, utilizando indentação,
-	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados (falsos positivos) em comparação ao merge puramente textual?
-	\item PP4: A nova solução de merge não estruturado, utilizando indentação,
+	\item PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de conflitos reportados em comparação ao \emph{merge} puramente textual?
+	\item PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?
+	\item PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados (falsos positivos) em comparação ao \emph{merge} puramente textual?
+	\item PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos), além de aumentar cenários com falsos negativos?
-	\item PP5: A nova solução de merge não estruturado, utilizando indentação,
+	\item PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?
 \end{compactenum}
 
-Os resultados obtidos mostram que além de amentar a quantidade de conflitos reportados (como esperado dado os resultados dos trabalhos anteriores), 
-o merge não estruturado utilzando separadores e indentação, demonstra 
-
-TODO: dados necessarios: aproximacao em \% da quantidade de reducao de cenarios com conflitos ou de conflitos em si.
-
-Os conceitos utilizados para esta análise são explicados no capítulo (TODO: adicionar capituli aqui)
+Os resultados obtidos mostram que além de aumentar a quantidade de conflitos reportados
+(como esperado considerando os resultados dos trabalhos anteriores),
+o \emph{merge} não estruturado utilzando separadores e indentação, demonstra, para a amostra utilizada,
+um aumento de aFN proporcional a
+quantidade de aFP reduzido quando comparado ao Diff3. Vale ressaltar que isso foi observado considerando a amostra sem
+um dos projetos utilizados - o matplotlib - que por ter uma quantidade muito grande de conflitos por cenário/arquivo, se tornou
+um ponto fora da curva ao considerar criação de aFP.
+Por outro lado, ao se fazer a análise de aumento de produtividade considerando o ato de resolver e reduzir conflitos,
+além de considerar geração de conflitos extras e resolução errada de conflitos, notou-se um bom aumento
+de produtividade com a utilização do CSDiff. Os conceitos utilizados para esta análise
+são explicados no capítulo (TODO: adicionar capitulo/secao aqui).
