@@ -1,4 +1,5 @@
-\section{Merge Estruturado}
+\section{Merge Não Estrurado}
+\section{Merge Semiestruturado e Estruturado}
 Como alternativa ao uso de merge não estruturado, existem as abordagens
 semiestruturadas ou completamente estruturadas. Ao contrário da abordagem não
 estruturada, essas abordagens levam em consideração a estrutura sintática da
@@ -23,36 +24,35 @@ e os dois nós são mantidos na árvore resultante da integração.
 \begin{figure}[ht]
 \begin{center}
     \lstinputlisting[language=Python]{./example/no_indentation/base.py}
+    \caption{Arquivo \emph{base} que contém o método \detokenize{to_string}}\label{base_example}
 \end{center}
-\caption[]{isso vai ser util}\label{base_example}
 \end{figure}
 \begin{figure}[ht]
 \begin{center}
     \lstinputlisting[language=Python]{./example/no_indentation/left.py}
+    \caption{Arquivo \emph{left} que contém o método \detokenize{to_string}}\label{left_example}
 \end{center}
-\caption[]{isso vai ser util2}\label{left_example}
 \end{figure}
 \begin{figure}[ht]
 \begin{center}
     \lstinputlisting[language=Python]{./example/no_indentation/right.py}
+    \caption{Arquivo \emph{right} que contém o método \detokenize{to_string}}\label{right_example}
 \end{center}
-\caption[]{isso vai ser util3}\label{right_example}
 \end{figure}
 \begin{figure}[ht]
 \begin{center}
     \lstinputlisting[language=Python]{./example/no_indentation/diff3.py}
 \end{center}
-\caption[]{isso vai ser util3}\label{right_example}
+\caption{Resultado de executar o \emph{diff3}}\label{diff3_example}
 \end{figure}
 
-TODO: conferir esse texto abaixo.
-Da mesma forma, uma ferramenta estruturada para Python evitaria o
-conflito apresentado na Figura 4. A ferramenta, utilizando a estrutura da
-linguagem, identifica que, apesar das mudanças representadas na Figura 2 e na
-Figura 3 ocorrerem na mesma linha, elas estão associadas a nós diferentes na árvore
-sintática. A ferramenta então concilia as mudanças em uma versão resultante que contém a
-nova condição proposta por left e a extração de constante proposta por right,
+Dessa forma, é fácil observar que uma ferramenta estruturada para Python evitaria o
+conflito apresentado na Figura \ref{diff3_example}. A ferramenta, utilizando a estrutura da
+linguagem, identificaria que, apesar das mudanças representadas na Figura 2 e na
+Figura 3 ocorrerem em linhas consecutivas (o que faz com que o \emph{diff3} agrupe as mudanças em um único bloco de conflito),
+elas estão associadas a nós diferentes na árvore
+sintática. A ferramenta então juntaria as mudanças em uma versão resultante que contém a
+nova condição proposta por \emph{left} e o novo valor de retorno proposto por \emph{right},
 evitando o falso conflito.
-\section{Merge Semiestruturado e Estruturado}
 
-\section{Merge Não Estrurado com Separadores}
+\section{Merge Estruturado}
