@@ -2,9 +2,9 @@
 Como alternativa ao uso de merge não estruturado, existem as abordagens
 semiestruturadas ou completamente estruturadas. Ao contrário da abordagem não
 estruturada, essas abordagens levam em consideração a estrutura sintática da
-linguagem de programação para identificar conflitos com maior precisão e resolvê-los de 
+linguagem de programação para identificar conflitos com maior precisão e resolvê-los de
 forma mais correta. Essas abordagens criam árvores sintáticas para
-cada versão dos arquivos a serem integrados (\emph{base}, \emph{left} e \emph{right}) 
+cada versão dos arquivos a serem integrados (\emph{base}, \emph{left} e \emph{right})
 e comparam essas árvores para identificar nós comuns
 e adições ou remoções em cada árvore. Dessa forma, cada elemento sintático
 é representado em nós distintos, e conflitos são sinalizados quando as mudanças
@@ -20,8 +20,26 @@ As mudanças ocorrem na mesma linha, mas cada declaração é representada por
 um nó diferente, pois o identificador do método é parte do nó,
 e os dois nós são mantidos na árvore resultante da integração.
 
-TODO: adicionar figuras do exemplo decente
+\begin{figure}[ht]
+\begin{center}
+    \lstinputlisting[language=Python]{./example/no_indentation/base.py}
+\end{center}
+\caption[]{isso vai ser util}\label{base_example}
+\end{figure}
+\begin{figure}[ht]
+\begin{center}
+    \lstinputlisting[language=Python]{./example/no_indentation/left.py}
+\end{center}
+\caption[]{isso vai ser util2}\label{left_example}
+\end{figure}
+\begin{figure}[ht]
+\begin{center}
+    \lstinputlisting[language=Python]{./example/no_indentation/right.py}
+\end{center}
+\caption[]{isso vai ser util3}\label{right_example}
+\end{figure}
 
+TODO: conferir esse texto abaixo.
 Da mesma forma, uma ferramenta estruturada para Python evitaria o
 conflito apresentado na Figura 4. A ferramenta, utilizando a estrutura da
 linguagem, identifica que, apesar das mudanças representadas na Figura 2 e na
@@ -30,4 +48,5 @@ sintática. A ferramenta então concilia as mudanças em uma versão resultante 
 nova condição proposta por left e a extração de constante proposta por right,
 evitando o falso conflito.
 \section{Merge Semiestruturado e Estruturado}
+
 \section{Merge Não Estrurado com Separadores}
