@@ -18,15 +18,33 @@ else
 endif
 badd +26 template.tex
 badd +11 main.tex
-badd +39 motivacao.tex
+badd +43 motivacao.tex
 badd +1 introducao.tex
 badd +49 library.bib
-badd +1 figureTemplate.tex
 badd +2 ufpethesis.cls
 badd +27 resumo.tex
 argglobal
 %argdel
 $argadd template.tex
+edit motivacao.tex
+argglobal
+balt introducao.tex
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 43 - ((42 * winheight(0) + 35) / 70)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 43
+normal! 072|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -39,6 +57,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost
