@@ -93,15 +93,71 @@ a manipulação das árvores sintáticas possui um custo computacional maior em 
 Em trabalho anterior, ~\citeauthor{clem21} propõe uma nova ferramenta chamada
 \textbf{Custom Separators Diff} (\emph{CSDiff}), cujo funcionamento baseia-se na abordagem puramente textual, mas que também
 considera a estrutura sintática do programa por meio de um conjunto de separadores da linguagem, escolhidos pelo usuário e
-passados como parâmetro. 
+passados como parâmetro.
 
-TODO: copiar explicacao de como ele funciona, pseudo algoritmo
+\begin{figure}[ht]
+	\begin{center}
+		\begin{compactenum}[1)]
+			\item Transforma os arquivos \emph{base}, \emph{left} e \emph{right}, fazendo com que os separadores sintáticos
+			dados como entrada fiquem em linhas separadas; essas novas linhas são marcadas com a sequencia de caracteres:
+			'\verb|$$$$$$$$|';
+			\item Chama o \emph{merge} textual do Diff3, passando como entrada os arquivos gerados por 1;
+			\item No arquivo resultante do Passo 2, remove as linhas extras e marcadores adicionados no Passo 1.
+		\end{compactenum}
+	\end{center}
+	\caption{Processo do \emph{CSDiff}}\label{csdiff_process}
+\end{figure}
 
-TODO: mostrar e explicar exemplo dela funcionando sem indentation
 
-TODO: explicar a limitacao para linguagem python
+Para ilustrar o funcionamento do \emph{CSDiff} e seu potencial para resolver falsos conflitos, observamos as figuras
+\ref{base_marcadores}, \ref{left_marcadores} e \ref{right_marcadores}
+onde executamos o processo descrito na figura \ref{csdiff_process} utilizando os
+separadores sintáticos de Python "(", ")" e ",".
 
-TODO: mostrar exemplo dela funcionando com indentation
+Nota-se na Figura \ref{diff3_marcadores} que ao executar o \emph{CSDiff} nos arquivos \emph{base}, \emph{left} e \emph{right}, as linhas conflitantes ficam
+mais separadas pelos marcadores (as sequencias "\verb|$$$$$$$$|"), o que faz com que o
+conflito relatado pelo \emph{diff3} seja reduzido (indicando que parte dele foi
+parcialmente resolvido automaticamente).
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/base.py_temp.py}
+		\caption{Arquivo \emph{base} após a o Passo 1 da Figura \ref{csdiff_process}}\label{base_marcadores}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/left.py_temp.py}
+		\caption{Arquivo \emph{left} após a o Passo 1 da Figura \ref{csdiff_process}}\label{left_marcadores}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/right.py_temp.py}
+		\caption{Arquivo \emph{right} após a o Passo 1 da Figura \ref{csdiff_process}}\label{right_marcadores}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/diff3_temp.py}
+		\caption{Arquivo resultante após a execução do Passo 2 da Figura \ref{csdiff_process} nos arquivos
+			\emph{base}, \emph{left} e \emph{right}}\label{diff3_marcadores}
+	\end{center}
+\end{figure}
+
+Entretanto, nota-se uma limitação para este caso na linguagem Python, visto que as duas expressões de return acabam não
+se separando simplesmente pelo fato de que não há nenhum separador sintático entre eles.
+Essa limitação não ocorre em linguagens
+como Java, por exemplo, pois geralmente essas duas expressões return seriam separadas por um "\verb|}|"
+(que em Java delimita final de escopo). Isso acontece
+para a linguagem Python pelo fato de que a mesma não possui separador para delimitar escopo, pois utiliza da indentação para tal.
+
+Dada esta limitação, propomos neste trabalho uma modificação no algoritmo do \emph{CSDiff}, visando resolver esse problema de
+separação de escopo. Para fazer isso, modificamos o algoritmo para que também adicione marcadores ao encontrar mudanças na
+indentação do programa.
 
 
 
