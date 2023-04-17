@@ -6,7 +6,7 @@ abordagem puramente textual baseada em linhas. Essa ferramenta, ao receber os tr
 (\emph{left} e \emph{right}) com seu ancestral comum (\emph{base}), que foi o arquivo que deu origem às modificações
 que vão ser integradas. APós isso, a ferramenta agrupa as maiores áreas em comum e checa se existem interseções entre as
 áreas modificadas por \emph{left} e \emph{right}. Essas interseções são definidas como conflitos de merge~\cite{khan07},
-elas serão sinalizadas pelo \emph{diff3} através de marcadores \verb|(">>>>>>>","=======","<<<<<<<")| como demonstrado na
+elas serão sinalizadas pelo \emph{diff3} através de marcadores \verb|(">>>>>>>","=======","<<<<<<<")|, como demonstrado na
 Figura \ref{diff3_example}.
 
 Por considerar as mudanças linha a linha para detectar os conflitos, muitas vezes essa ferramenta relata falsos conflitos
@@ -74,17 +74,34 @@ As mudanças ocorrem na mesma linha, mas cada declaração é representada por
 um nó diferente, pois o identificador do método é parte do nó,
 e os dois nós são mantidos na árvore resultante da integração.
 
-
 Dessa forma, é fácil observar que uma ferramenta estruturada para Python evitaria o
 conflito apresentado na Figura \ref{diff3_example}. A ferramenta, utilizando a estrutura da
-linguagem, identificaria que, apesar das mudanças representadas na Figura 2 e na
-Figura 3 ocorrerem em linhas consecutivas (o que faz com que o \emph{diff3} agrupe as mudanças em um único bloco de conflito),
-elas estão associadas a nós diferentes na árvore
+linguagem, identificaria que, apesar das mudanças representadas na Figura \ref{left_example} e na
+Figura \ref{right_example} ocorrerem em linhas consecutivas (o que faz com que o \emph{diff3}
+agrupe as mudanças em um único bloco de conflito),
+elas estariam associadas a nós diferentes na árvore
 sintática. A ferramenta então juntaria as mudanças em uma versão resultante que contém a
 nova condição proposta por \emph{left} e o novo valor de retorno proposto por \emph{right},
 evitando o falso conflito.
 
 \section{Merge não Estruturado com separadores}
+As abordagens estruturadas e semiestruturadas discutidas na seção anterior, apesar de claramente benéficas,
+possuem um custo adicional, dado que elas se baseiam em manipulação de árvores sintáticas, que por sua vez são
+dependentes da linguagem em questão e demandam um esforço significativo de implementação por linguagem, além de que
+a manipulação das árvores sintáticas possui um custo computacional maior em relação a abordagens puramente textuais.
+
+Em trabalho anterior, ~\citeauthor{clem21} propõe uma nova ferramenta chamada
+\textbf{Custom Separators Diff} (\emph{CSDiff}), cujo funcionamento baseia-se na abordagem puramente textual, mas que também
+considera a estrutura sintática do programa por meio de um conjunto de separadores da linguagem, escolhidos pelo usuário e
+passados como parâmetro. 
+
+TODO: copiar explicacao de como ele funciona, pseudo algoritmo
+
+TODO: mostrar e explicar exemplo dela funcionando sem indentation
+
+TODO: explicar a limitacao para linguagem python
+
+TODO: mostrar exemplo dela funcionando com indentation
 
 
 
