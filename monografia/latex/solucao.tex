@@ -1,4 +1,90 @@
-\section{Implementação}
-TODO: proposta de solucao
+\section{Visão Geral da Implementação}
+\subsection{Otimização e Simplificação com uso de \emph{awk}}
+Primeiramente, para que consiguíssemos fazer o \emph{CSDiff} detectar mudanças de indentação, era necessário
+que o programa iterasse linha a linha, no Passo 1 da Figura~\ref{csdiff_process}.
+Para tal, foi escolhido a ferramenta \emph{awk}~\cite{awk}, utilizada primeiramente para
+simplificar alguns dos scripts feitos com a ferramenta \emph{sed} que foram utilizados em~\cite{clem21,heitor21}.
+Esta simplificação
+utilizou-se do conceito chamado de \emph{charclass} (add footnote: https://www.regular-expressions.info/charclass.html), que
+permite criar um comando de substituição mais simples do que o utilizado anteriormente, que consistia em uma sequencia de
+substituições \emph{sed} individuais. Essa simplificação foi posteriormente testada pelo autor utilizando
+o \emph{miningframework} (utilizado nessa pesquisa, bem como nas anteriores já mencionadas), para comprovar sua equivalência em
+relação ao script inicial (sequência de comandos \emph{sed}). Além disso, apesar de não ter sido
+metodologicamente analisada (por não fazer parte do escopo desta pesquisa),
+notou-se uma melhora na velocidade de execução do
+\emph{CSDiff} de aproximadamente 3x, indicando uma diferença considerável de performance entre as ferramentas
+\emph{awk} e \emph{sed}.
 
-TODO: mostrar exemplo dela funcionando com indentation
+\subsection{Inserindo Marcadores ao Detectar Mudanças de Indentação}
+Após a simplicicação acima, foi criada uma nova versão do \emph{CSDiff} cujo processo é descrito na
+Figura~\ref{csdiff_process_indentation} e seu resultado ilustrada nas Figuras \ref{base_marcadores_indentacao},
+\ref{left_marcadores_indentacao},
+\ref{right_marcadores_indentacao}, enquanto que o resultado da execução do \emph{diff3} pode ser visto na figura
+\ref{diff3_marcadores_indentacao}
+
+\begin{figure}[ht]
+	\begin{center}
+		\begin{compactenum}[(1)]
+			\item Iterando linha a linha nos arquivos \emph{base}, \emph{left} e \emph{right}:
+			\begin{compactenum}
+				\item Transforma os arquivos, fazendo com que os separadores sintáticos
+				dados como entrada fiquem em linhas separadas; essas novas linhas são marcadas com a sequencia de caracteres:
+				'\verb|$$$$$$$$|', e adiciona uma linha de marcadores a mais acima da linha atual
+				sempre que a linha anterior está em um nível de
+				indentação diferente da linha atual.
+			\end{compactenum}
+			\item Chama o \emph{merge} textual do Diff3, passando como entrada os arquivos gerados por 1;
+			\item No arquivo resultante do Passo 2, remove as linhas extras e marcadores adicionados no Passo 1.
+		\end{compactenum}
+	\end{center}
+	\caption{Processo do \emph{CSDiff}}\label{csdiff_process_indentation}
+\end{figure}
+
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/indentation/base.py_temp.py}
+		\caption{Arquivo \emph{base} após a o Passo 1 da Figura
+			\ref{csdiff_process_indentation}}\label{base_marcadores_indentacao}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/indentation/left.py_temp.py}
+		\caption{Arquivo \emph{left} após a o Passo 1 da Figura
+			\ref{csdiff_process_indentation}}\label{left_marcadores_indentacao}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/indentation/right.py_temp.py}
+		\caption{Arquivo \emph{right} após a o Passo 1 da Figura
+			\ref{csdiff_process_indentation}}\label{right_marcadores_indentacao}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/indentation/diff3_temp.py}
+		\caption{Arquivo resultante após a execução do Passo 2 da Figura \ref{csdiff_process_indentation} nos arquivos
+			\emph{base}, \emph{left} e \emph{right}. Note que agora o diff3 conseguiu resolver todos
+			os conflitos de forma automática.
+		}\label{diff3_marcadores_indentacao}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+        \lstinputlisting[language=Python]{./example/indentation/csdiff.py}
+		\caption{Arquivo resultante após a o Passo 3 da Figura
+			\ref{csdiff_process_indentation}}\label{csdiff_indentacao}
+	\end{center}
+\end{figure}
+
+Com essas modificações, fizemos o experimento descrito na seção seguinte.
+
+
+
+

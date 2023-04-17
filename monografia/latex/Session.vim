@@ -17,18 +17,29 @@ else
   set shortmess=aoO
 endif
 badd +26 template.tex
-badd +67 main.tex
-badd +163 motivacao.tex
-badd +31 library.bib
-badd +1 ~/tcc/monografia/latex/solucao.tex
+badd +2 main.tex
+badd +122 motivacao.tex
+badd +141 library.bib
+badd +70 ~/tcc/monografia/latex/solucao.tex
 badd +1 ~/tcc/monografia/latex/avaliacao.tex
 badd +1 ~/tcc/monografia/latex/trabalhosrelacionados.tex
 argglobal
 %argdel
 $argadd template.tex
-edit main.tex
+edit ~/tcc/monografia/latex/solucao.tex
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
 argglobal
-balt ~/tcc/monografia/latex/solucao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -39,12 +50,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 35) / 70)
+let s:l = 70 - ((49 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 70
+normal! 078|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -52,6 +63,8 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
