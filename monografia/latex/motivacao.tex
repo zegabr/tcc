@@ -1,4 +1,23 @@
 \section{Merge Não Estrurado}
+Apesar da evolução dos sistemas de controle de versão, as ferramentas utilizadas para realizar
+\emph{merge} não evoluiram tanto. A ferramenta mais utilizada atualmente é o \emph{diff3}~\cite{mens02}, que consiste em uma
+abordagem puramente textual baseada em linhas. Essa ferramenta, ao receber os três arquivos que configuram o cenário de merge
+(chamemos de \emph{base}, \emph{left} e \emph{right}), compara, linha a linha, as duas versões modificadas
+(\emph{left} e \emph{right}) com seu ancestral comum (\emph{base}), que foi o arquivo que deu origem às modificações
+que vão ser integradas. APós isso, a ferramenta agrupa as maiores áreas em comum e checa se existem interseções entre as
+áreas modificadas por \emph{left} e \emph{right}. Essas interseções são definidas como conflitos de merge~\cite{khan07},
+elas serão sinalizadas pelo \emph{diff3} através de marcadores \verb|(">>>>>>>","=======","<<<<<<<")| como demonstrado na
+Figura \ref{diff3_example}.
+
+Por considerar as mudanças linha a linha para detectar os conflitos, muitas vezes essa ferramenta relata falsos conflitos
+de modificações que alteram a mesma linha ou linhas consecutivas, mas que não interferem entre si semanticamente.
+Esse problema poderia ser resolvido utilizando ferramentas que explorem a estrutura sintática do código em questão.
+
+Para ilustrar esse problema causado pelo \emph{merge} não estruturado, utilizamos a implementação de um método 
+\detokenize{to_string} que
+recebe uma lista de strings e retorna uma string juntando todos os elementos da lista separados por um
+\emph{underline} \detokenize{"_"}.
+
 \section{Merge Semiestruturado e Estruturado}
 Como alternativa ao uso de merge não estruturado, existem as abordagens
 semiestruturadas ou completamente estruturadas. Ao contrário da abordagem não
@@ -55,4 +74,4 @@ sintática. A ferramenta então juntaria as mudanças em uma versão resultante 
 nova condição proposta por \emph{left} e o novo valor de retorno proposto por \emph{right},
 evitando o falso conflito.
 
-\section{Merge Estruturado}
+\section{Merge não Estruturado com separadores}

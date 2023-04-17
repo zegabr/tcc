@@ -18,10 +18,10 @@ else
 endif
 badd +26 template.tex
 badd +1 main.tex
-badd +24 motivacao.tex
+badd +19 motivacao.tex
 badd +2 introducao.tex
 badd +23 library.bib
-badd +33 resumo.tex
+badd +13 resumo.tex
 argglobal
 %argdel
 $argadd template.tex
@@ -37,6 +37,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost
