@@ -1,26 +1,153 @@
+Para avaliar esta nova versão do \emph{CSDiff} e responder as perguntas de pesquisa mencionadas anteriormente, repetimos
+os experimentos feitos em~\cite{heitor21,clem21}, que compara os resultados de utilizar \emph{CSDiff} com o resultado
+de utilizar \emph{diff3}, analisando o potencial para resolução de conflitos sem gerar impacto negativo na corretude do
+processo de \emph{merge}.
+
 \section{CONCEITOS}
+A seguir, alguns conceitos relevantes para a avaliação serão definidos.
 \subsection{Cenário de Merge}
+Em um sistema de controle de versão, um \emph{commit} é uma versão que agrupa mudanças em
+determinados arquivos de um projeto~\cite{koc11}.
+Considerando essa definição, um Cenário de Merge é definido como uma quádrupla de \emph{commits},
+que chamaremos aqui de \emph{base},
+\emph{left}, \emph{right} e \emph{merge}. O \emph{base} representa o \emph{commit} de onde as modificações \emph{left} e \emph{right}
+partiram, enquanto o \emph{merge} representa a versão final onde a integração das mudanças foi feita no repositório.
 \subsection{Falso Positivo Adicionado}
+Seguindo as mesmas definições descritas em~\cite{clem21},
+um falso positivo ocorre quando a ferramenta de merge relata um conflito
+que na verdade não deveria ter ocorrido, ou seja, as
+mudanças que estão sendo integradas
+não interferem uma na outra. Para comparar duas ferramentas de merge
+X e Y, usamos o conceito de Falso Positivo Adicionado \emph{aFP}, que acontece quando
+a ferramenta X relata conflito em um determinado cenário de merge,
+enquanto a ferramenta Y não relata conflito no mesmo cenário e
+as mudanças integradas pelas ferramentas não interferem uma na outra.
+É importante usar o conceito de aFP porque o conjunto de falsos conflitos
+de uma ferramenta não é um subconjunto da outra.
 \subsection{Falso Negativo Adicionado}
-\subsection{Resultado Errado de Merge}
+Um falso negativo ocorre quando a ferramenta de merge não relata um conflito
+que deveria ter sido reportado, pois as mudanças que estão sendo integradas
+interferem uma na outra. Ao comparar duas ferramentas de merge X e Y,
+usamos o conceito de Falso Negativo Adicionado (\emph{aFN}), que acontece quando a ferramenta X
+não relata conflito em um determinado cenário de merge, enquanto a ferramenta Y
+relata conflito no mesmo cenário e as mudanças que estão sendo integradas pelas
+ferramentas interferem uma na outra (ou seja, deveria ocorrer conflito).
+É importante usar o conceito de aFN porque o conjunto de falsos negativos de uma
+ferramenta não é um subconjunto da outra.
 
 \section{PERGUNTAS DE PESQUISA}
-\subsection{A nova solu¸c˜ao de merge n˜ao estruturado, utilizando separadores, reduz a quantidade de conflitos reportados em compara¸c˜ao
-ao merge puramente textual?}
-\subsection{A nova solu¸c˜ao de merge n˜ao estruturado, utilizando separadores, reduz a quantidade de cen´arios com conflitos reportados em
-compara¸c˜ao ao merge puramente textual?}
-\subsection{A nova solu¸c˜ao de merge n˜ao estruturado, utilizando separadores, reduz a quantidade de falsos conflitos e cen´arios com falsos
-conflitos reportados (falsos positivos) em compara¸c˜ao ao merge
-puramente textual?}
-\subsection{A nova solu¸c˜ao de merge n˜ao estruturado, utilizando separadores, amplia a possibilidade de comprometer a corretude do
-c´odigo, por aumentar o n´umero de integra¸c˜oes de mudan¸cas que
-interferem uma na outra, sem reportar conflitos (falsos negativos), al´em de aumentar cen´arios com falsos negativos?}
-\subsection{PP5 sobre aumento de produtividade}
-TODO: adicionar uma subsubsection pra cada possivel situacao desse role, após explicar o role
+A avaliação desta pesquisa é baseada em responder as seguintes perguntas de pesquisa.
+\subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de conflitos reportados em comparação ao \emph{merge} puramente textual?}
+Para avaliar o número de conflitos gerados pelo \emph{diff3} e \emph{CSDiff}, contamos
+o número de conflitos em cada ferramenta para cada cenário de merge. Para isso,
+executamos a ferramenta para os conjuntos de arquivos de \emph{left}, \emph{right} e \emph{base} em cada cenário,
+resultando em um conjunto de arquivos combinados. Em seguida, contamos a ocorrência
+de marcadores de conflito para cada arquivo presente nesses conjuntos, que são sequências
+de caracteres apresentados no formato de conflito descrito na Figura~\ref{diff3_example}.
+\subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}
+Para avaliar o número de cenários de merge com conflitos gerados pelo \emph{diff3}
+e \emph{CSDiff}, contamos o número de cenários em cada ferramenta em que houve conflito.
+Para isso, executamos a ferramenta para os conjuntos de arquivos de \emph{left}, \emph{right} e
+\emph{base} em cada cenário de merge, resultando em um conjunto de arquivos combinados. Um
+cenário é considerado com conflito se pelo menos um arquivo no conjunto resultante do merge tiver
+um conflito.
+\subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
+	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
+Para responder a esta pergunta, foram contabilizados os casos em que uma
+ferramenta apresentou um falso positivo adicionado (\emph{aFP}) em relação à outra.
+Para verificar se um cenário continha um \emph{aFP} do \emph{diff3} em comparação com o \emph{CSDiff},
+foi verificado se o \emph{diff3} retornou pelo menos um conflito em pelo menos um dos arquivos integrados no cenário,
+enquanto o \emph{CSDiff} não retornou nenhum conflito para todos os arquivos do cenário e obteve o resultado correto do merge.
+Neste caso, foi contabilizado que o \emph{diff3} tinha um cenário com \emph{aFP} em relação ao \emph{CSDiff}.
+O mesmo procedimento foi realizado para encontrar \emph{aFPs} adicionados pelo \emph{CSDiff} em comparação com o \emph{diff3}.
+\subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
+	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
+	além de aumentar cenários com falsos negativos?}
+Para verificar se um cenário possui um \emph{aFN} para uma ferramenta em comparação com outra,
+o merge foi executado usando tanto o \emph{diff3} quanto o \emph{CSDiff}. Se o \emph{CSDiff} não retornasse nenhum
+conflito em nenhum arquivo resultante do merge no conjunto de arquivos do cenário, enquanto o
+\emph{diff3} retornasse conflito e o \emph{CSDiff} falhasse na integração das mudanças, esse cenário seria
+contado como um \emph{aFN} para o \emph{CSDiff}. Falhar na integração significa que a ferramenta resultou em um
+código sintaticamente incorreto ou que não preserva os comportamentos esperados individualmente pelas
+mudanças de \emph{left} e \emph{right}. Esse procedimento também foi realizado para encontrar falsos negativos
+adicionados pelo \emph{diff3} em comparação com o \emph{CSDiff}. Para verificar esses casos de falsos negativos,
+os códigos foram analisados manualmente.
+\subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
+Além das 4 primeiras perguntas de pesquisa, foi criada uma outra forma de analisar os benefícios do \emph{CSDiff} em relação ao
+\emph{diff3}.
+Para tal, foram definidas as 4 situações abaixo e cada situação foi associada a uma pontuação, de forma que
+uma maior pontuação em um determinado arquivo ou cenário, indica um aumento na produtividade do desenvolvedor ao
+utilizar o \emph{CSDiff} como ferramenta ao invés do \emph{diff3}. Essa análise foi feita manualmente comparando para cada
+arquivo
+de cada cenário de merge, os conflitos relatados pela
+ferramenta \emph{CSDiff} e \emph{diff3}, bem como foi comparado seus resultados
+com o resultado final do merge, nos casos onde um deles não relatava conflitos. Essa análise foi possível pois, apesar de
+a amostra ter sido consideravelmente grande (mais de 3000 cenários de merge), houveram aproximadamente 30 cenários onde
+tais comportamentos fossem possíveis de acontecer. Isso será melhor explicado na seção \ref{metodologia}.
+\subsubsection{Conflito Reduzido}
+Um Conflito Reduzido é definido como um conflito que ocorre na ferramenta \emph{diff3} e na ferramenta \emph{CSDiff},
+mas que no resultado do \emph{CSDiff} esse conflito está consideravelmente reduzido (possui um tamanho menor). Dessa forma,
+a pontuação escolhida para o aumento de produtividade nessa situação foi +1, dado que uma redução no tamanho de um conflito
+implica numa resolução mais rápida pelo desenvolvedor.
+\subsubsection{Conflito Resolvido}
+Um Conflito Resolvido significa um conflito que é relatado pela ferramenta \emph{diff3},
+mas não é relatado pela ferramenta \emph{CSDiff}, e
+além disso, o resultado do \emph{CSDiff} para o bloco de código associado a esse conflito é o mesmo resultado
+observado no resultado
+final do merge. Este é a melhor das situações analisadas nessa pergunta de pesquisa, pois indica um conflito a menos para o
+desenvolvedor resolver (um conflito resolvido automaticamente pelo \emph{CSDiff} mas nao pelo \emph{diff3}). Dessa forma,
+escolhemos a pontuação +2 para essa situação.
+\subsubsection{Coflito Extra}
+Um Conflito Extra é definido como um conflito que não existe
+no \emph{diff3}, mas que existe no \emph{CSDiff} do arquivo em questão. Essa
+situação pode ser causada por conflito que foi automaticamente
+resolvido pelo \emph{diff3}, mas não pelo \emph{CSDiff}, indicando um conflito
+a mais para o desenvolvedor resolver caso ele utilize o \emph{CSDiff}
+ao invés do \emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa
+situação.
+\subsubsection{Falso Negativo CSDiff}
+Um Falso Negativo CSDiff nesse contexto indica um conflito que foi relatado no
+\emph{diff3}, mas não no \emph{CSDiff} (indicando que
+o \emph{CSDiff} resolveu um conflito que o \emph{diff3} não resolveu),
+e o resultado dessa resolução de Conflito é diferente do resultado
+observado no merge do repositório. Essa é a pior situação possível,
+dado que quando um conflito é resolvido de forma errada,
+o código resultante poderá apresentar comportamento inesperado ou não funcionar. Por
+isso, escolhemos a pontuação -2 para esse caso.
 
-\section{METODOLOGIA}
+\section{METODOLOGIA}\label{metodologia}
 \section{RESULTADOS}
-TODO: copiar as subsections do perguntas de pesquisa aqui
+\subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de conflitos reportados em comparação ao \emph{merge} puramente textual?}
+\subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}
+\subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
+	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
+\subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
+	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
+	além de aumentar cenários com falsos negativos?}
+\subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
+	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
 
 \section{DISCUSSÃO}
 \section{AMEAÇAS A VALIDADE}
+
+
+
+
+
+
+
+
+
+
+
+
+
