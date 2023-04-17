@@ -18,13 +18,32 @@ else
 endif
 badd +26 template.tex
 badd +1 main.tex
-badd +19 motivacao.tex
+badd +24 motivacao.tex
 badd +2 introducao.tex
 badd +23 library.bib
 badd +13 resumo.tex
 argglobal
 %argdel
 $argadd template.tex
+edit motivacao.tex
+argglobal
+balt introducao.tex
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 26 - ((25 * winheight(0) + 35) / 70)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 26
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

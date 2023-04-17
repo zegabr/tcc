@@ -13,10 +13,44 @@ Por considerar as mudanças linha a linha para detectar os conflitos, muitas vez
 de modificações que alteram a mesma linha ou linhas consecutivas, mas que não interferem entre si semanticamente.
 Esse problema poderia ser resolvido utilizando ferramentas que explorem a estrutura sintática do código em questão.
 
-Para ilustrar esse problema causado pelo \emph{merge} não estruturado, utilizamos a implementação de um método 
+Para ilustrar esse problema causado pelo \emph{merge} não estruturado, utilizamos a implementação de um método
 \detokenize{to_string} que
-recebe uma lista de strings e retorna uma string juntando todos os elementos da lista separados por um
-\emph{underline} \detokenize{"_"}.
+recebe uma lista de strings e retorna uma string juntando todos os elementos da lista separados por dois
+\emph{underlines} \detokenize{"__"}. Observe que as mudanças feitas pelo \emph{left} foram a adição de uma nova
+condição no if, e a mudançã da string separadora do return final (modificado de ".." para \detokenize{"__"}). Por outro lado,
+as mudanças feitas pelo \emph{right} foram o valor padrao de retorno de uma string vazia para uma constante (por simplicidade
+consideramos que a constante foi definida na classe onde o método está sendo implementado), e a mesma
+modificação que o \emph{left} fez no último return do método. Perceba que todas essas mudanças são independentes entre si,
+mas por elas acontecerem em linhas consecutivas, o \emph{diff3} relata todas elas em um mesmo conflito (Figura
+\ref{diff3_example}).
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/base.py}
+		\caption{Arquivo \emph{base} que contém o método \detokenize{to_string}}\label{base_example}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/left.py}
+		\caption{Arquivo \emph{left} que contém o método \detokenize{to_string}}\label{left_example}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/right.py}
+		\caption{Arquivo \emph{right} que contém o método \detokenize{to_string}}\label{right_example}
+	\end{center}
+\end{figure}
+
+\begin{figure}[ht]
+	\begin{center}
+		\lstinputlisting[language=Python]{./example/no_indentation/diff3.py}
+	\end{center}
+	\caption{Resultado de executar o \emph{diff3}}\label{diff3_example}
+\end{figure}
 
 \section{Merge Semiestruturado e Estruturado}
 Como alternativa ao uso de merge não estruturado, existem as abordagens
@@ -40,30 +74,6 @@ As mudanças ocorrem na mesma linha, mas cada declaração é representada por
 um nó diferente, pois o identificador do método é parte do nó,
 e os dois nós são mantidos na árvore resultante da integração.
 
-\begin{figure}[ht]
-\begin{center}
-    \lstinputlisting[language=Python]{./example/no_indentation/base.py}
-    \caption{Arquivo \emph{base} que contém o método \detokenize{to_string}}\label{base_example}
-\end{center}
-\end{figure}
-\begin{figure}[ht]
-\begin{center}
-    \lstinputlisting[language=Python]{./example/no_indentation/left.py}
-    \caption{Arquivo \emph{left} que contém o método \detokenize{to_string}}\label{left_example}
-\end{center}
-\end{figure}
-\begin{figure}[ht]
-\begin{center}
-    \lstinputlisting[language=Python]{./example/no_indentation/right.py}
-    \caption{Arquivo \emph{right} que contém o método \detokenize{to_string}}\label{right_example}
-\end{center}
-\end{figure}
-\begin{figure}[ht]
-\begin{center}
-    \lstinputlisting[language=Python]{./example/no_indentation/diff3.py}
-\end{center}
-\caption{Resultado de executar o \emph{diff3}}\label{diff3_example}
-\end{figure}
 
 Dessa forma, é fácil observar que uma ferramenta estruturada para Python evitaria o
 conflito apresentado na Figura \ref{diff3_example}. A ferramenta, utilizando a estrutura da
@@ -75,3 +85,6 @@ nova condição proposta por \emph{left} e o novo valor de retorno proposto por 
 evitando o falso conflito.
 
 \section{Merge não Estruturado com separadores}
+
+
+
