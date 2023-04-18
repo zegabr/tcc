@@ -5,7 +5,7 @@ processo de \emph{merge}. Como meio de facilitar a execução desta análise, fo
 automatiza o processo de coletar os cenários de merge, além de executar as ferramentas \emph{CSDiff} e \emph{diff3} em
 cada arquivo de cada cenário.
 
-\section{CONCEITOS}
+\section{CONCEITOS}\label{conceitos}
 A seguir, alguns conceitos relevantes para a avaliação serão definidos.
 \subsection{Cenário de Merge}
 Em um sistema de controle de versão, um \emph{commit} é uma versão que agrupa mudanças em
@@ -79,9 +79,7 @@ mudanças de \emph{left} e \emph{right}. Esse procedimento também foi realizado
 adicionados pelo \emph{diff3} em comparação com o \emph{CSDiff}. Para verificar esses casos de falsos negativos,
 os códigos foram analisados manualmente.
 \subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
-
-% TODO: adicionar um exemplo visual em cada um
+	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}\label{concept_PP5}
 Além das 4 primeiras perguntas de pesquisa, foi criada uma outra forma de analisar os benefícios do \emph{CSDiff} em relação ao
 \emph{diff3}.
 Para tal, foram definidas as 4 situações abaixo e cada situação foi associada a uma pontuação, de forma que
@@ -91,14 +89,24 @@ arquivo
 de cada cenário de merge, os conflitos relatados pela
 ferramenta \emph{CSDiff} e \emph{diff3}, bem como foi comparado seus resultados
 com o resultado final do merge, nos casos onde um deles não relatava conflitos. Essa análise foi possível pois, apesar de
-a amostra ter sido consideravelmente grande (mais de 3000 cenários de merge), houveram aproximadamente 30 cenários onde
-tais comportamentos fossem possíveis de acontecer. Isso será melhor explicado na seção \ref{metodologia}.
+a amostra ter sido consideravelmente grande (mais de 3000 cenários de merge), houveram somente 32 cenários (com um total de 255
+arquivos) onde tais comportamentos fossem possíveis de acontecer. Isso será melhor explicado na seção \ref{metodologia}.
+
+Essa análise é importante pois considera também falsos conflitos que ocorrem quando as duas ferramentas (CSDiff e diff3)
+acusam conflitos, diferentemente do conceito de Falso Positivo Adicionado definido em \ref{conceitos}, que considera somente
+conflitos quando uma das ferramentas acerta o resultado do merge.
+Além disso, consideramos outras situações que são definidas a seguir e não são consideradas nas outras perguntas de
+pesquisa. Dessa forma, conseguimos analisar com um pouco mais de detalhes as 
+vantagens e desvantagens de se utilizar o CSDiff ao invés
+do Diff3.
 \subsubsection{Conflito Reduzido}
+% TODO: adicionar um exemplo visual em cada um
 Um Conflito Reduzido é definido como um conflito que ocorre na ferramenta \emph{diff3} e na ferramenta \emph{CSDiff},
 mas que no resultado do \emph{CSDiff} esse conflito está consideravelmente reduzido (possui um tamanho menor). Dessa forma,
 a pontuação escolhida para o aumento de produtividade nessa situação foi +1, dado que uma redução no tamanho de um conflito
 implica numa resolução mais rápida pelo desenvolvedor.
 \subsubsection{Conflito Resolvido}
+% TODO: adicionar um exemplo visual em cada um
 Um Conflito Resolvido significa um conflito que é relatado pela ferramenta \emph{diff3},
 mas não é relatado pela ferramenta \emph{CSDiff}, e
 além disso, o resultado do \emph{CSDiff} para o bloco de código associado a esse conflito é o mesmo resultado
@@ -106,16 +114,18 @@ observado no resultado
 final do merge. Este é a melhor das situações analisadas nessa pergunta de pesquisa, pois indica um conflito a menos para o
 desenvolvedor resolver (um conflito resolvido automaticamente pelo \emph{CSDiff} mas nao pelo \emph{diff3}). Dessa forma,
 escolhemos a pontuação +2 para essa situação.
-\subsubsection{Conflito Extra}
-Um Conflito Extra é definido como um conflito que não existe
+\subsubsection{Falso Conflito Real}
+% TODO: adicionar um exemplo visual em cada um
+Um Falso Conflito Real é definido como um conflito que não existe
 no \emph{diff3}, mas que existe no \emph{CSDiff} do arquivo em questão. Essa
 situação pode ser causada por conflito que foi automaticamente
 resolvido pelo \emph{diff3}, mas não pelo \emph{CSDiff}, indicando um conflito
 a mais para o desenvolvedor resolver caso ele utilize o \emph{CSDiff}
 ao invés do \emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa
 situação.
-\subsubsection{Falso Negativo CSDiff}
-Um Falso Negativo CSDiff nesse contexto indica um conflito que foi relatado no
+\subsubsection{Falso Negativo Real}
+% TODO: adicionar um exemplo visual em cada um
+Um Falso Negativo Real nesse contexto indica um conflito que foi relatado no
 \emph{diff3}, mas não no \emph{CSDiff} (indicando que
 o \emph{CSDiff} resolveu um conflito que o \emph{diff3} não resolveu),
 e o resultado dessa resolução de Conflito é diferente do resultado
@@ -468,8 +478,32 @@ resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cená
 \end{table}
 \subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
+Como análise alternativa ao experimento utilizado nos trabalhos anteriores, foi feita uma análise manual para contar
+situações que encontramos quando comparamos os resultados das ferramentas. Essa análise foi possível pois a quantidade de
+arquivos a ser analisados para essa contagem foi relativamente pequena.
 
-% % TODO: explicar como foi feita a analise manual caso nao tenha sido explicado ainda
+Os conceitos utilizados nessa análise foram explicados na seção \ref{concept_PP5}. Para contar cada situação, cada arquivo de cada
+cenário foi analisado, e em seguida, a cada situação detectada pelo autor, era adicionado um texto marcador como comentário
+no código. Por exemplo, ao procurar pela situação Falso Conflito Real, os arquivos resultantes do csdiff e do diff3 eram comparados
+e, para cada conflito que existia no resultado do csdiff, mas não existia no diff3, adicionava-se um comentário com a palavra "FCR".
+Outras palavras foram usadas para marcar as ocorrências de cada uma das outras situações.
+
+Após essa marcação, foi utilizado scripts em Bash e a ferramenta ripgrep % TODO: adicionar footnote
+para fazer a contagem de cada situação. Como definido
+na seção \ref{concept_PP5}, cada situação estava associada a uma pontuação, que era somada
+a pontuação total (que nomeamos aqui de "Aumento de produtividade") do arquivo, cenário e projeto no qual a situação
+se encontrava.
+
+Na tabela \ref{tabela_produtividade} podemos ver os resultados por projeto, cuja fórmula para os valores foi simplesmente a soma
+das quantidades encontradas de cada situação, multiplicadas por sua pontuação. Por exemplo, digamos que em um arquivo qualquer
+foram encontrados 0 Falsos Negativos Reais, 2 Conflitos reduzidos, 0 Conflitos resolvidos e 1 Falso Conflito Real, então o
+Aumento de produtividade desse arquivo é de 0 * (-2) + 2 * (1) + 0 * (2) + 1 * (-1) = 1, indicando um aumento de
+produtividade baixo porém não negativo. Toda pontuação positiva é considerada uma boa pontuaçao nessa análise, enquanto que
+pontuações negativas indicam uma desvantagem da ferramenta usada e pontuação nula indica que, não houve melhora nem piora
+considerável na produtividade da pessoa que estaria possivelmente resolvendo os conflitos do arquivo em questão.
+Perceba que nesse exemplo descrito, pode-se dizer que o resultado foi positivo pois apesar de a ferramenta ter gerado um
+conflito que não existia, ela também reduziu o tamanho de dois outros conflitos possivelmente maiores que o novo conflito.
+
 \begin{table}[ht]
 	\begin{center}
 		\begin{tabular}{|l|c|c|c|c|}
@@ -489,8 +523,19 @@ resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cená
 	\end{center}
 	\caption{Pontuação obtida da análise do aumento de produtividade}\label{tabela_produtividade}
 \end{table}
+
+Nos resultados da tabela, nota-se para a nova versão proposta (CSDiffI+ e CSDiff-) uma desvantagem considerável em relação 
+a versão já existente (CSDiff+ e CSDiff-), considerando todos os projetos, e uma desvantagem pequena ao desconsiderar grande 
+pontuação negativa causada pelo matplotlib, dada a quantidade de Falsos Conflitos Reais que ocorrem nele.
+Apesar disso, podemos ver uma vantagem clara de se usar as versões com conjunto menor de separadores em comparação com as 
+versões com conjunto maior de separadores. Isso reforça que a nova versão proposta não é tão vantajosa, bem como o uso de ":" 
+nos separadores também causa uma leve desvantagem.
 \section{DISCUSSÃO}\label{discussao}
+
 \section{AMEAÇAS A VALIDADE}
+
+
+
 
 
 
