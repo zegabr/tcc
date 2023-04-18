@@ -282,7 +282,131 @@ são adicionados sem distinção entre si.
 \subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
 	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
-% % TODO: adicionar tabelas afp/afn
+% TODO: discorrer sobre
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiff+} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 1                & 3              \\
+			aFP arquivos & 16               & 7              \\
+			aFN cenários & 6                & 0              \\
+			aFN arquivos & 6                & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiff+ em comparação ao diff3}\label{csdiff_plus_afp_afn}
+\end{table}
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiff+} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 0                & 3              \\
+			aFP arquivos & 0                & 4              \\
+			aFN cenários & 6                & 0              \\
+			aFN arquivos & 6                & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiff+ em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_plus_afp_afn_nomat}
+\end{table}
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiff-} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 1                & 4              \\
+			aFP arquivos & 12               & 7              \\
+			aFN cenários & 5                & 0              \\
+			aFN arquivos & 5                & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiff- em comparação ao diff3}\label{csdiff_minus_afp_afn}
+\end{table}
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiff-} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 0                & 4              \\
+			aFP arquivos & 0                & 5              \\
+			aFN cenários & 5                & 0              \\
+			aFN arquivos & 5                & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiff- em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_minus_afp_afn_nomat}
+\end{table}
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiffI+} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 1                 & 3              \\
+			aFP arquivos & 30                & 6              \\
+			aFN cenários & 6                 & 0              \\
+			aFN arquivos & 6                 & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiffI+ em comparação ao diff3}\label{csdiff_indentation_plus_afp_afn}
+\end{table}
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiffI+} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 0                 & 3              \\
+			aFP arquivos & 2                 & 3              \\
+			aFN cenários & 6                 & 0              \\
+			aFN arquivos & 6                 & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiffI+ em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_indentation_plus_afp_afn_nomat}
+\end{table}
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiffI-} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 1                 & 3              \\
+			aFP arquivos & 31                & 7              \\
+			aFN cenários & 4                 & 0              \\
+			aFN arquivos & 4                 & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiffI- em comparação ao diff3}\label{csdiff_indentation_minus_afp_afn}
+\end{table}
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{ }   & \textbf{CSDiffI-} & \textbf{diff3} \\
+			\hline
+			aFP cenários & 0                 & 3              \\
+			aFP arquivos & 0                 & 4              \\
+			aFN cenários & 4                 & 0              \\
+			aFN arquivos & 4                 & 0              \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Resultados do CSDiffI- em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_indentation_minus_afp_afn_nomat}
+\end{table}
+
 
 \subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
@@ -297,16 +421,16 @@ são adicionados sem distinção entre si.
 	\begin{center}
 		\begin{tabular}{|l|c|c|c|c|}
 			\hline
-			\textbf{Aumento de Produtividade} & \textbf{CSDiff+} & \textbf{CSDiff-} & \textbf{CSDiffI+} & \textbf{CSDiffI-} \\
+			\textbf{Aumento de Produtividade/Projeto} & \textbf{CSDiff+} & \textbf{CSDiff-} & \textbf{CSDiffI+} & \textbf{CSDiffI-} \\
 			\hline
-			matplotlib                        & -36              & -8               & -107              & -75               \\
-			tensorflow                        & 20               & 12               & 19                & 19                \\
-			flask                             & 6                & 4                & 5                 & 6                 \\
-			ipython                           & 1                & 2                & 1                 & 1                 \\
-			salt                              & 4                & 14               & 12                & 2                 \\
-			scrapy                            & 22               & 19               & 14                & 20                \\
-			total                             & 17               & 43               & -56               & -27               \\
-			total sem matplotlib              & 53               & 51               & 51                & 48                \\
+			matplotlib                                & -36              & -8               & -107              & -75               \\
+			tensorflow                                & 20               & 12               & 19                & 19                \\
+			flask                                     & 6                & 4                & 5                 & 6                 \\
+			ipython                                   & 1                & 2                & 1                 & 1                 \\
+			salt                                      & 4                & 14               & 12                & 2                 \\
+			scrapy                                    & 22               & 19               & 14                & 20                \\
+			total                                     & 17               & 43               & -56               & -27               \\
+			total sem matplotlib                      & 53               & 51               & 51                & 48                \\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -314,6 +438,14 @@ são adicionados sem distinção entre si.
 \end{table}
 \section{DISCUSSÃO}\label{discussao}
 \section{AMEAÇAS A VALIDADE}
+
+
+
+
+
+
+
+
 
 
 
