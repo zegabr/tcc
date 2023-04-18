@@ -21,12 +21,17 @@ badd +2 main.tex
 badd +52 motivacao.tex
 badd +141 library.bib
 badd +56 introducao.tex
-badd +225 ~/tcc/monografia/latex/avaliacao.tex
+badd +130 ~/tcc/monografia/latex/avaliacao.tex
 badd +1 ~/tcc/monografia/latex/trabalhosrelacionados.tex
 argglobal
 %argdel
 $argadd template.tex
 edit ~/tcc/monografia/latex/avaliacao.tex
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
 wincmd t
 let s:save_winminheight = &winminheight
 let s:save_winminwidth = &winminwidth
@@ -45,11 +50,11 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 226 - ((35 * winheight(0) + 35) / 70)
+let s:l = 130 - ((13 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 226
+keepjumps 130
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -65,6 +70,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

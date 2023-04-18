@@ -127,7 +127,27 @@ isso, escolhemos a pontuação -2 para esse caso.
 Como amostra para essa pesquisa, utilizamos os mesmos critérios de escolha
 usados nos trabalhos anteriores e foram selecionados 10 projetos open source majoritariamente escritos em Python,
 cada um com mais de 13000 estrelas no github e mais de 370 contribuidores cada.
-% TODO: adicionar tabela de projetos
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|}
+			\hline
+			\textbf{Projeto} & \textbf{Estrelas} & \textbf{Contribuidores} \\
+			\hline
+			matplotlib       & 16.9k             & 1264                    \\
+			tensorflow       & 172k              & 3318                    \\
+			certbot          & 29.7k             & 462                     \\
+			flask            & 62k               & 693                     \\
+			ipython          & 15.7k             & 821                     \\
+			salt             & 13.1k             & 1414                    \\
+			scrapy           & 46.3k             & 507                     \\
+			sentry           & 33.4k             & 613                     \\
+			tornado          & 21k               & 370                     \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Projetos selecionados para o experimento}\label{tabela_projeto}
+\end{table}
 
 \section{METODOLOGIA}\label{metodologia}
 Para comparar o CSDiff e o diff3, primeiro mineramos os commits de merge para os 10 projetos escolhidos, considerando um
@@ -211,7 +231,8 @@ Tabela \ref{tabelaPP1_sem_matplotlib}
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{Quantidade de conflitos encontrados após execução do experimentos, desconsiderando o projeto matplotlib}\label{tabelaPP1_sem_matplotlib}
+	\caption{Quantidade de conflitos encontrados após execução do experimentos, desconsiderando o
+		projeto matplotlib}\label{tabelaPP1_sem_matplotlib}
 \end{table}
 
 Observamos que, considerando todos os projetos (Tabela \ref{tabelaPP1_com_matplotlib}), a quantidade de conflitos aumenta
@@ -226,9 +247,43 @@ versão já existente.
 
 \subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}
+Observando a quarta linha da Tabela \ref{tabelaPP1_com_matplotlib}, conseguimos também responder a esta pergunta. Notamos
+que há uma redução na quantidade de cenários com conflitos, com a maior redução ocorrendo para o CSDiff- (23\%) e a menor para o
+CSDiffI+ (13.3\%), seguindo também a mesma ordem de grandeza reportado por~\citeauthor{heitor21} em seu estudo com TypeScript
+e Ruby (apresentando redução de 13.78\% e 16.32\%, respectivamente).
+
+Também relatamos uma redução na quantidade de arquivos com conflitos, entretanto percebemos que,
+para o projeto matplotlib, o oposto ocorre, como podemos ver comparando a terceira linha das duas tabelas. Essa peculiaridade
+ocorre devido a uma maior ocorrência de conflitos por arquivo nesse projeto (ver Tabela \ref{block_diff}), que faz com que
+exista uma chance maior de ocorrências de certos problemas de alinhamento que ocorrem de forma não intuitiva no algoritmo do
+diff3. Esses problemas são bem descritos por~\cite{khan07}. Uma possível solução a ser testada, seria numerar os marcadores
+inseridos pelo CSDiff, visto que isso reduziria a chance de o diff3 alinhar de forma errada alguns marcadores que atualmente
+são adicionados sem distinção entre si.
+
+
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|}
+			\hline
+			\textbf{Projeto} & \textbf{Blocos de Diff} \\
+			\hline
+			matplotlib       & 385                     \\
+			tensorflow       & 20                      \\
+			flask            & 7                       \\
+			ipython          & 1                       \\
+			salt             & 78                      \\
+			scrapy           & 25                      \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Quantidade de conflitos encontrados após execução do experimentos, desconsiderando o
+		projeto matplotlib}\label{block_diff}
+\end{table}
+
 \subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
 	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
+
 \subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
 	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
@@ -238,6 +293,17 @@ versão já existente.
 
 \section{DISCUSSÃO}\label{discussao}
 \section{AMEAÇAS A VALIDADE}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
