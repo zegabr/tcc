@@ -189,7 +189,8 @@ com 16GB de memória
 RAM e um processador Intel Core i7.
 
 \section{RESULTADOS}
-Para a nossa amostra, foram coletados 3788 cenários de merge. Destes, apenas 32 foram considerados, por possuírem resultado
+Para a nossa amostra, foram coletados 3788 cenários de merge (contendo 968 arquivos
+no total). Destes, apenas 32 cenários foram considerados (contendo 255 arquivos no total), por possuírem resultado
 diferente entre as duas ferramentas. Todos os casos onde o resultado do CSDiff era o mesmo do diff3
 foram deletados pois não fariam
 diferença para a análise comparativa.
@@ -247,7 +248,7 @@ conflitos muito maiores que os CSDiff+ e CSDiff-, indicando que o novo algoritmo
 versão já existente.
 
 \subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}
+	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}\label{resultado_pp2}
 Observando a quarta linha da Tabela \ref{tabelaPP1_com_matplotlib}, conseguimos também responder a esta pergunta. Notamos
 que há uma redução na quantidade de cenários com conflitos, com a maior redução ocorrendo para o CSDiff- (23\%) e a menor para o
 CSDiffI+ (13.3\%), seguindo também a mesma ordem de grandeza reportado por~\citeauthor{heitor21} em seu estudo com TypeScript
@@ -282,7 +283,11 @@ são adicionados sem distinção entre si.
 \subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
 	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
-% TODO: discorrer sobre
+Para responder a PP3, observamos a quantidade de aFP de cada ferramenta.
+O que importa para a nossa investigação aqui é o conjunto de falsos positivos reportados (aFP)
+por uma ferramenta, mas não pela outra. Isso ajuda a demonstrar uma possível desvantagem de
+uma ferramenta em relação a outra.
+
 \begin{table}[ht]
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
@@ -298,21 +303,25 @@ são adicionados sem distinção entre si.
 	\end{center}
 	\caption{Resultados do CSDiff+ em comparação ao diff3}\label{csdiff_plus_afp_afn}
 \end{table}
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|l|c|c|}
-			\hline
-			\textbf{ }   & \textbf{CSDiff+} & \textbf{diff3} \\
-			\hline
-			aFP cenários & 0                & 3              \\
-			aFP arquivos & 0                & 4              \\
-			aFN cenários & 6                & 0              \\
-			aFN arquivos & 6                & 0              \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\caption{Resultados do CSDiff+ em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_plus_afp_afn_nomat}
-\end{table}
+% \begin{table}[ht]
+% 	\begin{center}
+% 		\begin{tabular}{|l|c|c|}
+% 			\hline
+% 			\textbf{ }   & \textbf{CSDiff+} & \textbf{diff3} \\
+% 			\hline
+% 			aFP cenários & 0                & 3              \\
+% 			aFP arquivos & 0                & 4              \\
+% 			aFN cenários & 6                & 0              \\
+% 			aFN arquivos & 6                & 0              \\
+% 			\hline
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{Resultados do CSDiff+ em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_plus_afp_afn_nomat}
+% \end{table}
+Analisando as tabelas \ref{csdiff_minus_afp_afn}, \ref{csdiff_plus_afp_afn}, \ref{csdiff_indentation_plus_afp_afn} e
+\ref{csdiff_indentation_minus_afp_afn}, conseguimos notar uma pequena desvantagem da ferramenta diff3 em relação ao CSDiff,
+visto que enquanto a ferramenta diff3 relata falsos positivos em aproximadamente 10\% dos cenários, o
+CSDiff relata em aproximadamente 3.2\%, configurando uma redução de aproximadamente 6.8\% ao utilizar o CSDiff.
 
 \begin{table}[ht]
 	\begin{center}
@@ -329,21 +338,35 @@ são adicionados sem distinção entre si.
 	\end{center}
 	\caption{Resultados do CSDiff- em comparação ao diff3}\label{csdiff_minus_afp_afn}
 \end{table}
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|l|c|c|}
-			\hline
-			\textbf{ }   & \textbf{CSDiff-} & \textbf{diff3} \\
-			\hline
-			aFP cenários & 0                & 4              \\
-			aFP arquivos & 0                & 5              \\
-			aFN cenários & 5                & 0              \\
-			aFN arquivos & 5                & 0              \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\caption{Resultados do CSDiff- em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_minus_afp_afn_nomat}
-\end{table}
+% \begin{table}[ht]
+% 	\begin{center}
+% 		\begin{tabular}{|l|c|c|}
+% 			\hline
+% 			\textbf{ }   & \textbf{CSDiff-} & \textbf{diff3} \\
+% 			\hline
+% 			aFP cenários & 0                & 4              \\
+% 			aFP arquivos & 0                & 5              \\
+% 			aFN cenários & 5                & 0              \\
+% 			aFN arquivos & 5                & 0              \\
+% 			\hline
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{Resultados do CSDiff- em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_minus_afp_afn_nomat}
+% \end{table}
+
+De forma similar, fizemos uma análise de aFP por arquivo, ao
+invés de cenário, por existir a possibilidade de um arquivo conter
+um aFP de uma ferramenta mas o cenário como um todo ter também verdadeiros positivos, o que faz com que o cenário como um
+todo não seja contabilizado como um aFP. Notamos então um aumento considerável de
+arquivos aFP (arquivos em que uma ferramenta apresenta conflito enquanto a outra
+acertou o resultado do merge) para a ferramenta CSDiff em relação ao diff3. Isso tem relação direta com o
+problema discutido em~\ref{resultado_pp2}, visto que a
+grande quantidade de blocos de conflitos nos cenários de merge desse projeto
+tende a causar mais falsos positivos.
+
+Apesar disso, e em concordância com os resultados apresentados até agora, vemos uma vantagem da versão CSDiff- em relação as
+outras três versões, pois observa-se que a quantidade de arquivos aFP relatados para esta é aproximadamente metade da
+quantidade relatada nas outras.
 
 \begin{table}[ht]
 	\begin{center}
@@ -360,21 +383,21 @@ são adicionados sem distinção entre si.
 	\end{center}
 	\caption{Resultados do CSDiffI+ em comparação ao diff3}\label{csdiff_indentation_plus_afp_afn}
 \end{table}
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|l|c|c|}
-			\hline
-			\textbf{ }   & \textbf{CSDiffI+} & \textbf{diff3} \\
-			\hline
-			aFP cenários & 0                 & 3              \\
-			aFP arquivos & 2                 & 3              \\
-			aFN cenários & 6                 & 0              \\
-			aFN arquivos & 6                 & 0              \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\caption{Resultados do CSDiffI+ em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_indentation_plus_afp_afn_nomat}
-\end{table}
+% \begin{table}[ht]
+% 	\begin{center}
+% 		\begin{tabular}{|l|c|c|}
+% 			\hline
+% 			\textbf{ }   & \textbf{CSDiffI+} & \textbf{diff3} \\
+% 			\hline
+% 			aFP cenários & 0                 & 3              \\
+% 			aFP arquivos & 2                 & 3              \\
+% 			aFN cenários & 6                 & 0              \\
+% 			aFN arquivos & 6                 & 0              \\
+% 			\hline
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{Resultados do CSDiffI+ em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_indentation_plus_afp_afn_nomat}
+% \end{table}
 
 \begin{table}[ht]
 	\begin{center}
@@ -391,28 +414,58 @@ são adicionados sem distinção entre si.
 	\end{center}
 	\caption{Resultados do CSDiffI- em comparação ao diff3}\label{csdiff_indentation_minus_afp_afn}
 \end{table}
-\begin{table}[ht]
-	\begin{center}
-		\begin{tabular}{|l|c|c|}
-			\hline
-			\textbf{ }   & \textbf{CSDiffI-} & \textbf{diff3} \\
-			\hline
-			aFP cenários & 0                 & 3              \\
-			aFP arquivos & 0                 & 4              \\
-			aFN cenários & 4                 & 0              \\
-			aFN arquivos & 4                 & 0              \\
-			\hline
-		\end{tabular}
-	\end{center}
-	\caption{Resultados do CSDiffI- em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_indentation_minus_afp_afn_nomat}
-\end{table}
+% \begin{table}[ht]
+% 	\begin{center}
+% 		\begin{tabular}{|l|c|c|}
+% 			\hline
+% 			\textbf{ }   & \textbf{CSDiffI-} & \textbf{diff3} \\
+% 			\hline
+% 			aFP cenários & 0                 & 3              \\
+% 			aFP arquivos & 0                 & 4              \\
+% 			aFN cenários & 4                 & 0              \\
+% 			aFN arquivos & 4                 & 0              \\
+% 			\hline
+% 		\end{tabular}
+% 	\end{center}
+% 	\caption{Resultados do CSDiffI- em comparação ao diff3, desconsiderando matplotlib}\label{csdiff_indentation_minus_afp_afn_nomat}
+% \end{table}
 
 
 \subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
 	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
 	além de aumentar cenários com falsos negativos?}
+Também se mostra importante considerar como a ferramenta se comporta ao tentar resolver conflitos, visto que não é interessante
+se a ferramenta, apesar de reduzir a quantidade de falsos positivos relatados, resolver muitos conflitos de forma errada.
+Dessa forma, analisamos analisamos as mesmas tabelas analisadas em no resultado da PP3, onde temos as quantidades de aFN para cada
+ferramenta. Como explicado anteriormente,
+um possível falso negativo para uma determinada ferramenta ocorre quando esta não reporta
+conflito e erra o resultado final do merge quando comparado com o arquivo do repositório,
+enquanto a outra ferramenta reporta conflito
 
+Notamos que em todas as 4 versões consideradas, há um pequeno aumento de aFN relatados pela ferramenta CSDiff. Apesar disso, esse
+número é relativamente pequeno, como vemos nas Tabelas \ref{csdiff_plus_afp_afn} e \ref{csdiff_indentation_plus_afp_afn} (que
+possuem os maiores valores de aFN entre as 4 tabelas), somente 6 dos 255 arquivos considerados são possíveis aFN, ou seja, somente
+2.35\% dos arquivos que relataram comportamento diferente entre as ferramentas são arquivos contendo
+conflitos resolvidos de forma errada. Entretanto, observando em termos de cenários, 6 dos 32 cenários contém possíveis aFNs,
+representando 18.75\% dos cenários onde as ferramentas se comportaram de forma diferente.
+
+Apesar desses valores, tembém foi feita uma contagme manual para confirmar quais desses casos eram falsos negativos de verdade,
+e os resultados foram um pouco melhores, como podemos ver na Tabela \ref{tabela_afn_final}, a versão CSDiff- possui o melhor
+resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cenário.
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|}
+			\hline
+			\textbf{aFN} & \textbf{CSDiff+} & \textbf{CSDiff-} & \textbf{CSDiffI+} & \textbf{CSDiffI-} \\
+			\hline
+			cenários     & 4                & 2                & 5                 & 4                 \\
+			arquivos     & 4                & 2                & 6                 & 4                 \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Quantidade real de aFN para cada versão}\label{tabela_afn_final}
+\end{table}
 \subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
 
@@ -438,58 +491,6 @@ são adicionados sem distinção entre si.
 \end{table}
 \section{DISCUSSÃO}\label{discussao}
 \section{AMEAÇAS A VALIDADE}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
