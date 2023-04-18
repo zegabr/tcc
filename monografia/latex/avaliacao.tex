@@ -196,7 +196,7 @@ diferença para a análise comparativa.
 Como poderemos ver nas seções seguintes, foi observado uma peculiaridade na nossa amostra. Um dos projetos escolhidos, o
 matplotlib, possui uma quantidade muito maior de conflitos e aFPs relatados do que todos os outros projetos juntos. Ao remover
 as quantidades relativas a este projeto, obtemos um resultado dentro do esperado, dados os resultados obtidos
-em~\cite{clem21,heitor21}. A causa desse problema será discutida na seção \ref{discussao}.
+em~\cite{clem21,heitor21}. A causa desse problema será discutida posteriormente.
 
 \subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de conflitos reportados em comparação ao \emph{merge} puramente textual?}
@@ -276,23 +276,49 @@ são adicionados sem distinção entre si.
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{Quantidade de conflitos encontrados após execução do experimentos, desconsiderando o
-		projeto matplotlib}\label{block_diff}
+	\caption{Quantidade de blocos de conflitos encontrados após execução do experimentos}\label{block_diff}
 \end{table}
 
 \subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
 	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
+% TODO: adicionar tabelas afp/afn
 
 \subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
 	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
+
 	além de aumentar cenários com falsos negativos?}
 \subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
 
+% TODO: explicar como foi feita a analise manual caso nao tenha sido explicado ainda
+\begin{table}[ht]
+	\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|}
+			\hline
+			\textbf{Aumento de Produtividade} & \textbf{CSDiff+} & \textbf{CSDiff-} & \textbf{CSDiffI+} & \textbf{CSDiffI-} \\
+			\hline
+			matplotlib                        & -36              & -8               & -107              & -75               \\
+			tensorflow                        & 20               & 12               & 19                & 19                \\
+			flask                             & 6                & 4                & 5                 & 6                 \\
+			ipython                           & 1                & 2                & 1                 & 1                 \\
+			salt                              & 4                & 14               & 12                & 2                 \\
+			scrapy                            & 22               & 19               & 14                & 20                \\
+			total                             & 17               & 43               & -56               & -27               \\
+			total sem matplotlib              & 53               & 51               & 51                & 48                \\
+			\hline
+		\end{tabular}
+	\end{center}
+	\caption{Pontuação obtida da análise do aumento de produtividade}\label{tabela_produtividade}
+\end{table}
 \section{DISCUSSÃO}\label{discussao}
 \section{AMEAÇAS A VALIDADE}
+
+
+
+
+
 
 
 
