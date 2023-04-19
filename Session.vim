@@ -14,11 +14,8 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +25 monografia/latex/template.tex
 badd +146 ~/tcc/monografia/latex/motivacao.tex
-badd +81 monografia/latex/main.tex
-badd +512 monografia/latex/avaliacao.tex
-badd +71 monografia/latex/solucao.tex
+badd +66 monografia/latex/main.tex
 argglobal
 %argdel
 edit monografia/latex/main.tex
@@ -35,7 +32,6 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-balt monografia/latex/avaliacao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -46,12 +42,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 81 - ((50 * winheight(0) + 29) / 59)
+let s:l = 66 - ((38 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 81
-normal! 08|
+keepjumps 66
+normal! 010|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
