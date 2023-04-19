@@ -16,21 +16,13 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +26 template.tex
-badd +69 main.tex
-badd +103 motivacao.tex
-badd +141 library.bib
-badd +83 introducao.tex
-badd +579 ~/tcc/monografia/latex/avaliacao.tex
-badd +1 ~/tcc/monografia/latex/trabalhosrelacionados.tex
-badd +1 solucao.tex
-badd +1 ~/tcc/monografia/latex/conclusao.tex
+badd +2 main.tex
+badd +144 avaliacao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit ~/tcc/monografia/latex/trabalhosrelacionados.tex
+edit main.tex
 argglobal
-balt ~/tcc/monografia/latex/avaliacao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -41,12 +33,13 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 35) / 70)
+let s:l = 2 - ((1 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 1
-normal! 0
+keepjumps 2
+normal! 043|
+lcd ~/tcc/monografia/latex
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

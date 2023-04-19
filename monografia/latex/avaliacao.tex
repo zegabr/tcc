@@ -100,13 +100,23 @@ pesquisa. Dessa forma, conseguimos analisar com um pouco mais de detalhes as
 vantagens e desvantagens de se utilizar o CSDiff ao invés
 do Diff3.
 \subsubsection{Conflito Reduzido}
-% TODO: adicionar um exemplo visual em cada um
+\begin{figure}[ht]
+	\begin{center}
+        \lstinputlisting[language=Python]{./example/conflito_reduzido.py}
+		\caption{Código exemplificando um Conflito Reduzido}\label{conflito_reduzido}
+	\end{center}
+\end{figure}
 Um Conflito Reduzido é definido como um conflito que ocorre na ferramenta \emph{diff3} e na ferramenta \emph{CSDiff},
 mas que no resultado do \emph{CSDiff} esse conflito está consideravelmente reduzido (possui um tamanho menor). Dessa forma,
 a pontuação escolhida para o aumento de produtividade nessa situação foi +1, dado que uma redução no tamanho de um conflito
 implica numa resolução mais rápida pelo desenvolvedor.
 \subsubsection{Conflito Resolvido}
-% TODO: adicionar um exemplo visual em cada um
+\begin{figure}[ht]
+	\begin{center}
+        \lstinputlisting[language=Python]{./example/conflito_resolvido.py}
+		\caption{Código exemplificando um Conflito Resolvido}\label{conflito_resolvido}
+	\end{center}
+\end{figure}
 Um Conflito Resolvido significa um conflito que é relatado pela ferramenta \emph{diff3},
 mas não é relatado pela ferramenta \emph{CSDiff}, e
 além disso, o resultado do \emph{CSDiff} para o bloco de código associado a esse conflito é o mesmo resultado
@@ -115,7 +125,12 @@ final do merge. Este é a melhor das situações analisadas nessa pergunta de pe
 desenvolvedor resolver (um conflito resolvido automaticamente pelo \emph{CSDiff} mas nao pelo \emph{diff3}). Dessa forma,
 escolhemos a pontuação +2 para essa situação.
 \subsubsection{Falso Conflito Real}
-% TODO: adicionar um exemplo visual em cada um
+\begin{figure}[ht]
+	\begin{center}
+        \lstinputlisting[language=Python]{./example/falso_conflito_real.py}
+		\caption{Código exemplificando um Falso Conflito Real}\label{falso_conflito_real}
+	\end{center}
+\end{figure}
 Um Falso Conflito Real é definido como um conflito que não existe
 no \emph{diff3}, mas que existe no \emph{CSDiff} do arquivo em questão. Essa
 situação pode ser causada por conflito que foi automaticamente
@@ -124,7 +139,12 @@ a mais para o desenvolvedor resolver caso ele utilize o \emph{CSDiff}
 ao invés do \emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa
 situação.
 \subsubsection{Falso Negativo Real}
-% TODO: adicionar um exemplo visual em cada um
+\begin{figure}[ht]
+	\begin{center}
+        \lstinputlisting[language=Python]{./example/falso_negativo_real.py}
+		\caption{Código exemplificando um Falso Negativo Real}\label{falso_negativo_real}
+	\end{center}
+\end{figure}
 Um Falso Negativo Real nesse contexto indica um conflito que foi relatado no
 \emph{diff3}, mas não no \emph{CSDiff} (indicando que
 o \emph{CSDiff} resolveu um conflito que o \emph{diff3} não resolveu),
@@ -460,7 +480,7 @@ possuem os maiores valores de aFN entre as 4 tabelas), somente 6 dos 255 arquivo
 conflitos resolvidos de forma errada. Entretanto, observando em termos de cenários, 6 dos 32 cenários contém possíveis aFNs,
 representando 18.75\% dos cenários onde as ferramentas se comportaram de forma diferente.
 
-Apesar desses valores, tembém foi feita uma contagme manual para confirmar quais desses casos eram falsos negativos de verdade,
+Apesar desses valores, também foi feita uma contagem manual para confirmar quais desses casos eram falsos negativos de verdade,
 e os resultados foram um pouco melhores, como podemos ver na Tabela \ref{tabela_afn_final}, a versão CSDiff- possui o melhor
 resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cenário.
 \begin{table}[ht]
