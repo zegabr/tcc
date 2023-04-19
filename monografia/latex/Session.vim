@@ -17,30 +17,20 @@ else
   set shortmess=aoO
 endif
 badd +26 template.tex
-badd +72 main.tex
-badd +52 motivacao.tex
+badd +69 main.tex
+badd +103 motivacao.tex
 badd +141 library.bib
-badd +56 introducao.tex
-badd +178 ~/tcc/monografia/latex/avaliacao.tex
+badd +83 introducao.tex
+badd +579 ~/tcc/monografia/latex/avaliacao.tex
 badd +1 ~/tcc/monografia/latex/trabalhosrelacionados.tex
+badd +1 solucao.tex
+badd +1 ~/tcc/monografia/latex/conclusao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit ~/tcc/monografia/latex/avaliacao.tex
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
+edit ~/tcc/monografia/latex/trabalhosrelacionados.tex
 argglobal
-balt main.tex
+balt ~/tcc/monografia/latex/avaliacao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -51,11 +41,11 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 178 - ((50 * winheight(0) + 29) / 59)
+let s:l = 1 - ((0 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 178
+keepjumps 1
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -64,8 +54,6 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)

@@ -96,7 +96,7 @@ Essa análise é importante pois considera também falsos conflitos que ocorrem 
 acusam conflitos, diferentemente do conceito de Falso Positivo Adicionado definido em \ref{conceitos}, que considera somente
 conflitos quando uma das ferramentas acerta o resultado do merge.
 Além disso, consideramos outras situações que são definidas a seguir e não são consideradas nas outras perguntas de
-pesquisa. Dessa forma, conseguimos analisar com um pouco mais de detalhes as 
+pesquisa. Dessa forma, conseguimos analisar com um pouco mais de detalhes as
 vantagens e desvantagens de se utilizar o CSDiff ao invés
 do Diff3.
 \subsubsection{Conflito Reduzido}
@@ -492,7 +492,7 @@ Após essa marcação, foi utilizado scripts em Bash e a ferramenta ripgrep % TO
 para fazer a contagem de cada situação. Como definido
 na seção \ref{concept_PP5}, cada situação estava associada a uma pontuação, que era somada
 a pontuação total (que nomeamos aqui de "Aumento de produtividade") do arquivo, cenário e projeto no qual a situação
-se encontrava.
+se encontrava. Todos os scripts usados pelo autor se encontram num repositório público no Github. % TODO: add footnote
 
 Na tabela \ref{tabela_produtividade} podemos ver os resultados por projeto, cuja fórmula para os valores foi simplesmente a soma
 das quantidades encontradas de cada situação, multiplicadas por sua pontuação. Por exemplo, digamos que em um arquivo qualquer
@@ -524,21 +524,59 @@ conflito que não existia, ela também reduziu o tamanho de dois outros conflito
 	\caption{Pontuação obtida da análise do aumento de produtividade}\label{tabela_produtividade}
 \end{table}
 
-Nos resultados da tabela, nota-se para a nova versão proposta (CSDiffI+ e CSDiff-) uma desvantagem considerável em relação 
-a versão já existente (CSDiff+ e CSDiff-), considerando todos os projetos, e uma desvantagem pequena ao desconsiderar grande 
+Nos resultados da tabela, nota-se para a nova versão proposta (CSDiffI+ e CSDiff-) uma desvantagem considerável em relação
+a versão já existente (CSDiff+ e CSDiff-), considerando todos os projetos, e uma desvantagem pequena ao desconsiderar grande
 pontuação negativa causada pelo matplotlib, dada a quantidade de Falsos Conflitos Reais que ocorrem nele.
-Apesar disso, podemos ver uma vantagem clara de se usar as versões com conjunto menor de separadores em comparação com as 
-versões com conjunto maior de separadores. Isso reforça que a nova versão proposta não é tão vantajosa, bem como o uso de ":" 
+Apesar disso, podemos ver uma vantagem clara de se usar as versões com conjunto menor de separadores em comparação com as
+versões com conjunto maior de separadores. Isso reforça que a nova versão proposta não é tão vantajosa, bem como o uso de ":"
 nos separadores também causa uma leve desvantagem.
 \section{DISCUSSÃO}\label{discussao}
+Através dos resultados para as perguntas de pesquisa respondidas na seção anterior, conseguimos observar mais detalhes sobre o
+comportamento do CSDiff proposto por~\citeauthor{clem21} e extendido por~\citeauthor{heitor21}. Pudemos verificar sua performance
+para integrar códigos para a linguagem Python, dadas as modificações explicitadas na seção \ref{avaliacao}.
+
+Notamos uma desvantagem em utiizar a nova versão que considera indentação no lugar da versão já existente, onde a nova versão
+apresenta aproximadamente duas vezes mais conflitos que a versão já existente, o que indica que ainda há um grande espaço para
+melhora, visto que a melhor das versões testadas nessa pesquisa apresentou Falsos Positivos Adicionados em aproximadamente
+3.2\% dos arquivos testados, e ao mesmo tempo, apresentou Falsos Negativos Adicionados em 2.35\% dos arquivos testados.
+Como mencionado em~\cite{heitor21}, uma forma de reduzir tais falsos conflitos seria modificar o script para somente utilizar
+o CSDiff nos casos que o diff3 relatar conflitos (ou seja, desconsiderar o CSDiff caso o diff3 não relate conflitos).
+
+A quantidade de conflitos relatados pelo CSDiff segue maior que a quantidade relatada pelo Diff3, como esperado devido a
+forma como o CSDiff se comporta (quebrando conflitos grandes em conflitos menores). Nota-se uma aumento ainda maior desses conflitos
+ao utilizar o separador ":" em Python, devido ao fato de que normalmente um separador ":" vem precedido de um ")" (outro
+dos separadores utilizados nos conjuntos), fazendo com que o CSDiff adicione marcadores mais de uma vez para uma mesma linha
+de código, o que se agrava mais ainda caso consideremos a indentação, dado que normalmente o ":" vem seguido de uma mudança
+de indentação.
+
+Além disso, uma outra sugestão de trabalho futuro seria analisar a performance do CSDiff, ao numerar os marcadores adicionados
+(ou seja, ao invés de usar '\verb|$$$$$$$$|', usar '\verb|$$$$<numeração>$$$$|' ou '\verb|$$$$$$$$<numeração>|' ). Dessa forma, o
+algoritmo de alinhamento do diff3 obterá uma maior subsequencia comum, potencialmente alinhando corretamente blocos de código que
+causaram falsos positivos na nossa análise.
+
+Por fim, outro trabalho futuro com potencial de melhorar a performance do CSDiff seria testar outras ferramentas de diff. Durante
+os testes foi descoberto que, para a maioria dos casos de Falso Conflitos Reais detectados durante a análise da PP5,
+a ferramenta KDiff3, % TODO: add footnote
+ao ser usada no lugar do diff3, resolvia os conflitos corretamente. Entretanto, não foi possível utilizar o kdiff3 nos scripts,
+pois o programa sempre abria uma GUI quando sobravam conflitos não resolvidos, requisitando assim intervenção do usuário. Por isso,
+seria interessante analisar quais outras ferramentas de diff poderiam ser utilizadas no lugar do próprio diff3, ou com o diff3,
+através da flag "--diff-program". Alguns exemplos de ferramentas a serem testadas seria o vimdiff e o wdiff.
 
 \section{AMEAÇAS A VALIDADE}
-
-
-
-
-
-
+Os resultados aqui mostrados, como esperado, possuem potenciais ameaças a validade. Pelo fato de termos seguido
+a mesma metodologia que alguns estudos anteriores, apontamos algumas ameaças a validade semelhantes.
+Primeiro, os projetos utilizados para
+o estudo foram projetos abertos do GitHub, que podem ter sofrido
+alteração em seu histórico de commits, que por sua vez, pode
+acarretar em perdas de cenários de merge.
+Segundo, a avaliação manual feita pelo autor na análise do PP5 pode conter erros e não foi revisada por outras pessoas.
+Também não se teve validações externas além das opiniões dos orientadores.
+Também temos o fato de que os scripts criados e utilizados pelo autor para ajudar na análise da pesquisa podem conter bugs.
+Por fim, esse estudo foca na linguagem de programação Python, logo não é garantido que pesquisas feitas em cima de outras
+linguagens deixem de demonstrar resultados completamente diferentes.
+Além disso, apesar de termos utilizado uma amostra de 10 projetos relativamente grandes e minerado commits de um intervalo
+relativamente grande, somente 6 dos projetos mostraram conflitos de merge nesse intervalo, o que pode influenciar na obtençao de
+uma quantidade de dados suficiente.
 
 
 
