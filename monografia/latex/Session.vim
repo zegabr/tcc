@@ -16,18 +16,28 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +45 main.tex
+badd +71 main.tex
 badd +1 avaliacao.tex
-badd +1 motivacao.tex
-badd +1 resumo.tex
 badd +1 solucao.tex
 badd +1 ~/tcc/monografia/latex/conclusao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit resumo.tex
+edit solucao.tex
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
 argglobal
-balt solucao.tex
+balt avaliacao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -38,7 +48,7 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 23) / 47)
+let s:l = 1 - ((0 * winheight(0) + 18) / 36)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
@@ -51,6 +61,8 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
