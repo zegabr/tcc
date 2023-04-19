@@ -14,25 +14,11 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +147 ~/tcc/monografia/latex/motivacao.tex
-badd +69 monografia/latex/main.tex
+badd +56 monografia/latex/main.tex
 argglobal
 %argdel
-edit ~/tcc/monografia/latex/motivacao.tex
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
+edit monografia/latex/main.tex
 argglobal
-balt monografia/latex/main.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -43,11 +29,11 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 147 - ((46 * winheight(0) + 29) / 59)
+let s:l = 1 - ((0 * winheight(0) + 35) / 70)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 147
+keepjumps 1
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -56,8 +42,6 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
-let &winminheight = s:save_winminheight
-let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)

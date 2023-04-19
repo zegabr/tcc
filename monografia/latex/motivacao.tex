@@ -1,28 +1,39 @@
 \section{Merge Não Estrurado}
-Apesar da evolução dos sistemas de controle de versão, as ferramentas utilizadas para realizar
-\emph{merge} não evoluiram tanto. A ferramenta mais utilizada atualmente é o \emph{Diff3}~\cite{mens02}, que consiste em uma
-abordagem puramente textual baseada em linhas. Essa ferramenta, ao receber os três arquivos que configuram o cenário de merge
-(chamemos de \emph{base}, \emph{left} e \emph{right}), compara, linha a linha, as duas versões modificadas
-(\emph{left} e \emph{right}) com seu ancestral comum (\emph{base}), que foi o arquivo que deu origem às modificações
-que vão ser integradas. APós isso, a ferramenta agrupa as maiores áreas em comum e checa se existem interseções entre as
-áreas modificadas por \emph{left} e \emph{right}. Essas interseções são definidas como conflitos de merge~\cite{khan07},
-elas serão sinalizadas pelo \emph{Diff3} através de marcadores \verb|(">>>>>>>","=======","<<<<<<<")|, como demonstrado na
+Apesar da evolução dos sistemas de controle de versão, as ferramentas
+utilizadas para realizar \emph{merge} não evoluiram tanto. A ferramenta mais
+utilizada atualmente é o \emph{Diff3}~\cite{mens02}, que consiste em uma
+abordagem puramente textual baseada em linhas. Essa ferramenta, ao receber os
+três arquivos que configuram o cenário de merge (chamemos de \emph{base},
+\emph{left} e \emph{right}), compara, linha a linha, as duas versões
+modificadas (\emph{left} e \emph{right}) com seu ancestral comum (\emph{base}),
+que foi o arquivo que deu origem às modificações que vão ser integradas. Após
+isso, a ferramenta agrupa as maiores áreas em comum e checa se existem
+interseções entre as áreas modificadas por \emph{left} e \emph{right}. Essas
+interseções são definidas como conflitos de merge~\cite{khan07}, elas serão
+sinalizadas pelo \emph{Diff3} através de marcadores
+\verb|(">>>>>>>","=======" e "<<<<<<<")|, como demonstrado na
 Figura~\ref{diff3_example}.
 
-Por considerar as mudanças linha a linha para detectar os conflitos, muitas vezes essa ferramenta relata falsos conflitos
-de modificações que alteram a mesma linha ou linhas consecutivas, mas que não interferem entre si semanticamente.
-Esse problema poderia ser resolvido utilizando ferramentas que explorem a estrutura sintática do código em questão.
+Por considerar as mudanças linha a linha para detectar os conflitos, muitas
+vezes essa ferramenta relata falsos conflitos de modificações que alteram a
+mesma linha ou linhas consecutivas, mas que não interferem entre si
+semanticamente. Esse problema poderia ser resolvido utilizando ferramentas que
+explorem a estrutura sintática do código em questão~\cite{cavalcanti19}
 
-Para ilustrar esse problema causado pelo \emph{merge} não estruturado, utilizamos a implementação de um método
-\detokenize{to_string} que
-recebe uma lista de strings e retorna uma string juntando todos os elementos da lista separados por dois
-\emph{underlines} \detokenize{"__"}. Observe que as mudanças feitas pelo \emph{left} foram a adição de uma nova
-condição no if, e a mudançã da string separadora do return final (modificado de ".." para \detokenize{"__"}). Por outro lado,
-as mudanças feitas pelo \emph{right} foram o valor padrao de retorno de uma string vazia para uma constante (por simplicidade
-consideramos que a constante foi definida na classe onde o método está sendo implementado), e a mesma
-modificação que o \emph{left} fez no último return do método. Perceba que todas essas mudanças são independentes entre si,
-mas por elas acontecerem em linhas consecutivas, o \emph{Diff3} relata todas elas em um mesmo conflito (Figura
-\ref{diff3_example}).
+Para ilustrar esse problema causado pelo \emph{merge} não estruturado,
+utilizamos a implementação de um método \detokenize{to_string} que recebe uma
+lista de strings e retorna uma string juntando todos os elementos da lista
+separados por dois \emph{underlines} \detokenize{("__")}. Observe que as
+mudanças feitas pelo \emph{left} foram a adição de uma nova condição no
+\emph{if}, e a mudança da string separadora do \emph{return} final (modificado
+de ".." para \detokenize{"__"}). Por outro lado, as mudanças feitas pelo
+\emph{right} foram o valor padrão de retorno de uma string vazia para uma
+constante (por simplicidade consideramos que a constante foi definida na classe
+onde o método está sendo implementado), e a mesma modificação que o \emph{left}
+fez no último return do método. Perceba que todas essas mudanças são
+independentes entre si, mas por elas acontecerem em linhas consecutivas, o
+\emph{Diff3} relata todas elas em um mesmo conflito
+(Figura~\ref{diff3_example}).
 
 \begin{figure}[ht]
 	\begin{center}
@@ -54,108 +65,127 @@ mas por elas acontecerem em linhas consecutivas, o \emph{Diff3} relata todas ela
 
 \section{Merge Semiestruturado e Estruturado}
 Como alternativa ao uso de merge não estruturado, existem as abordagens
-semiestruturadas ou completamente estruturadas. Ao contrário da abordagem não
-estruturada, essas abordagens levam em consideração a estrutura sintática da
-linguagem de programação para identificar conflitos com maior precisão e resolvê-los de
-forma mais correta. Essas abordagens criam árvores sintáticas para
-cada versão dos arquivos a serem integrados (\emph{base}, \emph{left} e \emph{right})
-e comparam essas árvores para identificar nós comuns
-e adições ou remoções em cada árvore. Dessa forma, cada elemento sintático
-é representado em nós distintos, e conflitos são sinalizados quando as mudanças
-a serem integradas estão relacionadas ao mesmo nó da árvore. Isso significa
-que, em vez de usar linhas como a unidade básica para comparação, essas ferramentas usam
-nós sintáticos como unidade.
+semiestruturadas ou completamente estruturadas~\cite{cavalcanti19}. Ao
+contrário da abordagem não estruturada, essas abordagens levam em consideração
+a estrutura sintática da linguagem de programação para identificar conflitos
+com maior precisão e resolvê-los de forma mais correta. Essas abordagens criam
+árvores sintáticas para cada versão dos arquivos a serem integrados
+(\emph{base}, \emph{left} e \emph{right}) e comparam essas árvores para
+identificar nós comuns e adições ou remoções em cada árvore. Dessa forma, cada
+elemento sintático é representado em nós distintos, e conflitos são sinalizados
+quando as mudanças a serem integradas estão relacionadas ao mesmo nó da árvore.
+Isso significa que, em vez de usar linhas como a unidade básica para
+comparação, essas ferramentas usam nós sintáticos como unidade.
 
-Essas ferramentas estruturadas e semiestruturadas conseguem evitar falsos conflitos
-encontrados na abordagem não estruturada. Por exemplo, duas situações em
-que dois desenvolvedores adicionam separadamente dois novos métodos com diferentes
-assinaturas em uma mesma área do texto podem ser conciliadas com sucesso.
-As mudanças ocorrem na mesma linha, mas cada declaração é representada por
-um nó diferente, pois o identificador do método é parte do nó,
-e os dois nós são mantidos na árvore resultante da integração.
+Essas ferramentas estruturadas e semiestruturadas conseguem evitar falsos
+conflitos encontrados na abordagem não estruturada. Por exemplo, duas situações
+em que dois desenvolvedores adicionam separadamente dois novos métodos com
+diferentes assinaturas em uma mesma área do texto podem ser conciliadas com
+sucesso. As mudanças ocorrem na mesma linha, mas cada declaração é representada
+por um nó diferente, pois o identificador do método é parte do nó, e os dois
+nós são mantidos na árvore resultante da integração.
 
-Dessa forma, é fácil observar que uma ferramenta estruturada para Python evitaria o
-conflito apresentado na Figura~\ref{diff3_example}. A ferramenta, utilizando a estrutura da
-linguagem, identificaria que, apesar das mudanças representadas na Figura~\ref{left_example} e na
-Figura~\ref{right_example} ocorrerem em linhas consecutivas (o que faz com que o \emph{Diff3}
-agrupe as mudanças em um único bloco de conflito),
-elas estariam associadas a nós diferentes na árvore
-sintática. A ferramenta então juntaria as mudanças em uma versão resultante que contém a
-nova condição proposta por \emph{left} e o novo valor de retorno proposto por \emph{right},
-evitando o falso conflito.
+Dessa forma, é fácil observar que uma ferramenta estruturada para Python
+evitaria o conflito apresentado na Figura~\ref{diff3_example}. A ferramenta,
+utilizando a estrutura da linguagem, identificaria que, apesar das mudanças
+representadas na Figura~\ref{left_example} e na Figura~\ref{right_example}
+ocorrerem em linhas consecutivas (o que faz com que o \emph{Diff3} agrupe as
+mudanças em um único bloco de conflito), elas estariam associadas a nós
+diferentes na árvore sintática. A ferramenta então juntaria as mudanças em uma
+versão resultante que contém a nova condição proposta por \emph{left} e o novo
+valor de retorno proposto por \emph{right}, evitando o falso conflito.
 
 \section{Merge não Estruturado com separadores}
-As abordagens estruturadas e semiestruturadas discutidas na seção anterior, apesar de claramente benéficas,
-possuem um custo adicional, dado que elas se baseiam em manipulação de árvores sintáticas, que por sua vez são
-dependentes da linguagem em questão e demandam um esforço significativo de implementação por linguagem, além de que
-a manipulação das árvores sintáticas possui um custo computacional maior em relação a abordagens puramente textuais.
 
-Em trabalho anterior ~\cite{clem21}, foi proposta uma nova ferramenta chamada
-\textbf{Custom Separators Diff} (\emph{CSDiff}), cujo funcionamento baseia-se na abordagem puramente textual, mas que também
-considera a estrutura sintática do programa por meio de um conjunto de separadores da linguagem, escolhidos pelo usuário e
-passados como parâmetro.
+As abordagens estruturadas e semiestruturadas discutidas na seção anterior,
+apesar de claramente benéficas, possuem um custo adicional, dado que elas se
+baseiam em manipulação de árvores sintáticas, que por sua vez são dependentes
+da linguagem em questão e demandam um esforço significativo de implementação
+por linguagem, além de que a manipulação das árvores sintáticas possui um custo
+computacional maior em relação a abordagens puramente textuais.
+
+Em trabalho anterior, Clementino~\cite{clem21} propôe uma nova ferramenta
+chamada \textbf{Custom Separators
+Diff}\footnote{https://github.com/JonatasDeOliveira/custom-separators-merge-tool/blob/main/csdiff.sh}
+(\emph{CSDiff}), cujo funcionamento baseia-se na abordagem puramente textual,
+mas que também considera a estrutura sintática do programa por meio de um
+conjunto de separadores da linguagem, escolhidos pelo usuário e passados como
+parâmetro.
 
 \begin{figure}[ht]
 	\begin{center}
 		\begin{compactenum}[(1)]
-			\item Transforma os arquivos \emph{base}, \emph{left} e \emph{right}, fazendo com que os separadores sintáticos
-			dados como entrada fiquem em linhas separadas; essas novas linhas são marcadas com a sequencia de caracteres:
-			'\verb|$$$$$$$$|';
-			\item Chama o \emph{merge} textual do \emph{Diff3}, passando como entrada os arquivos gerados por 1;
-			\item No arquivo resultante do Passo 2, remove as linhas extras e marcadores adicionados no Passo 1.
+            \item Transforma os arquivos \emph{base}, \emph{left} e
+                \emph{right}, fazendo com que os separadores sintáticos dados
+                como entrada fiquem em linhas separadas; essas novas linhas são
+                marcadas com a sequencia de caracteres: '\verb|$$$$$$$$|';
+            \item Chama o \emph{merge} textual do \emph{Diff3}, passando como
+                entrada os arquivos gerados por 1;
+            \item No arquivo resultante do Passo 2, remove as linhas extras e
+                marcadores adicionados no Passo 1.
 		\end{compactenum}
 	\end{center}
 	\caption{Processo do \emph{CSDiff}}\label{csdiff_process}
 \end{figure}
 
 
-Para ilustrar o funcionamento do \emph{CSDiff} e seu potencial para resolver falsos conflitos, observamos as figuras
-\ref{base_marcadores},~\ref{left_marcadores} e~\ref{right_marcadores}
-onde executamos o processo descrito na figura~\ref{csdiff_process} utilizando os
+Para ilustrar o funcionamento do \emph{CSDiff} e seu potencial para resolver
+falsos conflitos, observamos as Figuras
+\ref{base_marcadores},~\ref{left_marcadores} e~\ref{right_marcadores} onde
+executamos o processo descrito na figura~\ref{csdiff_process} utilizando os
 separadores sintáticos de Python "(", ")" e ",".
 
-Nota-se na Figura~\ref{diff3_marcadores} que ao executar o \emph{CSDiff} nos arquivos \emph{base}, \emph{left} e \emph{right}, as linhas conflitantes ficam
-mais separadas pelos marcadores (as sequencias "\verb|$$$$$$$$|"), o que faz com que o
-conflito relatado pelo \emph{diff3} seja reduzido (indicando que parte dele foi
-parcialmente resolvido automaticamente).
+Nota-se na Figura~\ref{diff3_marcadores} que ao executar o \emph{CSDiff} nos
+arquivos \emph{base}, \emph{left} e \emph{right}, as linhas conflitantes ficam
+separadas pelos marcadores (as sequencias "\verb|$$$$$$$$|"), o que faz com que
+o conflito relatado pelo \emph{diff3} seja reduzido (indicando que parte dele
+foi parcialmente resolvido automaticamente).
 
 \begin{figure}[ht]
 	\begin{center}
-		\lstinputlisting[language=Python]{./example/no_indentation/base.py_temp.py}
-		\caption{Arquivo \emph{base} após a o Passo 1 da Figura~\ref{csdiff_process}}\label{base_marcadores}
+        \lstinputlisting[language=Python]{./example/no_indentation/base.py_temp.py}
+        \caption{Arquivo \emph{base} após a o Passo 1 da
+        Figura~\ref{csdiff_process}}\label{base_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/left.py_temp.py}
-		\caption{Arquivo \emph{left} após a o Passo 1 da Figura~\ref{csdiff_process}}\label{left_marcadores}
+        \caption{Arquivo \emph{left} após a o Passo 1 da
+        Figura~\ref{csdiff_process}}\label{left_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/right.py_temp.py}
-		\caption{Arquivo \emph{right} após a o Passo 1 da Figura~\ref{csdiff_process}}\label{right_marcadores}
+        \caption{Arquivo \emph{right} após a o Passo 1 da
+        Figura~\ref{csdiff_process}}\label{right_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/diff3_temp.py}
-		\caption{Arquivo resultante após a execução do Passo 2 da Figura~\ref{csdiff_process} nos arquivos
-			\emph{base}, \emph{left} e \emph{right}}\label{diff3_marcadores}
+        \caption{Arquivo resultante após a execução do Passo 2 da
+        Figura~\ref{csdiff_process} nos arquivos \emph{base}, \emph{left} e
+    \emph{right}}\label{diff3_marcadores}
 	\end{center}
 \end{figure}
 
-Entretanto, nota-se uma limitação para este caso na linguagem Python, visto que as duas expressões de return acabam não
-se separando simplesmente pelo fato de que não há nenhum separador sintático entre eles.
-Essa limitação não ocorre em linguagens
-como Java, por exemplo, pois geralmente essas duas expressões return seriam separadas por um "\verb|}|"
-(que em Java delimita final de escopo). Isso acontece
-para a linguagem Python pelo fato de que a mesma não possui separador para delimitar escopo, pois utiliza da indentação para tal.
+Entretanto, nota-se uma limitação para este caso na linguagem Python, visto que
+as duas expressões de \emph{return} acabam não se separando simplesmente pelo
+fato de que não há nenhum separador sintático entre eles. Essa limitação não
+ocorre em linguagens como Java, por exemplo, pois geralmente essas duas
+expressões \emph{return} seriam separadas por um "\verb|}|" (que em Java
+delimita final de escopo). Isso acontece para a linguagem Python pelo fato de
+que a mesma não possui separador para delimitar escopo, pois utiliza da
+indentação para tal.
 
-Dada esta limitação, propomos neste trabalho uma modificação no algoritmo do \emph{CSDiff}, visando resolver esse problema de
-separação de escopo. Para fazer isso, modificamos o algoritmo para que também adicione marcadores ao encontrar mudanças na
-indentação do programa.
+Dada esta limitação, propomos neste trabalho uma modificação no algoritmo do
+\emph{CSDiff}, visando resolver esse problema de separação de escopo. Para
+fazer isso, modificamos o algoritmo para que também adicione marcadores ao
+encontrar mudanças na indentação do programa.
+
 
