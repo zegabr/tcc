@@ -1,104 +1,141 @@
-Para avaliar esta nova versão do \emph{CSDiff} e responder as perguntas de pesquisa mencionadas anteriormente, repetimos
-o experimento feito em~\cite{heitor21,clem21}, que compara os resultados de utilizar \emph{CSDiff} com o resultado
-de utilizar \emph{Diff3}, analisando o potencial para resolução de conflitos sem gerar impacto negativo na corretude do
-processo de \emph{merge}. Como meio de facilitar a execução desta análise, foi utlizado o \emph{miningframework}, que
-automatiza o processo de coletar os cenários de \emph{merge}, além de executar as ferramentas \emph{CSDiff} e \emph{Diff3} em
-cada arquivo de cada cenário.
+Para avaliar esta nova versão do \emph{CSDiff} e responder as perguntas de
+pesquisa mencionadas anteriormente, repetimos o experimento feito por
+Clementino~\cite{heitor21,clem21}, que compara os resultados de utilizar
+\emph{CSDiff} com o resultado de utilizar \emph{Diff3}, analisando o potencial
+para resolução de conflitos sem gerar impacto negativo na corretude do processo
+de \emph{merge}. Como meio de facilitar a execução desta análise, foi utlizado
+o \emph{miningframework}\footnote{https://github.com/spgroup/miningframework},
+que automatiza o processo de coletar os cenários de \emph{merge}, além de
+executar as ferramentas \emph{CSDiff} e \emph{Diff3} em cada arquivo de cada
+cenário.
 
 \section{CONCEITOS}\label{conceitos}
 A seguir, alguns conceitos relevantes para a avaliação serão definidos.
+
 \subsection{Cenário de Merge}
-Em um sistema de controle de versão, um \emph{commit} é uma versão que agrupa mudanças em
-determinados arquivos de um projeto~\cite{koc11}.
-Considerando essa definição, um Cenário de Merge é definido como uma quádrupla de \emph{commits},
-que chamaremos aqui de \emph{base},
-\emph{left}, \emph{right} e \emph{merge}. O \emph{base} representa o \emph{commit} de onde as modificações \emph{left} e \emph{right}
-partiram, enquanto o \emph{merge} representa a versão final onde a integração das mudanças foi feita no repositório.
+Em um sistema de controle de versão, um \emph{commit} é uma versão que agrupa
+mudanças em determinados arquivos de um projeto~\cite{koc11}. Considerando essa
+definição, um Cenário de Merge é definido como uma quádrupla de \emph{commits},
+que chamaremos aqui de \emph{base}, \emph{left}, \emph{right} e \emph{merge}. O
+\emph{base} representa o \emph{commit} de onde as modificações \emph{left} e
+\emph{right} partiram, enquanto o \emph{merge} representa a versão final onde a
+integração das mudanças foi feita no repositório.
+
 \subsection{Falso Positivo Adicionado}
-Seguindo as mesmas definições descritas em~\cite{clem21},
-um falso positivo ocorre quando a ferramenta de \emph{merge} relata um conflito
-que na verdade não deveria ter ocorrido, ou seja, as
-mudanças que estão sendo integradas
-não interferem uma na outra. Para comparar duas ferramentas de merge
-X e Y, usamos o conceito de Falso Positivo Adicionado \emph{aFP}, que acontece quando
-a ferramenta X relata conflito em um determinado cenário de \emph{merge},
-enquanto a ferramenta Y não relata conflito no mesmo cenário e
-as mudanças integradas pelas ferramentas não interferem uma na outra.
-É importante usar o conceito de \emph{aFP} porque o conjunto de falsos conflitos
-de uma ferramenta não é um subconjunto da outra.
+Seguindo as mesmas definições descritas em~\cite{clem21}, um falso positivo
+ocorre quando a ferramenta de \emph{merge} relata um conflito que na verdade
+não deveria ter ocorrido, ou seja, as modificações relativas ao conflito não
+interferm entre si. Para comparar duas ferramentas de merge X e Y, usamos o
+conceito de Falso Positivo Adicionado \emph{aFP}, que acontece quando a
+ferramenta X relata conflito em um determinado cenário de \emph{merge},
+enquanto a ferramenta Y não relata conflito no mesmo cenário e as mudanças
+integradas pelas ferramentas não interferem uma na outra. É importante usar o
+conceito de \emph{aFP} porque o conjunto de falsos conflitos de uma ferramenta
+não é um subconjunto da outra.
+
 \subsection{Falso Negativo Adicionado}
-Um falso negativo ocorre quando a ferramenta de \emph{merge} não relata um conflito
-que deveria ter sido reportado, pois as mudanças que estão sendo integradas
-interferem uma na outra. Ao comparar duas ferramentas de \emph{merge} X e Y,
-usamos o conceito de Falso Negativo Adicionado (\emph{aFN}), que acontece quando a ferramenta X
-não relata conflito em um determinado cenário de \emph{merge}, enquanto a ferramenta Y
-relata conflito no mesmo cenário e as mudanças que estão sendo integradas pelas
-ferramentas interferem uma na outra (ou seja, deveria ocorrer conflito).
-É importante usar o conceito de aFN porque o conjunto de falsos negativos de uma
-ferramenta não é um subconjunto da outra.
+Um falso negativo ocorre quando a ferramenta de \emph{merge} não relata um
+conflito que deveria ter sido reportado, pois as mudanças que estão sendo
+integradas interferem uma na outra. Ao comparar duas ferramentas de
+\emph{merge} X e Y, usamos o conceito de Falso Negativo Adicionado
+(\emph{aFN}), que acontece quando a ferramenta X não relata conflito em um
+determinado cenário de \emph{merge}, enquanto a ferramenta Y relata conflito no
+mesmo cenário e as mudanças que estão sendo integradas pelas ferramentas
+interferem uma na outra (ou seja, deveria ocorrer conflito). É importante usar
+o conceito de aFN porque o conjunto de falsos negativos de uma ferramenta não é
+um subconjunto da outra.
 
 \section{PERGUNTAS DE PESQUISA}
 A avaliação desta pesquisa é baseada em responder as seguintes perguntas de pesquisa.
-\subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	reduz a quantidade de conflitos reportados em comparação ao \emph{merge} puramente textual?}
-Para avaliar o número de conflitos gerados pelo \emph{Diff3} e \emph{CSDiff}, contamos
-o número de conflitos em cada ferramenta para cada cenário de merge. Para isso,
-executamos a ferramenta para os conjuntos de arquivos de \emph{left}, \emph{right} e \emph{base} em cada cenário,
-resultando em um conjunto de arquivos combinados. Em seguida, contamos a ocorrência
-de marcadores de conflito para cada arquivo presente nesses conjuntos, que são sequências
-de caracteres apresentados no formato de conflito descrito na Figura~\ref{diff3_example}.
-\subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}
-Para avaliar o número de cenários de \emph{merge} com conflitos gerados pelo \emph{Diff3}
-e \emph{CSDiff}, contamos o número de cenários em cada ferramenta em que houve conflito.
-Para isso, executamos a ferramenta para os conjuntos de arquivos de \emph{left}, \emph{right} e
-\emph{base} em cada cenário de \emph{merge}, resultando em um conjunto de arquivos combinados. Um
-cenário é considerado com conflito se pelo menos um arquivo no conjunto resultante do \emph{merge} tiver
-um conflito.
-\subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
-	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
-Para responder a esta pergunta, foram contabilizados os casos em que uma
-ferramenta apresentou um falso positivo adicionado (\emph{aFP}) em relação à outra.
-Para verificar se um cenário continha um \emph{aFP} do \emph{Diff3} em comparação com o \emph{CSDiff},
-foi verificado se o \emph{Diff3} retornou pelo menos um conflito em pelo menos um dos arquivos integrados no cenário,
-enquanto o \emph{CSDiff} não retornou nenhum conflito para todos os arquivos do cenário e obteve o resultado correto do merge.
-Neste caso, foi contabilizado que o \emph{Diff3} tinha um cenário com \emph{aFP} em relação ao \emph{CSDiff}.
-O mesmo procedimento foi realizado para encontrar \emph{aFPs} adicionados pelo \emph{CSDiff} em comparação com o \emph{Diff3}.
-\subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
-	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
-	além de aumentar cenários com falsos negativos?}
-Para verificar se um cenário possui um \emph{aFN} para uma ferramenta em comparação com outra,
-o \emph{merge} foi executado usando tanto o \emph{Diff3} quanto o \emph{CSDiff}. Se o \emph{CSDiff} não retornasse nenhum
-conflito em nenhum arquivo resultante do \emph{merge} no conjunto de arquivos do cenário, enquanto o
-\emph{Diff3} retornasse conflito e o \emph{CSDiff} falhasse na integração das mudanças, esse cenário seria
-contado como um \emph{aFN} para o \emph{CSDiff}. Falhar na integração significa que a ferramenta resultou em um
-código sintaticamente incorreto ou que não preserva os comportamentos esperados individualmente pelas
-mudanças de \emph{left} e \emph{right}. Esse procedimento também foi realizado para encontrar falsos negativos
-adicionados pelo \emph{Diff3} em comparação com o \emph{CSDiff}. Para verificar esses casos de falsos negativos,
-os códigos foram analisados manualmente.
-\subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}\label{concept_PP5}
-Além das 4 primeiras perguntas de pesquisa, foi criada uma outra forma de analisar os benefícios do \emph{CSDiff} em relação ao
-\emph{Diff3}.
-Para tal, foram definidas as 4 situações abaixo e cada situação foi associada a uma pontuação, de forma que
-uma maior pontuação em um determinado arquivo ou cenário, indica um aumento na produtividade do desenvolvedor ao
-utilizar o \emph{CSDiff} como ferramenta ao invés do \emph{Diff3}. Essa análise foi feita manualmente comparando para cada
-arquivo
-de cada cenário de \emph{merge}, os conflitos relatados pela
-ferramenta \emph{CSDiff} e \emph{Diff3}, bem como foi comparado seus resultados
-com o resultado final do \emph{merge}, nos casos onde um deles não relatava conflitos. Essa análise foi possível pois, apesar de
-a amostra ter sido consideravelmente grande (mais de 3000 cenários de \emph{merge}), houveram somente 32 cenários (com um total de 255
-arquivos) onde tais comportamentos fossem possíveis de acontecer. Isso será melhor explicado na seção~\ref{metodologia}.
 
-Essa análise é importante pois considera também falsos conflitos que ocorrem quando as duas ferramentas (\emph{CSDiff} e \emph{Diff3})
-acusam conflitos, diferentemente do conceito de Falso Positivo Adicionado definido em~\ref{conceitos}, que considera somente
-conflitos quando uma das ferramentas acerta o resultado do merge.
-Além disso, consideramos outras situações que são definidas a seguir e não são consideradas nas outras perguntas de
-pesquisa. Dessa forma, conseguimos analisar com um pouco mais de detalhes as
-vantagens e desvantagens de se utilizar o \emph{CSDiff} ao invés
-do \emph{Diff3}.
+\subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, reduz a quantidade de conflitos reportados em comparação ao
+	\emph{merge} puramente textual?}
+
+Para avaliar o número de conflitos gerados pelo \emph{Diff3} e \emph{CSDiff},
+contamos o número de conflitos em cada ferramenta para cada cenário de merge.
+Para isso, executamos a ferramenta para os conjuntos de arquivos de
+\emph{left}, \emph{right} e \emph{base} em cada cenário, resultando em um
+conjunto de arquivos combinados. Em seguida, contamos a ocorrência de
+marcadores de conflito para cada arquivo presente nesses conjuntos, que são
+sequências de caracteres apresentados no formato de conflito descrito na
+Figura~\ref{diff3_example}.
+
+\subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, reduz a quantidade de cenários com conflitos reportados em
+	comparação ao \emph{merge} puramente textual?}
+
+Para avaliar o número de cenários de \emph{merge} com conflitos gerados pelo
+\emph{Diff3} e \emph{CSDiff}, contamos o número de cenários em cada ferramenta
+em que houve conflito. Para isso, executamos a ferramenta para os conjuntos de
+arquivos de \emph{left}, \emph{right} e \emph{base} em cada cenário de
+\emph{merge}, resultando em um conjunto de arquivos combinados. Um cenário é
+considerado com conflito se pelo menos um arquivo no conjunto resultante do
+\emph{merge} tiver um conflito.
+
+\subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, reduz a quantidade de falsos conflitos e cenários com falsos
+	conflitos reportados (falsos positivos) em comparação ao \emph{merge} puramente
+	textual?}
+
+Para responder a esta pergunta, foram contabilizados os casos em que uma
+ferramenta apresentou um falso positivo adicionado (\emph{aFP}) em relação à
+outra. Para verificar se um cenário continha um \emph{aFP} do \emph{Diff3} em
+comparação com o \emph{CSDiff}, foi verificado se o \emph{Diff3} retornou pelo
+menos um conflito em pelo menos um dos arquivos integrados no cenário, enquanto
+o \emph{CSDiff} não retornou nenhum conflito para todos os arquivos do cenário
+e obteve o resultado correto do merge. Neste caso, foi contabilizado que o
+\emph{Diff3} tinha um cenário com \emph{aFP} em relação ao \emph{CSDiff}. O
+mesmo procedimento foi realizado para encontrar \emph{aFPs} adicionados pelo
+\emph{CSDiff} em comparação com o \emph{Diff3}.
+
+\subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, amplia a possibilidade de comprometer a corretude do código,
+	por aumentar o número de integrações de mudanças que interferem uma na
+	outra, sem reportar conflitos (falsos negativos), além de aumentar cenários
+	com falsos negativos?}
+
+Para verificar se um cenário possui um \emph{aFN} para uma ferramenta em
+comparação com outra, o \emph{merge} foi executado usando tanto o \emph{Diff3}
+quanto o \emph{CSDiff}. Se o \emph{CSDiff} não retornasse nenhum conflito em
+nenhum arquivo resultante do \emph{merge} no conjunto de arquivos do cenário,
+enquanto o \emph{Diff3} retornasse conflito e o \emph{CSDiff} falhasse na
+integração das mudanças, esse cenário seria contado como um \emph{aFN} para o
+\emph{CSDiff}. Falhar na integração significa que a ferramenta resultou em um
+código sintaticamente incorreto ou que não preserva os comportamentos esperados
+individualmente pelas mudanças de \emph{left} e \emph{right}. Esse procedimento
+também foi realizado para encontrar falsos negativos adicionados pelo
+\emph{Diff3} em comparação com o \emph{CSDiff}. Para verificar esses casos de
+falsos negativos, os códigos foram analisados manualmente.
+
+\subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, demonstra um aumento de produtividade considerando o ato de
+	resolver conflitos de merge?}\label{concept_PP5}
+
+Além das 4 primeiras perguntas de pesquisa, foi criada uma outra forma de
+analisar os benefícios do \emph{CSDiff} em relação ao \emph{Diff3}. Para isso,
+foram definidas as 4 situações abaixo e cada situação foi associada a uma
+pontuação, de forma que uma maior pontuação em um determinado arquivo ou
+cenário, indica um aumento na produtividade do desenvolvedor ao utilizar o
+\emph{CSDiff} como ferramenta ao invés do \emph{Diff3}. Essa análise foi feita
+comparando manualmente, em cada arquivo de cada cenário de \emph{merge}, os
+conflitos relatados pela ferramenta \emph{CSDiff} com os relatados pela
+ferramenta \emph{Diff3}, bem como foi comparado seus resultados com o resultado
+final do \emph{merge}, nos casos onde um deles não relatava conflitos. Essa
+análise foi possível pois, apesar de a amostra ter sido consideravelmente
+grande (mais de 3000 cenários de \emph{merge}), houveram somente 32 cenários
+(com um total de 255 arquivos) onde tais comportamentos fossem possíveis de
+acontecer. Isso será melhor explicado na seção~\ref{metodologia}.
+
+Essa análise é importante pois considera também falsos conflitos que ocorrem
+quando as duas ferramentas (\emph{CSDiff} e \emph{Diff3}) acusam conflitos,
+diferentemente do conceito de Falso Positivo Adicionado definido
+em~\ref{conceitos}, que considera somente conflitos quando uma das ferramentas
+acerta o resultado do merge. Além disso, consideramos outras situações que são
+definidas a seguir e não são consideradas nas outras perguntas de pesquisa.
+Dessa forma, conseguimos analisar com um pouco mais de detalhes as vantagens e
+desvantagens de se utilizar o \emph{CSDiff} ao invés do \emph{Diff3}.
+
 \paragraph{Conflito Reduzido}
 \begin{figure}[ht]
 	\begin{center}
@@ -106,10 +143,14 @@ do \emph{Diff3}.
 		\caption{Código exemplificando um Conflito Reduzido}\label{conflito_reduzido}
 	\end{center}
 \end{figure}
-Um Conflito Reduzido é definido como um conflito que ocorre na ferramenta \emph{Diff3} e na ferramenta \emph{CSDiff},
-mas que no resultado do \emph{CSDiff} esse conflito está consideravelmente reduzido (possui um tamanho menor). Dessa forma,
-a pontuação escolhida para o aumento de produtividade nessa situação foi +1, dado que uma redução no tamanho de um conflito
-implica numa resolução mais rápida pelo desenvolvedor.
+
+Um Conflito Reduzido é definido como um conflito que ocorre na ferramenta
+\emph{Diff3} e na ferramenta \emph{CSDiff}, mas que no resultado do
+\emph{CSDiff} esse conflito está consideravelmente reduzido (possui um tamanho
+menor). Dessa forma, a pontuação escolhida para o aumento de produtividade
+nessa situação foi +1, dado que uma redução no tamanho de um conflito implica
+numa resolução mais rápida pelo desenvolvedor.
+
 \paragraph{Conflito Resolvido}
 \begin{figure}[ht]
 	\begin{center}
@@ -117,13 +158,16 @@ implica numa resolução mais rápida pelo desenvolvedor.
 		\caption{Código exemplificando um Conflito Resolvido}\label{conflito_resolvido}
 	\end{center}
 \end{figure}
-Um Conflito Resolvido significa um conflito que é relatado pela ferramenta \emph{Diff3},
-mas não é relatado pela ferramenta \emph{CSDiff}, e
-além disso, o resultado do \emph{CSDiff} para o bloco de código associado a esse conflito é o mesmo resultado
-observado no resultado
-final do merge. Este é a melhor das situações analisadas nessa pergunta de pesquisa, pois indica um conflito a menos para o
-desenvolvedor resolver (um conflito resolvido automaticamente pelo \emph{CSDiff} mas nao pelo \emph{Diff3}). Dessa forma,
-escolhemos a pontuação +2 para essa situação.
+
+Um Conflito Resolvido significa um conflito que é relatado pela ferramenta
+\emph{Diff3}, mas não é relatado pela ferramenta \emph{CSDiff}, e além disso, o
+resultado do \emph{CSDiff} para o bloco de código associado a esse conflito é o
+mesmo resultado observado no resultado final do merge. Este é a melhor das
+situações analisadas nessa pergunta de pesquisa, pois indica um conflito a
+menos para o desenvolvedor resolver (um conflito resolvido automaticamente pelo
+\emph{CSDiff} mas nao pelo \emph{Diff3}). Dessa forma, escolhemos a pontuação
++2 para essa situação.
+
 \paragraph{Falso Conflito Real}
 \begin{figure}[ht]
 	\begin{center}
@@ -131,13 +175,14 @@ escolhemos a pontuação +2 para essa situação.
 		\caption{Código exemplificando um Falso Conflito Real}\label{falso_conflito_real}
 	\end{center}
 \end{figure}
-Um Falso Conflito Real é definido como um conflito que não existe
-no \emph{Diff3}, mas que existe no \emph{CSDiff} do arquivo em questão. Essa
-situação pode ser causada por conflito que foi automaticamente
-resolvido pelo \emph{Diff3}, mas não pelo \emph{CSDiff}, indicando um conflito
-a mais para o desenvolvedor resolver caso ele utilize o \emph{CSDiff}
-ao invés do \emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa
-situação.
+
+Um Falso Conflito Real é definido como um conflito que não existe no
+\emph{Diff3}, mas que existe no \emph{CSDiff} do arquivo em questão. Essa
+situação pode ser causada por conflito que foi automaticamente resolvido pelo
+\emph{Diff3}, mas não pelo \emph{CSDiff}, indicando um conflito a mais para o
+desenvolvedor resolver caso ele utilize o \emph{CSDiff} ao invés do
+\emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa situação.
+
 \paragraph{Falso Negativo Real}
 \begin{figure}[ht]
 	\begin{center}
@@ -145,19 +190,22 @@ situação.
 		\caption{Código exemplificando um Falso Negativo Real}\label{falso_negativo_real}
 	\end{center}
 \end{figure}
+
 Um Falso Negativo Real nesse contexto indica um conflito que foi relatado no
-\emph{Diff3}, mas não no \emph{CSDiff} (indicando que
-o \emph{CSDiff} resolveu um conflito que o \emph{Diff3} não resolveu),
-e o resultado dessa resolução de Conflito é diferente do resultado
-observado no \emph{merge} do repositório. Essa é a pior situação possível,
-dado que quando um conflito é resolvido de forma errada,
-o código resultante poderá apresentar comportamento inesperado ou não funcionar. Por
-isso, escolhemos a pontuação -2 para esse caso.
+\emph{Diff3}, mas não no \emph{CSDiff} (indicando que o \emph{CSDiff} resolveu
+um conflito que o \emph{Diff3} não resolveu), e o resultado dessa resolução de
+Conflito é diferente do resultado observado no \emph{merge} do repositório.
+Essa é a pior situação possível, dado que quando um conflito é resolvido de
+forma errada, o código resultante poderá apresentar comportamento inesperado ou
+não funcionar, além de possivelmente passar despercebido pelo desenvolvedor.
+Por isso, escolhemos a pontuação -2 para esse caso.
 
 \section{AMOSTRA}
+
 Como amostra para essa pesquisa, utilizamos os mesmos critérios de escolha
-usados nos trabalhos anteriores e foram selecionados 10 projetos open source majoritariamente escritos em Python,
-cada um com mais de 13000 estrelas no github e mais de 370 contribuidores cada.
+usados nos trabalhos anteriores e foram selecionados 10 projetos open source
+majoritariamente escritos em Python, cada um com mais de 13000 estrelas no
+github e mais de 350 contribuidores cada.
 
 \begin{table}[ht]
 	\begin{center}
@@ -181,11 +229,15 @@ cada um com mais de 13000 estrelas no github e mais de 370 contribuidores cada.
 \end{table}
 
 \section{METODOLOGIA}\label{metodologia}
-Para comparar o \emph{CSDiff} e o \emph{Diff3}, primeiro mineramos os commits de \emph{merge} para os 10 projetos escolhidos, considerando um
-intervalo de um ano (entre 1/1/2021 e 1/1/2022). Esta mineração foi feita utilizando o miningframework, como nos trabalhos
-anteriores e, com o objetivo de analisar o novo algoritmo (Figura~\ref{csdiff_process_indentation}) em comparação com o já
-existente (Figura~\ref{csdiff_process}), bem como analisar a influência da escolha de certos separadores para a linguagem Python,
-essa mineração foi feita 4 vezes, a saber:
+
+Para comparar o \emph{CSDiff} e o \emph{Diff3}, primeiro mineramos os commits
+de \emph{merge} para os 10 projetos escolhidos, considerando um intervalo de um
+ano (entre 1/1/2021 e 1/1/2022). Esta mineração foi feita utilizando o
+\emph{miningframework}, como nos trabalhos anteriores e, com o objetivo de analisar o
+novo algoritmo (Figura~\ref{csdiff_process_indentation}) em comparação com o já
+existente (Figura~\ref{csdiff_process}), bem como analisar a influência da
+escolha de certos separadores para a linguagem Python, essa mineração foi feita
+4 vezes, a saber:
 
 \begin{compactenum}[(1)]
 	\item Algoritmo antigo, com separadores "( ) , :". Chamemos de \emph{CSDiff}+
@@ -194,46 +246,61 @@ essa mineração foi feita 4 vezes, a saber:
 	\item Algoritmo novo, com separadores "( ) ,". Chamemos de \emph{CSDiffI}-
 \end{compactenum}
 
-Decidimos testar a influência do separador ":" (dois pontos) pois em Python este separador usualmente vem seguido de uma
-mudança de indentação, então nesses casos, o algoritmo novo irá adicionar linhas marcadoras de forma redundante (pois
-durante a execução irá detectar tanto o separador quanto a mudança de indentação, ao invés de somente um dos dois)
+Decidimos testar a influência do separador ":" (dois pontos) pois em Python
+este separador usualmente vem seguido de uma mudança de indentação, então
+nesses casos, o algoritmo novo irá adicionar linhas marcadoras de forma
+redundante (pois durante a execução irá detectar tanto o separador quanto a
+mudança de indentação, ao invés de somente um dos dois).
 
-Após a mineração, o miningframework executa automaticamente as duas ferramentas em todos os arquivos de cada cenário de merge
-minerado, e em seguida cria uma tabela com dados relevantes como número de conflitos por
-ferramenta, por cenário, número de arquivos com conflitos, etc. Para este passo, somente foi necessário utilizar
-o CSDiffModule, um módulo do miningframework já existente e que já foi utilizado também em estudos anteriores.
+Após a mineração, o \emph{miningframework} executa automaticamente as duas
+ferramentas em todos os arquivos de cada cenário de merge minerado, e em
+seguida cria uma tabela com dados relevantes como número de conflitos por
+ferramenta, por cenário, número de arquivos com conflitos, etc. Para este
+passo, somente foi necessário utilizar o CSDiffModule, um módulo do
+\emph{miningframework} já existente e que já foi utilizado também em estudos
+anteriores~\cite{heitor21}.
 
-Além disso, alguns scripts feitos em Bash pelo autor foram necessários para complementar os dados que não eram obtidos
-diretamente destas tabelas. Todos esses scripts estão disponibilizados em um repositório público.\footnote{https://github.com/zegabr/miningframework/tree/test-branch} % TODO: change this to zegabr/tcc
+Além disso, alguns scripts feitos em Bash pelo autor foram necessários para
+complementar os dados que não eram obtidos diretamente destas tabelas geradas
+pela ferramenta. Todos esses scripts estão disponibilizados em um repositório
+público.\footnote{https://github.com/zegabr/miningframework/tree/test-branch} %
+% TODO: change this to zegabr/tcc
 
-Para contar conflitos por arquivo,
-cenário, etc., os scripts buscam por marcadores
-de conflito nos textos dos arquivos. Para identificar se as ferramentas deram o mesmo resultado,
-ou resultado idêntico ao do merge
-do repositório, comparamos textualmente (ignorando espaços em
-branco) o arquivo de \emph{merge} do repositório, e os arquivos resultante da execução de cada
+Para contar conflitos por arquivo, cenário, etc., os scripts buscam por
+marcadores de conflito nos textos dos arquivos. Para identificar se as
+ferramentas deram o mesmo resultado, ou resultado idêntico ao do merge do
+repositório, comparamos textualmente (ignorando espaços em branco) o arquivo de
+\emph{merge} do repositório, e os arquivos resultante da execução de cada
 ferramenta no cenário de \emph{merge} correspondente.
 
-Todos esses passos foram executados localmente em uma máquina operando com sistema operacional Ubuntu 22.04.2,
-com 16GB de memória
-RAM e um processador Intel Core i7.
+Todos esses passos foram executados localmente em uma máquina operando com
+sistema operacional Ubuntu 22.04.2, com 16GB de memória RAM e um processador
+Intel Core i7.
 
 \section{RESULTADOS}
-Para a nossa amostra, foram coletados 3788 cenários de \emph{merge} (contendo 968 arquivos
-no total). Destes, apenas 32 cenários foram considerados (contendo 255 arquivos no total), por possuírem resultado
-diferente entre as duas ferramentas. Todos os casos onde o resultado do \emph{CSDiff} era o mesmo do \emph{Diff3}
-foram deletados pois não fariam
-diferença para a análise comparativa.
 
-Como poderemos ver nas seções seguintes, foi observado uma peculiaridade na nossa amostra. Um dos projetos escolhidos, o
-matplotlib, possui uma quantidade muito maior de conflitos e \emph{aFPs} relatados do que todos os outros projetos juntos. Ao remover
-as quantidades relativas a este projeto, obtemos um resultado dentro do esperado, dados os resultados obtidos
-em~\cite{clem21,heitor21}. A causa desse problema será discutida posteriormente.
+Para a nossa amostra, foram coletados 3788 cenários de \emph{merge} (contendo
+968 arquivos no total). Destes, apenas 32 cenários foram considerados (contendo
+255 arquivos no total), por possuírem resultado diferente entre as duas
+ferramentas. Todos os casos onde o resultado do \emph{CSDiff} era o mesmo do
+\emph{Diff3} foram deletados pois não fariam diferença para a análise
+comparativa (essa filtragem foi feita por um dos scripts mencionados).
 
-\subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	reduz a quantidade de conflitos reportados em comparação ao \emph{merge} puramente textual?}
-Para respoder essa pergunta, analisamos a quantidade de conflitos por cenário obtidos da execução do experimento. Os
-resultados para todas as execuções podem ser vistos na Tabela~\ref{tabelaPP1_com_matplotlib} e na
+Como poderemos ver nas seções seguintes, foi observado uma peculiaridade na
+nossa amostra. Um dos projetos escolhidos, o matplotlib, possui uma quantidade
+muito maior de conflitos e \emph{aFPs} relatados do que todos os outros
+projetos juntos. Ao remover as quantidades relativas a este projeto, obtemos um
+resultado dentro do esperado, dados os resultados obtidos
+em~\cite{clem21,heitor21}. A causa desse problema será discutida
+posteriormente.
+
+\subsection{PP1: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, reduz a quantidade de conflitos reportados em comparação ao
+	\emph{merge} puramente textual?}
+
+Para respoder essa pergunta, analisamos a quantidade de conflitos por cenário
+obtidos da execução do experimento. Os resultados para todas as execuções podem
+ser vistos na Tabela~\ref{tabelaPP1_com_matplotlib} e na
 Tabela~\ref{tabelaPP1_sem_matplotlib}
 
 \begin{table}[ht]
@@ -267,30 +334,42 @@ Tabela~\ref{tabelaPP1_sem_matplotlib}
 		projeto matplotlib}\label{tabelaPP1_sem_matplotlib}
 \end{table}
 
-Observamos que, considerando todos os projetos (Tabela~\ref{tabelaPP1_com_matplotlib}), a quantidade de conflitos aumenta
-razoavelmente, apresentando um aumento mínimo de 46\% para o \emph{CSDiff}- e máximo de 177\% para o \emph{CSDiffI}+, o que é esperado dado que o
-\emph{CSDiff} tende a quebrar os conflitos do \emph{Diff3} em conflitos menores, devido a forma como ele processa os arquivos em seu algoritmo.
-O estudo anterior feito com Java~\cite{clem21} segue no mesmo caminho, apresentando um aumento de 35\% para um conjunto menor de
-separadores e 105\% para um conjunto maior de separadores.
+Observamos que, considerando todos os projetos
+(Tabela~\ref{tabelaPP1_com_matplotlib}), a quantidade de conflitos aumenta
+razoavelmente, apresentando um aumento mínimo de 46\% para o \emph{CSDiff}- e
+máximo de 177\% para o \emph{CSDiffI}+, o que é esperado dado que o
+\emph{CSDiff} tende a quebrar os conflitos do \emph{Diff3} em conflitos
+menores, devido a forma como ele processa os arquivos em seu algoritmo. O
+estudo anterior feito com Java~\cite{clem21} segue no mesmo caminho,
+apresentando um aumento de 35\% para um conjunto menor de separadores e 105\%
+para um conjunto maior de separadores.
 
-Percebe-se também a influência do novo algoritmo no resultado. O \emph{CSDiffI}+ e o \emph{CSDiffI}- demonstraram aumentos de quantidade de
-conflitos muito maiores que os \emph{CSDiff}+ e \emph{CSDiff}-, indicando que o novo algoritmo não é tão benéfico quando comparado com a
-versão já existente.
+Percebe-se também a influência do novo algoritmo no resultado. O
+\emph{CSDiffI}+ e o \emph{CSDiffI}- demonstraram aumentos de quantidade de
+conflitos muito maiores que os \emph{CSDiff}+ e \emph{CSDiff}-, indicando que o
+novo algoritmo não é tão benéfico quando comparado com a versão já existente.
 
 \subsection{PP2: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	reduz a quantidade de cenários com conflitos reportados em comparação ao \emph{merge} puramente textual?}\label{resultado_pp2}
-Observando a quarta linha da Tabela~\ref{tabelaPP1_com_matplotlib}, conseguimos também responder a esta pergunta. Notamos
-que há uma redução na quantidade de cenários com conflitos, com a maior redução ocorrendo para o \emph{CSDiff}- (23\%) e a menor para o
-\emph{CSDiffI}+ (13.3\%), seguindo também a mesma ordem de grandeza reportado por~\cite{heitor21} em seu estudo com TypeScript
-e Ruby (apresentando redução de 13.78\% e 16.32\%, respectivamente).
 
-Também relatamos uma redução na quantidade de arquivos com conflitos, entretanto percebemos que,
-para o projeto matplotlib, o oposto ocorre, como podemos ver comparando a terceira linha das duas tabelas. Essa peculiaridade
-ocorre devido a uma maior ocorrência de conflitos por arquivo nesse projeto (ver Tabela~\ref{block_diff}), que faz com que
-exista uma chance maior de ocorrências de certos problemas de alinhamento que ocorrem de forma não intuitiva no algoritmo do
-\emph{Diff3}. Esses problemas são bem descritos por~\cite{khan07}. Uma possível solução a ser testada, seria numerar os marcadores
-inseridos pelo \emph{CSDiff}, visto que isso reduziria a chance de o \emph{Diff3} alinhar de forma errada alguns marcadores que atualmente
-são adicionados sem distinção entre si.
+Observando a quarta linha da Tabela~\ref{tabelaPP1_com_matplotlib}, conseguimos
+também responder a esta pergunta. Notamos que há uma redução na quantidade de
+cenários com conflitos, com a maior redução ocorrendo para o \emph{CSDiff}-
+(23\%) e a menor para o \emph{CSDiffI}+ (13.3\%), seguindo também a mesma ordem
+de grandeza reportado por~\cite{heitor21} em seu estudo com TypeScript e Ruby
+(apresentando redução de 13.78\% e 16.32\%, respectivamente).
+
+Também relatamos uma redução na quantidade de arquivos com conflitos,
+entretanto percebemos que, para o projeto matplotlib, o oposto ocorre, como
+podemos ver comparando a terceira linha das duas tabelas. Essa peculiaridade
+ocorre devido a uma maior ocorrência de conflitos por arquivo nesse projeto
+(ver Tabela~\ref{block_diff}), que faz com que exista uma chance maior de
+ocorrências de certos problemas de alinhamento que ocorrem de forma não
+intuitiva no algoritmo do \emph{Diff3}. Esses problemas são bem descritos
+por Khanna~\cite{khan07}. Uma possível solução a ser testada, seria numerar os
+marcadores inseridos pelo \emph{CSDiff}, visto que isso reduziria a chance de o
+\emph{Diff3} alinhar de forma errada alguns marcadores que atualmente são
+adicionados sem distinção entre si.
 
 \begin{table}[ht]
 	\begin{center}
@@ -307,27 +386,30 @@ são adicionados sem distinção entre si.
 			\hline
 		\end{tabular}
 	\end{center}
-	\caption{Quantidade de blocos de conflitos encontrados após execução do experimentos}\label{block_diff}
+	\caption{Quantidade de blocos de conflitos encontrados após execução do
+		experimentos}\label{block_diff}
 \end{table}
 
-\subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	reduz a quantidade de falsos conflitos e cenários com falsos conflitos reportados
-	(falsos positivos) em comparação ao \emph{merge} puramente textual?}
+\subsection{PP3: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, reduz a quantidade de falsos conflitos e cenários com falsos
+	conflitos reportados (falsos positivos) em comparação ao \emph{merge} puramente
+	textual?}
+
 Para responder a PP3, observamos a quantidade de \emph{aFP} de cada ferramenta.
-O que importa para a nossa investigação aqui é o conjunto de falsos positivos reportados (\emph{aFP})
-por uma ferramenta, mas não pela outra. Isso ajuda a demonstrar uma possível desvantagem de
-uma ferramenta em relação a outra.
+O que importa para a nossa investigação aqui é o conjunto de falsos positivos
+reportados (\emph{aFP}) por uma ferramenta, mas não pela outra. Isso ajuda a
+demonstrar uma possível desvantagem de uma ferramenta em relação a outra.
 
 \begin{table}[ht]
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
 			\hline
-			\textbf{ }   & \textbf{\emph{CSDiff}+} & \textbf{\emph{Diff3}} \\
+			\textbf{ }          & \textbf{\emph{CSDiff}+} & \textbf{\emph{Diff3}} \\
 			\hline
-			\emph{aFP} cenários & 1                & 3                     \\
-			\emph{aFP} arquivos & 16               & 7                     \\
-			\emph{aFN} cenários & 6                & 0                     \\
-			\emph{aFN} arquivos & 6                & 0                     \\
+			\emph{aFP} cenários & 1                       & 3                     \\
+			\emph{aFP} arquivos & 16                      & 7                     \\
+			\emph{aFN} cenários & 6                       & 0                     \\
+			\emph{aFN} arquivos & 6                       & 0                     \\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -348,21 +430,25 @@ uma ferramenta em relação a outra.
 % 	\end{center}
 % 	\caption{Resultados do \emph{CSDiff}+ em comparação ao \emph{Diff3}, desconsiderando matplotlib}\label{csdiff_plus_afp_afn_nomat}
 % \end{table}
-Analisando as tabelas~\ref{csdiff_minus_afp_afn},~\ref{csdiff_plus_afp_afn},~\ref{csdiff_indentation_plus_afp_afn} e
-\ref{csdiff_indentation_minus_afp_afn}, conseguimos notar uma pequena desvantagem da ferramenta \emph{Diff3} em relação ao \emph{CSDiff},
-visto que enquanto a ferramenta \emph{Diff3} relata falsos positivos em aproximadamente 10\% dos cenários, o
-\emph{CSDiff} relata em aproximadamente 3.2\%, configurando uma redução de aproximadamente 6.8\% ao utilizar o \emph{CSDiff}.
+
+Analisando as
+tabelas~\ref{csdiff_minus_afp_afn},~\ref{csdiff_plus_afp_afn},~\ref{csdiff_indentation_plus_afp_afn}
+e \ref{csdiff_indentation_minus_afp_afn}, conseguimos notar uma pequena
+desvantagem da ferramenta \emph{Diff3} em relação ao \emph{CSDiff}, visto que
+enquanto a ferramenta \emph{Diff3} relata falsos positivos em aproximadamente
+10\% dos cenários, o \emph{CSDiff} relata em aproximadamente 3.2\%,
+configurando uma redução de aproximadamente 6.8\% ao utilizar o \emph{CSDiff}.
 
 \begin{table}[ht]
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
 			\hline
-			\textbf{ }   & \textbf{\emph{CSDiff}-} & \textbf{\emph{Diff3}} \\
+			\textbf{ }          & \textbf{\emph{CSDiff}-} & \textbf{\emph{Diff3}} \\
 			\hline
-			\emph{aFP} cenários & 1                & 4                     \\
-			\emph{aFP} arquivos & 12               & 7                     \\
-			\emph{aFN} cenários & 5                & 0                     \\
-			\emph{aFN} arquivos & 5                & 0                     \\
+			\emph{aFP} cenários & 1                       & 4                     \\
+			\emph{aFP} arquivos & 12                      & 7                     \\
+			\emph{aFN} cenários & 5                       & 0                     \\
+			\emph{aFN} arquivos & 5                       & 0                     \\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -384,25 +470,27 @@ visto que enquanto a ferramenta \emph{Diff3} relata falsos positivos em aproxima
 % 	\caption{Resultados do \emph{CSDiff}- em comparação ao \emph{Diff3}, desconsiderando matplotlib}\label{csdiff_minus_afp_afn_nomat}
 % \end{table}
 
-De forma similar, fizemos uma análise de \emph{aFP} por arquivo, ao
-invés de cenário, por existir a possibilidade de um arquivo conter
-um \emph{aFP} de uma ferramenta mas o cenário como um todo ter também verdadeiros positivos, o que faz com que o cenário como um
-todo não seja contabilizado como um \emph{aFP}. Notamos então um aumento considerável de
-arquivos \emph{aFP} (arquivos em que uma ferramenta apresenta conflito enquanto a outra
-acertou o resultado do \emph{merge}) para a ferramenta \emph{CSDiff} em relação ao \emph{Diff3}. Isso tem relação direta com o
-problema discutido em~\ref{resultado_pp2}, visto que a
-grande quantidade de blocos de conflitos nos cenários de \emph{merge} desse projeto
-tende a causar mais falsos positivos.
+De forma similar, fizemos uma análise de \emph{aFP} por arquivo, ao invés de
+cenário, por existir a possibilidade de um arquivo conter um \emph{aFP} de uma
+ferramenta mas o cenário como um todo ter também verdadeiros positivos, o que
+faz com que o cenário como um todo não seja contabilizado como um \emph{aFP}.
+Notamos então um aumento considerável de arquivos \emph{aFP} (arquivos em que
+uma ferramenta apresenta conflito enquanto a outra acertou o resultado do
+\emph{merge}) para a ferramenta \emph{CSDiff} em relação ao \emph{Diff3}. Isso
+tem relação direta com o problema discutido em~\ref{resultado_pp2}, visto que a
+grande quantidade de blocos de conflitos nos cenários de \emph{merge} desse
+projeto tende a causar mais falsos positivos.
 
-Apesar disso, e em concordância com os resultados apresentados até agora, vemos uma vantagem da versão \emph{CSDiff}- em relação as
-outras três versões, pois observa-se que a quantidade de arquivos \emph{aFP} relatados para esta é aproximadamente metade da
-quantidade relatada nas outras.
+Apesar disso, e em concordância com os resultados apresentados até agora, vemos
+uma vantagem da versão \emph{CSDiff}- em relação as outras três versões, pois
+observa-se que a quantidade de arquivos \emph{aFP} relatados para esta é
+aproximadamente metade da quantidade relatada nas outras.
 
 \begin{table}[ht]
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
 			\hline
-			\textbf{ }   & \textbf{CSDiffI+} & \textbf{\emph{Diff3}} \\
+			\textbf{ }          & \textbf{CSDiffI+} & \textbf{\emph{Diff3}} \\
 			\hline
 			\emph{aFP} cenários & 1                 & 3                     \\
 			\emph{aFP} arquivos & 30                & 6                     \\
@@ -433,7 +521,7 @@ quantidade relatada nas outras.
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
 			\hline
-			\textbf{ }   & \textbf{CSDiffI-} & \textbf{\emph{Diff3}} \\
+			\textbf{ }          & \textbf{CSDiffI-} & \textbf{\emph{Diff3}} \\
 			\hline
 			\emph{aFP} cenários & 1                 & 3                     \\
 			\emph{aFP} arquivos & 31                & 7                     \\
@@ -461,36 +549,48 @@ quantidade relatada nas outras.
 % \end{table}
 
 
-\subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando indentação,
-	amplia a possibilidade de comprometer a corretude do código, por aumentar o número de
-	integrações de mudanças que interferem uma na outra, sem reportar conflitos (falsos negativos),
-	além de aumentar cenários com falsos negativos?}
-Também se mostra importante considerar como a ferramenta se comporta ao tentar resolver conflitos, visto que não é interessante
-se a ferramenta, apesar de reduzir a quantidade de falsos positivos relatados, resolver muitos conflitos de forma errada.
-Dessa forma, analisamos analisamos as mesmas tabelas analisadas em no resultado da PP3, onde temos as quantidades de \emph{aFN} para cada
-ferramenta. Como explicado anteriormente,
-um possível falso negativo para uma determinada ferramenta ocorre quando esta não reporta
-conflito e erra o resultado final do \emph{merge} quando comparado com o arquivo do repositório,
-enquanto a outra ferramenta reporta conflito
+\subsection{PP4: A nova solução de \emph{merge} não estruturado, utilizando
+	indentação, amplia a possibilidade de comprometer a corretude do código,
+	por aumentar o número de integrações de mudanças que interferem uma na
+	outra, sem reportar conflitos (falsos negativos), além de aumentar cenários
+	com falsos negativos?}
 
-Notamos que em todas as 4 versões consideradas, há um pequeno aumento de \emph{aFN} relatados pela ferramenta \emph{CSDiff}. Apesar disso, esse
-número é relativamente pequeno, como vemos nas Tabelas~\ref{csdiff_plus_afp_afn} e~\ref{csdiff_indentation_plus_afp_afn} (que
-possuem os maiores valores de \emph{aFN} entre as 4 tabelas), somente 6 dos 255 arquivos considerados são possíveis \emph{aFN}, ou seja, somente
-2.35\% dos arquivos que relataram comportamento diferente entre as ferramentas são arquivos contendo
-conflitos resolvidos de forma errada. Entretanto, observando em termos de cenários, 6 dos 32 cenários contém possíveis \emph{aFNs},
-representando 18.75\% dos cenários onde as ferramentas se comportaram de forma diferente.
+Também se mostra importante considerar como a ferramenta se comporta ao tentar
+resolver conflitos, visto que não é interessante se a ferramenta, apesar de
+reduzir a quantidade de falsos positivos relatados, resolver muitos conflitos
+de forma errada. Dessa forma, consideramos as mesmas tabelas analisadas em no
+resultado da PP3, onde temos as quantidades de \emph{aFN} para cada ferramenta.
+Como explicado anteriormente, um possível falso negativo para uma determinada
+ferramenta ocorre quando ela não reporta conflito e erra o resultado final do
+\emph{merge} quando comparado com o arquivo do repositório, enquanto a outra
+ferramenta reporta conflito.
 
-Apesar desses valores, também foi feita uma contagem manual para confirmar quais desses casos eram falsos negativos de verdade,
-e os resultados foram um pouco melhores, como podemos ver na Tabela~\ref{tabela_afn_final}, a versão \emph{CSDiff}- possui o melhor
-resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cenário.
+Notamos que em todas as 4 versões consideradas, há um pequeno aumento de
+\emph{aFN} relatados pela ferramenta \emph{CSDiff}. Apesar disso, esse número é
+relativamente pequeno, como vemos nas Tabelas~\ref{csdiff_plus_afp_afn}
+e~\ref{csdiff_indentation_plus_afp_afn} (que possuem os maiores valores de
+\emph{aFN} entre as 4 tabelas), somente 6 dos 255 arquivos considerados são
+possíveis \emph{aFN}, ou seja, somente 2.35\% dos arquivos que relataram
+comportamento diferente entre as ferramentas são arquivos contendo conflitos
+resolvidos de forma errada. Entretanto, observando em termos de cenários, 6 dos
+32 cenários contém possíveis \emph{aFNs}, representando 18.75\% dos cenários
+onde as ferramentas se comportaram de forma diferente.
+
+Com o objetivo de verificar esses valores, também foi feita uma contagem manual
+para confirmar quais desses casos eram falsos negativos de verdade, e os
+resultados foram um pouco melhores, como podemos ver na
+Tabela~\ref{tabela_afn_final}, a versão \emph{CSDiff}- possui o melhor
+resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada
+cenário.
+
 \begin{table}[ht]
 	\begin{center}
 		\begin{tabular}{|l|c|c|c|c|}
 			\hline
 			\textbf{\emph{aFN}} & \textbf{\emph{CSDiff}+} & \textbf{\emph{CSDiff}-} & \textbf{\emph{CSDiffI}+} & \textbf{\emph{CSDiffI}-} \\
 			\hline
-			cenários     & 4                & 2                & 5                 & 4                 \\
-			arquivos     & 4                & 2                & 6                 & 4                 \\
+			cenários            & 4                       & 2                       & 5                        & 4                        \\
+			arquivos            & 4                       & 2                       & 6                        & 4                        \\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -499,31 +599,50 @@ resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cená
 
 \subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
-Como análise alternativa ao experimento utilizado nos trabalhos anteriores, foi feita uma análise manual para contar
-situações que encontramos quando comparamos os resultados das ferramentas. Essa análise foi possível pois a quantidade de
-arquivos a ser analisados para essa contagem foi relativamente pequena.
 
-Os conceitos utilizados nessa análise foram explicados na seção~\ref{concept_PP5}. Para contar cada situação, cada arquivo de cada
-cenário foi analisado, e em seguida, a cada situação detectada pelo autor, era adicionado um texto marcador como comentário
-no código. Por exemplo, ao procurar pela situação Falso Conflito Real, os arquivos resultantes do \emph{CSDiff} e do \emph{Diff3} eram comparados
-e, para cada conflito que existia no resultado do \emph{CSDiff}, mas não existia no \emph{Diff3}, adicionava-se um comentário com a palavra "FCR".
-Outras palavras foram usadas para marcar as ocorrências de cada uma das outras situações.
+Como análise alternativa ao experimento utilizado nos trabalhos anteriores, foi
+feita uma análise manual para contar situações que encontramos quando
+comparamos os resultados das ferramentas. Essa análise foi possível pois a
+quantidade de arquivos a ser analisados para essa contagem foi relativamente
+pequena.
 
-Após essa marcação, foi utilizado scripts em \emph{Bash} e a ferramenta \emph{ripgrep}\footnote{https://github.com/BurntSushi/ripgrep}
-para fazer a contagem de cada situação. Como definido
-na seção~\ref{concept_PP5}, cada situação estava associada a uma pontuação, que era somada
-a pontuação total (que nomeamos aqui de "Aumento de produtividade") do arquivo, cenário e projeto no qual a situação
-se encontrava. Todos os scripts usados pelo autor se encontram num repositório público no Github.\footnote{https://github.com/zegabr/miningframework/tree/test-branch} % TODO: change this to zegabr/tcc
+Os conceitos utilizados nessa análise foram explicados na
+seção~\ref{concept_PP5}. Para contar cada situação, cada arquivo de cada
+cenário foi analisado, e em seguida, a cada situação detectada pelo autor, era
+adicionado um texto marcador como comentário no código. Por exemplo, ao
+procurar pela situação Falso Conflito Real, os arquivos resultantes do
+\emph{CSDiff} e do \emph{Diff3} eram comparados e, para cada conflito que
+existia no resultado do \emph{CSDiff}, mas não existia no \emph{Diff3},
+adicionava-se um comentário com a palavra "FCR" (Falso Conflito Real). Outras
+palavras foram usadas para marcar as ocorrências de cada uma das outras
+situações.
 
-Na tabela~\ref{tabela_produtividade} podemos ver os resultados por projeto, cuja fórmula para os valores foi simplesmente a soma
-das quantidades encontradas de cada situação, multiplicadas por sua pontuação. Por exemplo, digamos que em um arquivo qualquer
-foram encontrados 0 Falsos Negativos Reais, 2 Conflitos reduzidos, 0 Conflitos resolvidos e 1 Falso Conflito Real, então o
-Aumento de produtividade desse arquivo é de 0 * (-2) + 2 * (1) + 0 * (2) + 1 * (-1) = 1, indicando um aumento de
-produtividade baixo porém não negativo. Toda pontuação positiva é considerada uma boa pontuaçao nessa análise, enquanto que
-pontuações negativas indicam uma desvantagem da ferramenta usada e pontuação nula indica que, não houve melhora nem piora
-considerável na produtividade da pessoa que estaria possivelmente resolvendo os conflitos do arquivo em questão.
-Perceba que nesse exemplo descrito, pode-se dizer que o resultado foi positivo pois apesar de a ferramenta ter gerado um
-conflito que não existia, ela também reduziu o tamanho de dois outros conflitos possivelmente maiores que o novo conflito.
+Após essa marcação, foram utilizados scripts em \emph{Bash} utilizando a
+ferramenta \emph{ripgrep}\footnote{https://github.com/BurntSushi/ripgrep} para
+fazer a contagem de cada situação. Como definido na seção~\ref{concept_PP5},
+cada situação estava associada a uma pontuação, que era somada a pontuação
+total (que nomeamos aqui de "Aumento de produtividade") do arquivo, cenário e
+projeto no qual a situação se encontrava. Todos os scripts usados pelo autor se
+encontram num repositório público no
+Github.\footnote{https://github.com/zegabr/miningframework/tree/test-branch} %
+% TODO: change this to zegabr/tcc
+
+Na tabela~\ref{tabela_produtividade} podemos ver os resultados por projeto,
+cuja fórmula para os valores foi simplesmente a soma das quantidades
+encontradas de cada situação, multiplicadas por sua pontuação.
+
+Por exemplo, digamos que em um arquivo qualquer foram encontrados 0 Falsos
+Negativos Reais, 2 Conflitos reduzidos, 0 Conflitos resolvidos e 1 Falso
+Conflito Real, então o Aumento de produtividade desse arquivo é de 0 * (-2) + 2
+* (1) + 0 * (2) + 1 * (-1) = 1, indicando um aumento de produtividade baixo
+porém não negativo. Toda pontuação positiva é considerada uma boa pontuaçao
+nessa análise, enquanto que pontuações negativas indicam uma desvantagem em
+utilizar o \emph{CSDiff} ao invés do \emph{Diff3} e pontuação nula indica que,
+não houve melhora nem piora considerável na produtividade da pessoa que estaria
+possivelmente resolvendo os conflitos do arquivo em questão. Perceba que nesse
+exemplo descrito, pode-se dizer que o resultado foi positivo pois apesar de a
+ferramenta ter gerado um conflito que não existia, ela também reduziu o tamanho
+de dois outros conflitos possivelmente maiores que o novo conflito.
 
 \begin{table}[ht]
 	\begin{center}
@@ -531,74 +650,102 @@ conflito que não existia, ela também reduziu o tamanho de dois outros conflito
 			\hline
 			\textbf{Aumento de Produtividade/Projeto} & \textbf{\emph{CSDiff}+} & \textbf{\emph{CSDiff}-} & \textbf{\emph{CSDiffI}+} & \textbf{\emph{CSDiffI}-} \\
 			\hline
-			matplotlib                                & -36              & -8               & -107              & -75               \\
-			tensorflow                                & 20               & 12               & 19                & 19                \\
-			flask                                     & 6                & 4                & 5                 & 6                 \\
-			ipython                                   & 1                & 2                & 1                 & 1                 \\
-			salt                                      & 4                & 14               & 12                & 2                 \\
-			scrapy                                    & 22               & 19               & 14                & 20                \\
-			total                                     & 17               & 43               & -56               & -27               \\
-			total sem matplotlib                      & 53               & 51               & 51                & 48                \\
+			matplotlib                                & -36                     & -8                      & -107                     & -75                      \\
+			tensorflow                                & 20                      & 12                      & 19                       & 19                       \\
+			flask                                     & 6                       & 4                       & 5                        & 6                        \\
+			ipython                                   & 1                       & 2                       & 1                        & 1                        \\
+			salt                                      & 4                       & 14                      & 12                       & 2                        \\
+			scrapy                                    & 22                      & 19                      & 14                       & 20                       \\
+			total                                     & 17                      & 43                      & -56                      & -27                      \\
+			total sem matplotlib                      & 53                      & 51                      & 51                       & 48                       \\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Pontuação obtida da análise do aumento de produtividade}\label{tabela_produtividade}
 \end{table}
 
-Nos resultados da tabela, nota-se para a nova versão proposta (\emph{CSDiffI}+ e \emph{CSDiff}-) uma desvantagem considerável em relação
-a versão já existente (\emph{CSDiff}+ e \emph{CSDiff}-), considerando todos os projetos, e uma desvantagem pequena ao desconsiderar grande
-pontuação negativa causada pelo matplotlib, dada a quantidade de Falsos Conflitos Reais que ocorrem nele.
-Apesar disso, podemos ver uma vantagem clara de se usar as versões com conjunto menor de separadores em comparação com as
-versões com conjunto maior de separadores. Isso reforça que a nova versão proposta não é tão vantajosa, bem como o uso de ":"
-nos separadores também causa uma leve desvantagem.
+Nos resultados da tabela, nota-se para a nova versão proposta (\emph{CSDiffI}+
+e \emph{CSDiff}-) uma desvantagem considerável em relação a versão já existente
+(\emph{CSDiff}+ e \emph{CSDiff}-), considerando todos os projetos, e uma
+desvantagem pequena ao desconsiderar grande pontuação negativa causada pelo
+matplotlib, dada a quantidade de Falsos Conflitos Reais que ocorrem nele.
+Apesar disso, podemos ver uma vantagem clara de se usar as versões com conjunto
+menor de separadores em comparação com as versões com conjunto maior de
+separadores. Isso reforça que a nova versão proposta não é tão vantajosa, bem
+como o uso de ":" nos separadores também causa uma leve desvantagem.
 
 \section{DISCUSSÃO}\label{discussao}
-Através dos resultados para as perguntas de pesquisa respondidas na seção anterior, conseguimos observar mais detalhes sobre o
-comportamento do \emph{CSDiff} proposto por~\cite{clem21} e extendido por~\cite{heitor21}. Pudemos verificar sua performance
-para integrar códigos para a linguagem Python, dadas as modificações explicitadas na seção~\ref{avaliacao}.
 
-Notamos uma desvantagem em utiizar a nova versão que considera indentação no lugar da versão já existente, onde a nova versão
-apresenta aproximadamente duas vezes mais conflitos que a versão já existente, o que indica que ainda há um grande espaço para
-melhora, visto que a melhor das versões testadas nessa pesquisa apresentou Falsos Positivos Adicionados em aproximadamente
-3.2\% dos arquivos testados, e ao mesmo tempo, apresentou Falsos Negativos Adicionados em 2.35\% dos arquivos testados.
-Como mencionado em~\cite{heitor21}, uma forma de reduzir tais falsos conflitos seria modificar o script para somente utilizar
-o \emph{CSDiff} nos casos que o \emph{Diff3} relatar conflitos (ou seja, desconsiderar o \emph{CSDiff} caso o \emph{Diff3} não relate conflitos).
+Através dos resultados para as perguntas de pesquisa respondidas na seção
+anterior, conseguimos observar mais detalhes sobre o comportamento do
+\emph{CSDiff} proposto pori Clementino~\cite{clem21} e extendido por
+Souza~\cite{heitor21}. Pudemos verificar sua performance para integrar códigos
+para a linguagem Python, dadas as modificações explicitadas na
+seção~\ref{avaliacao}.
 
-A quantidade de conflitos relatados pelo \emph{CSDiff} segue maior que a quantidade relatada pelo \emph{Diff3}, como esperado devido a
-forma como o \emph{CSDiff} se comporta (quebrando conflitos grandes em conflitos menores). Nota-se uma aumento ainda maior desses conflitos
-ao utilizar o separador ":" em Python, devido ao fato de que normalmente um separador ":" vem precedido de um ")" (outro
-dos separadores utilizados nos conjuntos), fazendo com que o \emph{CSDiff} adicione marcadores mais de uma vez para uma mesma linha
-de código, o que se agrava mais ainda caso consideremos a indentação, dado que normalmente o ":" vem seguido de uma mudança
-de indentação.
+Notamos uma desvantagem em utiizar a nova versão que considera indentação no
+lugar da versão já existente, onde a nova versão apresenta aproximadamente duas
+vezes mais conflitos que a versão já existente, o que indica que ainda há um
+grande espaço para melhora, visto que a melhor das versões testadas nessa
+pesquisa apresentou Falsos Positivos Adicionados em aproximadamente 3.2\% dos
+arquivos testados, e ao mesmo tempo, apresentou Falsos Negativos Adicionados em
+2.35\% dos arquivos testados. Como mencionado por Souza~\cite{heitor21}, uma
+forma de reduzir tais falsos conflitos seria modificar o script para somente
+utilizar o \emph{CSDiff} nos casos que o \emph{Diff3} relatar conflitos (ou
+seja, desconsiderar o \emph{CSDiff} caso o \emph{Diff3} não relate conflitos).
 
-Além disso, uma outra sugestão de trabalho futuro seria analisar a performance do \emph{CSDiff}, ao numerar os marcadores adicionados
-(ou seja, ao invés de usar '\verb|$$$$$$$$|', usar '\verb|$$$$<numeração>$$$$|' ou '\verb|$$$$$$$$<numeração>|' ). Dessa forma, o
-algoritmo de alinhamento do \emph{Diff3} obterá uma maior subsequencia comum, potencialmente alinhando corretamente blocos de código que
-causaram falsos positivos na nossa análise.
+A quantidade de conflitos relatados pelo \emph{CSDiff} segue maior que a
+quantidade relatada pelo \emph{Diff3}, como esperado devido a forma como o
+\emph{CSDiff} se comporta (quebrando conflitos grandes em conflitos menores).
+Nota-se uma aumento ainda maior desses conflitos ao utilizar o separador ":" em
+Python, devido ao fato de que normalmente um separador ":" vem precedido de um
+")" (outro dos separadores utilizados nos conjuntos), fazendo com que o
+\emph{CSDiff} adicione marcadores mais de uma vez para uma mesma linha de
+código, o que se agrava mais ainda caso consideremos a indentação, dado que
+normalmente o ":" vem seguido de uma mudança de indentação.
 
-Por fim, outro trabalho futuro com potencial de melhorar a performance do \emph{CSDiff} seria testar outras ferramentas de diff. Durante
-os testes foi descoberto que, para a maioria dos casos de Falso Conflitos Reais detectados durante a análise da PP5,
-a ferramenta \emph{KDiff3}\footnote{https://github.com/KDE/kdiff3},
-ao ser usada no lugar do \emph{Diff3}, resolvia os conflitos corretamente. Entretanto, não foi possível utilizar o \emph{KDiff3} nos scripts,
-pois o programa sempre abria uma GUI quando sobravam conflitos não resolvidos, requisitando assim intervenção do usuário. Por isso,
-seria interessante analisar quais outras ferramentas de diff poderiam ser utilizadas no lugar do próprio \emph{Diff3}, ou com o \emph{Diff3},
-através da flag "--diff-program". Alguns exemplos de ferramentas a serem testadas seria o vimdiff e o wdiff.
+Além disso, uma outra sugestão de trabalho futuro seria analisar a performance
+do \emph{CSDiff}, ao numerar os marcadores adicionados (ou seja, ao invés de
+usar '\verb|$$$$$$$$|', usar '\verb|$$$$<numeração>$$$$|' ou
+'\verb|$$$$$$$$<numeração>|' ). Dessa forma, o algoritmo de alinhamento do
+\emph{Diff3} obterá uma maior subsequencia comum, potencialmente alinhando
+corretamente blocos de código que causaram falsos positivos na nossa análise.
+
+Por fim, outro trabalho futuro com potencial de melhorar a performance do
+\emph{CSDiff} seria testar outras ferramentas de diff. Durante os testes foi
+descoberto que, para a maioria dos casos de Falso Conflitos Reais detectados
+durante a análise da PP5, a ferramenta
+\emph{KDiff3}\footnote{https://github.com/KDE/kdiff3}, ao ser usada no lugar do
+\emph{Diff3}, resolvia os conflitos corretamente. Entretanto, não foi possível
+utilizar o \emph{KDiff3} nos scripts, pois o programa sempre abria uma GUI
+quando sobravam conflitos não resolvidos, requisitando assim intervenção do
+usuário. Por isso, seria interessante avaliar outras ferramentas de diff que
+poderiam ser utilizadas no lugar do próprio \emph{Diff3}, ou com o
+\emph{Diff3}, substituindo o uso interno da ferramente \emph{Diff} através da
+flag "--diff-program". Alguns exemplos de ferramentas a serem testadas seria o
+vimdiff e o wdiff.
 
 \section{AMEAÇAS A VALIDADE}
-Os resultados aqui mostrados, como esperado, possuem potenciais ameaças a validade. Pelo fato de termos seguido
-a mesma metodologia que alguns estudos anteriores, apontamos algumas ameaças a validade semelhantes.
-Primeiro, os projetos utilizados para
-o estudo foram projetos abertos do GitHub, que podem ter sofrido
-alteração em seu histórico de commits, que por sua vez, pode
-acarretar em perdas de cenários de \emph{merge}.
-Segundo, a avaliação manual feita pelo autor na análise do PP5 pode conter erros e não foi revisada por outras pessoas.
-Também não se teve validações externas além das opiniões dos orientadores.
-Também temos o fato de que os scripts criados e utilizados pelo autor para ajudar na análise da pesquisa podem conter bugs.
-Por fim, esse estudo foca na linguagem de programação Python, logo não é garantido que pesquisas feitas em cima de outras
-linguagens deixem de demonstrar resultados completamente diferentes.
-Além disso, apesar de termos utilizado uma amostra de 10 projetos relativamente grandes e minerado commits de um intervalo
-relativamente grande, somente 6 dos projetos mostraram conflitos de \emph{merge} nesse intervalo, o que pode influenciar na obtençao de
-uma quantidade de dados suficiente.
+
+Os resultados aqui mostrados, como esperado, possuem potenciais ameaças a
+validade. Pelo fato de termos seguido a mesma metodologia que alguns estudos
+anteriores, apontamos algumas ameaças a validade semelhantes. Primeiro, os
+projetos utilizados para o estudo foram projetos abertos do GitHub, que podem
+ter sofrido alteração em seu histórico de commits, que por sua vez, pode
+acarretar em perdas de cenários de \emph{merge}. Segundo, a avaliação manual
+feita pelo autor na análise do PP5 pode conter erros e não foi revisada por
+outras pessoas. Também não se teve validações externas além das opiniões dos
+orientadores. Adicionalmente temos o fato de que os scripts criados e utilizados pelo
+autor para ajudar na análise da pesquisa podem conter bugs. Por fim, esse
+estudo foca na linguagem de programação Python, logo não é garantido que
+pesquisas feitas em cima de outras linguagens deixem de demonstrar resultados
+completamente diferentes. Além disso, apesar de termos utilizado uma amostra de
+10 projetos relativamente grandes e minerado commits de um intervalo
+relativamente grande, somente 6 dos projetos mostraram conflitos de
+\emph{merge} nesse intervalo, o que pode influenciar na obtençao de uma
+quantidade de dados suficiente.
+
+
 
 
 
