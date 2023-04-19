@@ -36,20 +36,20 @@ Cada linguagem possui conjuntos de tokens, onde alguns servem como divisores de 
 como por exemplo as chaves ('{', '}') numa linguagem como Java. Estes tokens,
 especificamente, são definidos aqui simplesmente como \textbf{separadores} sintáticos.
 
-A solução não estruturada mais utilizada, o Diff3, se baseia somente na quebra de linha como o divisor de contexto para
+A solução não estruturada mais utilizada, o \emph{Diff3}, se baseia somente na quebra de linha como o divisor de contexto para
 detecção de conflitos. Assim, o algoritmo de \emph{merge} compara as linhas mantidas, adicionadas,
 e removidas por cada desenvolvedor
 e, com base nisso, reporta conflito quando as mudanças ocorrem em uma mesma área do texto, isto é,
 quando não há uma linha mantida que separa as mudanças feitas por um desenvolvedor das mudanças feitas pelo outro.
 
-Como forma de melhorar os resultados do Diff3, o CSDiff, proposto em trabalhos anteriores, utiliza-se dos separadores
+Como forma de melhorar os resultados do \emph{Diff3}, o \emph{CSDiff}, proposto em trabalhos anteriores~\cite{clem21}, utiliza-se dos separadores
 mencionados acima para dividir o contexto de cada linha de código. Assim, o algoritmo de \emph{merge} consegue,
 por exemplo, resolver
 conflitos em uma mesma linha, contanto que esses conflitos estejam separados por pelo menos um dos separadores definidos.
 
-Contudo, o CSDiff possui limitações, pois linguagens como Python, possuem poucos separadores (seu principal separador
-é a própria indentação do código, que não é considerado pelo CSDiff atual). Este trabalho propõe uma modificação
-para o CSDiff, que utiliza a indentação como um separador sintático, de forma a tentar
+Contudo, o \emph{CSDiff} possui limitações, pois linguagens como Python, possuem poucos separadores (seu principal separador
+é a própria indentação do código, que não é considerado pelo \emph{CSDiff} atual). Este trabalho propõe uma modificação
+para o \emph{CSDiff}, que utiliza a indentação como um separador sintático, de forma a tentar
 resolver esse problema, e analisa os resultados em comparação ao \emph{merge} não estruturado puramente textual.
 Em particular, investiga-se as seguintes perguntas de pesquisa:
 
@@ -72,12 +72,10 @@ Em particular, investiga-se as seguintes perguntas de pesquisa:
 Os resultados obtidos mostram que além de aumentar a quantidade de conflitos reportados
 (como esperado considerando os resultados dos trabalhos anteriores),
 o \emph{merge} não estruturado utilzando separadores e indentação, demonstra, para a amostra utilizada,
-um aumento de aFN proporcional a
-quantidade de aFP reduzido quando comparado ao Diff3. Vale ressaltar que isso foi observado considerando a amostra sem
-um dos projetos utilizados - o matplotlib - que por ter uma quantidade muito grande de conflitos por cenário/arquivo, se tornou
-um ponto fora da curva ao considerar criação de aFP.
+um aumento de aFN proporcional a quantidade de aFP reduzido quando comparado ao \emph{Diff3}. 
+
 Por outro lado, ao se fazer a análise de aumento de produtividade considerando o ato de resolver e reduzir conflitos,
 além de considerar geração de conflitos extras e resolução errada de conflitos, notou-se um bom aumento
-de produtividade com a utilização do CSDiff. Os conceitos utilizados para esta análise
-são explicados no capítulo (TODO: adicionar capitulo/secao aqui).
+de produtividade com a utilização do \emph{CSDiff}. Os conceitos utilizados para esta análise
+são explicados na seção \ref{concept_PP5}.
 

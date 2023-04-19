@@ -16,12 +16,18 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +72 main.tex
+badd +45 main.tex
+badd +1 avaliacao.tex
+badd +1 motivacao.tex
+badd +1 resumo.tex
+badd +1 solucao.tex
+badd +1 ~/tcc/monografia/latex/conclusao.tex
 argglobal
 %argdel
 $argadd template.tex
-edit main.tex
+edit resumo.tex
 argglobal
+balt solucao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -32,7 +38,7 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 35) / 70)
+let s:l = 1 - ((0 * winheight(0) + 23) / 47)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
