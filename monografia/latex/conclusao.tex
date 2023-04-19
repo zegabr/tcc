@@ -1,18 +1,25 @@
-Propomos neste artigo uma modificação sobre uma ferramenta já existente, o \emph{CSDiff}~\cite{clem21},
-visando analisar sua performance para a linguagem Python. Testamos a versão já existente, criada em~\cite{heitor21},
-e a versão com a modificação proposta neste trabalho, que faz com que a ferramenta considere mudanças de indentação na
-tentativa de separar escopos de programa Python. Analisamos também a influência de utilizar dois conjuntos de separadores da
-linguagem. Seguimos a mesma metodologia utilizada pelos dois trabalhos, com adição de uma nova análise
-de aumento de produtividade criada pelo autor.
+Propomos neste artigo uma modificação sobre uma ferramenta já existente, o
+\emph{CSDiff}~\cite{clem21}, visando analisar sua performance para a linguagem
+Python. Testamos a versão já existente, criada em~\cite{heitor21}, e a versão
+com a modificação proposta neste trabalho, que faz com que a ferramenta
+considere mudanças de indentação na tentativa de separar escopos de programa
+Python durante a execução do \emph{CSDiff}. Analisamos também a influência de
+utilizar dois conjuntos de separadores da linguagem. Seguimos a mesma
+metodologia utilizada pelos dois trabalhos, com adição de uma nova análise de
+aumento de produtividade criada pelo autor.
 
-Encontramos resultados similares aos das pesquisas anteriores em relação ao aumento na quantidade de conflitos e redução na
-quantidade de cenários com conflitos ao comparar os resultados da ferramenta diff3 com os resultados daa ferramenta \emph{CSDiff}.
-Considerando a adição de Falsos Positivos, vemos uma pequena desvantagem do diff3 em relação ao \emph{CSDiff}, considerando número de
-cenários, mas o oposto ocorrendo para o número de arquivos. Considerando Falsos Negativos adicionados, notamos uma pequena
-desvantagem do \emph{CSDiff} em relação ao \emph{Diff3} ao considerar o núemero de
-arquivos, mas uma grande desvantagem ao considerar o número de cenários
+Encontramos resultados similares aos das pesquisas anteriores em relação ao
+aumento na quantidade de conflitos e redução na quantidade de cenários com
+conflitos ao comparar os resultados da ferramenta \emph{Diff3} com os
+resultados da ferramenta \emph{CSDiff}. Considerando a adição de cenários
+Falsos Positivos, vemos uma pequena desvantagem do \emph{Diff3} em relação ao
+\emph{CSDiff}, mas o oposto ocorrendo para o número de arquivos. Considerando
+Falsos Negativos adicionados, notamos uma pequena desvantagem do \emph{CSDiff}
+em relação ao \emph{Diff3} ao considerar o número de arquivos, mas uma grande
+desvantagem ao considerar o número de cenários.
 
-Por fim, ao analisar o aumento de produtividade, como definido na seção~\ref{concept_PP5}, notamos um aumento de
-produtividade maior na versão que não considera indentação, e utilizando um conjunto menor de separadores.
+Por fim, ao analisar o aumento de produtividade, como definido na
+seção~\ref{concept_PP5}, notamos um aumento de produtividade maior na versão
+que não considera indentação, e utilizando um conjunto menor de separadores.
 
 
