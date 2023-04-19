@@ -15,10 +15,10 @@ else
   set shortmess=aoO
 endif
 badd +25 monografia/latex/template.tex
-badd +1 ~/tcc/monografia/latex/motivacao.tex
-badd +8 monografia/latex/main.tex
+badd +146 ~/tcc/monografia/latex/motivacao.tex
+badd +81 monografia/latex/main.tex
 badd +512 monografia/latex/avaliacao.tex
-badd +8 monografia/latex/solucao.tex
+badd +71 monografia/latex/solucao.tex
 argglobal
 %argdel
 edit monografia/latex/main.tex
@@ -46,12 +46,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 8 - ((7 * winheight(0) + 29) / 59)
+let s:l = 81 - ((50 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 8
-normal! 0
+keepjumps 81
+normal! 08|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -66,7 +66,6 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
-nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

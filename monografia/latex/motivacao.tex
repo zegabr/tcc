@@ -7,7 +7,7 @@ abordagem puramente textual baseada em linhas. Essa ferramenta, ao receber os tr
 que vão ser integradas. APós isso, a ferramenta agrupa as maiores áreas em comum e checa se existem interseções entre as
 áreas modificadas por \emph{left} e \emph{right}. Essas interseções são definidas como conflitos de merge~\cite{khan07},
 elas serão sinalizadas pelo \emph{Diff3} através de marcadores \verb|(">>>>>>>","=======","<<<<<<<")|, como demonstrado na
-Figura \ref{diff3_example}.
+Figura~\ref{diff3_example}.
 
 Por considerar as mudanças linha a linha para detectar os conflitos, muitas vezes essa ferramenta relata falsos conflitos
 de modificações que alteram a mesma linha ou linhas consecutivas, mas que não interferem entre si semanticamente.
@@ -75,9 +75,9 @@ um nó diferente, pois o identificador do método é parte do nó,
 e os dois nós são mantidos na árvore resultante da integração.
 
 Dessa forma, é fácil observar que uma ferramenta estruturada para Python evitaria o
-conflito apresentado na Figura \ref{diff3_example}. A ferramenta, utilizando a estrutura da
-linguagem, identificaria que, apesar das mudanças representadas na Figura \ref{left_example} e na
-Figura \ref{right_example} ocorrerem em linhas consecutivas (o que faz com que o \emph{Diff3}
+conflito apresentado na Figura~\ref{diff3_example}. A ferramenta, utilizando a estrutura da
+linguagem, identificaria que, apesar das mudanças representadas na Figura~\ref{left_example} e na
+Figura~\ref{right_example} ocorrerem em linhas consecutivas (o que faz com que o \emph{Diff3}
 agrupe as mudanças em um único bloco de conflito),
 elas estariam associadas a nós diferentes na árvore
 sintática. A ferramenta então juntaria as mudanças em uma versão resultante que contém a
@@ -110,11 +110,11 @@ passados como parâmetro.
 
 
 Para ilustrar o funcionamento do \emph{CSDiff} e seu potencial para resolver falsos conflitos, observamos as figuras
-\ref{base_marcadores}, \ref{left_marcadores} e \ref{right_marcadores}
-onde executamos o processo descrito na figura \ref{csdiff_process} utilizando os
+\ref{base_marcadores},~\ref{left_marcadores} e~\ref{right_marcadores}
+onde executamos o processo descrito na figura~\ref{csdiff_process} utilizando os
 separadores sintáticos de Python "(", ")" e ",".
 
-Nota-se na Figura \ref{diff3_marcadores} que ao executar o \emph{CSDiff} nos arquivos \emph{base}, \emph{left} e \emph{right}, as linhas conflitantes ficam
+Nota-se na Figura~\ref{diff3_marcadores} que ao executar o \emph{CSDiff} nos arquivos \emph{base}, \emph{left} e \emph{right}, as linhas conflitantes ficam
 mais separadas pelos marcadores (as sequencias "\verb|$$$$$$$$|"), o que faz com que o
 conflito relatado pelo \emph{diff3} seja reduzido (indicando que parte dele foi
 parcialmente resolvido automaticamente).
@@ -122,28 +122,28 @@ parcialmente resolvido automaticamente).
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/base.py_temp.py}
-		\caption{Arquivo \emph{base} após a o Passo 1 da Figura \ref{csdiff_process}}\label{base_marcadores}
+		\caption{Arquivo \emph{base} após a o Passo 1 da Figura~\ref{csdiff_process}}\label{base_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/left.py_temp.py}
-		\caption{Arquivo \emph{left} após a o Passo 1 da Figura \ref{csdiff_process}}\label{left_marcadores}
+		\caption{Arquivo \emph{left} após a o Passo 1 da Figura~\ref{csdiff_process}}\label{left_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/right.py_temp.py}
-		\caption{Arquivo \emph{right} após a o Passo 1 da Figura \ref{csdiff_process}}\label{right_marcadores}
+		\caption{Arquivo \emph{right} após a o Passo 1 da Figura~\ref{csdiff_process}}\label{right_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/diff3_temp.py}
-		\caption{Arquivo resultante após a execução do Passo 2 da Figura \ref{csdiff_process} nos arquivos
+		\caption{Arquivo resultante após a execução do Passo 2 da Figura~\ref{csdiff_process} nos arquivos
 			\emph{base}, \emph{left} e \emph{right}}\label{diff3_marcadores}
 	\end{center}
 \end{figure}
