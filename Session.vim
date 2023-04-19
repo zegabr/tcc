@@ -14,11 +14,11 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +146 ~/tcc/monografia/latex/motivacao.tex
-badd +66 monografia/latex/main.tex
+badd +147 ~/tcc/monografia/latex/motivacao.tex
+badd +69 monografia/latex/main.tex
 argglobal
 %argdel
-edit monografia/latex/main.tex
+edit ~/tcc/monografia/latex/motivacao.tex
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -32,6 +32,7 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
+balt monografia/latex/main.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -42,12 +43,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 66 - ((38 * winheight(0) + 29) / 59)
+let s:l = 147 - ((46 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 66
-normal! 010|
+keepjumps 147
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
