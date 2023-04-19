@@ -133,7 +133,7 @@
 \gdef\@malecoadvisertitle{Co-orientador}
 \gdef\@femalecoadvisertitle{Co-orientadora}
 \gdef\@bachelordissertation{Trabalho de Graduação}
-\gdef\@mastersdissertation{Dissertação de Mestrado}
+\gdef\@mastersdissertation{Trabalho de Graduação}
 \gdef\@phdqualifying{Monografia de Qualificação}
 \gdef\@phdproposal{Proposta de Tese de Doutorado}
 \gdef\@phdthesis{Tese de Doutorado}

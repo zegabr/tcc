@@ -99,7 +99,7 @@ Além disso, consideramos outras situações que são definidas a seguir e não 
 pesquisa. Dessa forma, conseguimos analisar com um pouco mais de detalhes as
 vantagens e desvantagens de se utilizar o CSDiff ao invés
 do Diff3.
-\subsubsection{Conflito Reduzido}
+\paragraph{Conflito Reduzido}
 \begin{figure}[ht]
 	\begin{center}
         \lstinputlisting[language=Python]{./example/conflito_reduzido.py}
@@ -110,7 +110,7 @@ Um Conflito Reduzido é definido como um conflito que ocorre na ferramenta \emph
 mas que no resultado do \emph{CSDiff} esse conflito está consideravelmente reduzido (possui um tamanho menor). Dessa forma,
 a pontuação escolhida para o aumento de produtividade nessa situação foi +1, dado que uma redução no tamanho de um conflito
 implica numa resolução mais rápida pelo desenvolvedor.
-\subsubsection{Conflito Resolvido}
+\paragraph{Conflito Resolvido}
 \begin{figure}[ht]
 	\begin{center}
         \lstinputlisting[language=Python]{./example/conflito_resolvido.py}
@@ -124,7 +124,7 @@ observado no resultado
 final do merge. Este é a melhor das situações analisadas nessa pergunta de pesquisa, pois indica um conflito a menos para o
 desenvolvedor resolver (um conflito resolvido automaticamente pelo \emph{CSDiff} mas nao pelo \emph{diff3}). Dessa forma,
 escolhemos a pontuação +2 para essa situação.
-\subsubsection{Falso Conflito Real}
+\paragraph{Falso Conflito Real}
 \begin{figure}[ht]
 	\begin{center}
         \lstinputlisting[language=Python]{./example/falso_conflito_real.py}
@@ -138,7 +138,7 @@ resolvido pelo \emph{diff3}, mas não pelo \emph{CSDiff}, indicando um conflito
 a mais para o desenvolvedor resolver caso ele utilize o \emph{CSDiff}
 ao invés do \emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa
 situação.
-\subsubsection{Falso Negativo Real}
+\paragraph{Falso Negativo Real}
 \begin{figure}[ht]
 	\begin{center}
         \lstinputlisting[language=Python]{./example/falso_negativo_real.py}
@@ -496,6 +496,7 @@ resultado, relatando apenas 2 falsos negativos, um por arquivo, um em cada cená
 	\end{center}
 	\caption{Quantidade real de aFN para cada versão}\label{tabela_afn_final}
 \end{table}
+
 \subsection{PP5: A nova solução de \emph{merge} não estruturado, utilizando indentação,
 	demonstra um aumento de produtividade considerando o ato de resolver conflitos de merge?}
 Como análise alternativa ao experimento utilizado nos trabalhos anteriores, foi feita uma análise manual para contar
@@ -550,6 +551,7 @@ pontuação negativa causada pelo matplotlib, dada a quantidade de Falsos Confli
 Apesar disso, podemos ver uma vantagem clara de se usar as versões com conjunto menor de separadores em comparação com as
 versões com conjunto maior de separadores. Isso reforça que a nova versão proposta não é tão vantajosa, bem como o uso de ":"
 nos separadores também causa uma leve desvantagem.
+
 \section{DISCUSSÃO}\label{discussao}
 Através dos resultados para as perguntas de pesquisa respondidas na seção anterior, conseguimos observar mais detalhes sobre o
 comportamento do CSDiff proposto por~\citeauthor{clem21} e extendido por~\citeauthor{heitor21}. Pudemos verificar sua performance
@@ -597,6 +599,4 @@ linguagens deixem de demonstrar resultados completamente diferentes.
 Além disso, apesar de termos utilizado uma amostra de 10 projetos relativamente grandes e minerado commits de um intervalo
 relativamente grande, somente 6 dos projetos mostraram conflitos de merge nesse intervalo, o que pode influenciar na obtençao de
 uma quantidade de dados suficiente.
-
-
 

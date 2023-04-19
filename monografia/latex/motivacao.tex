@@ -1,4 +1,4 @@
-\section{Merge Não Estrurado}
+\subsection{Merge Não Estrurado}
 Apesar da evolução dos sistemas de controle de versão, as ferramentas utilizadas para realizar
 \emph{merge} não evoluiram tanto. A ferramenta mais utilizada atualmente é o \emph{diff3}~\cite{mens02}, que consiste em uma
 abordagem puramente textual baseada em linhas. Essa ferramenta, ao receber os três arquivos que configuram o cenário de merge
@@ -52,7 +52,7 @@ mas por elas acontecerem em linhas consecutivas, o \emph{diff3} relata todas ela
 	\caption{Resultado de executar o \emph{diff3}}\label{diff3_example}
 \end{figure}
 
-\section{Merge Semiestruturado e Estruturado}
+\subsection{Merge Semiestruturado e Estruturado}
 Como alternativa ao uso de merge não estruturado, existem as abordagens
 semiestruturadas ou completamente estruturadas. Ao contrário da abordagem não
 estruturada, essas abordagens levam em consideração a estrutura sintática da
@@ -84,7 +84,7 @@ sintática. A ferramenta então juntaria as mudanças em uma versão resultante 
 nova condição proposta por \emph{left} e o novo valor de retorno proposto por \emph{right},
 evitando o falso conflito.
 
-\section{Merge não Estruturado com separadores}
+\subsection{Merge não Estruturado com separadores}
 As abordagens estruturadas e semiestruturadas discutidas na seção anterior, apesar de claramente benéficas,
 possuem um custo adicional, dado que elas se baseiam em manipulação de árvores sintáticas, que por sua vez são
 dependentes da linguagem em questão e demandam um esforço significativo de implementação por linguagem, além de que
@@ -158,6 +158,4 @@ para a linguagem Python pelo fato de que a mesma não possui separador para deli
 Dada esta limitação, propomos neste trabalho uma modificação no algoritmo do \emph{CSDiff}, visando resolver esse problema de
 separação de escopo. Para fazer isso, modificamos o algoritmo para que também adicione marcadores ao encontrar mudanças na
 indentação do programa.
-
-
 
