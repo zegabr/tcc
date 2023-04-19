@@ -5,8 +5,8 @@ que o programa iterasse linha a linha, no Passo 1 da Figura~\ref{csdiff_process}
 Para tal, foi escolhido a ferramenta \emph{awk}~\cite{awk}, utilizada primeiramente para
 simplificar alguns dos scripts feitos com a ferramenta \emph{sed} que foram utilizados em~\cite{clem21,heitor21}.
 Esta simplificação
-utilizou-se do conceito chamado de \emph{charclass} (add footnote: https://www.regular-expressions.info/charclass.html), que
-permite criar um comando de substituição mais simples do que o utilizado anteriormente, que consistia em uma sequencia de
+utilizou-se do conceito chamado de \emph{charclass}\footnote{https://www.regular-expressions.info/charclass.html}
+que permite criar um comando de substituição mais simples do que o utilizado anteriormente, que consistia em uma sequencia de
 substituições \emph{sed} individuais. Essa simplificação foi posteriormente testada pelo autor utilizando
 o \emph{miningframework} (utilizado nessa pesquisa, bem como nas anteriores já mencionadas), para comprovar sua equivalência em
 relação ao script inicial (sequência de comandos \emph{sed}). Além disso, apesar de não ter sido
@@ -17,10 +17,10 @@ notou-se uma melhora na velocidade de execução do
 
 \subsection{Inserindo Marcadores ao Detectar Mudanças de Indentação}
 Após a simplicicação acima, foi criada uma nova versão do \emph{CSDiff} cujo processo é descrito na
-Figura~\ref{csdiff_process_indentation} e seu resultado ilustrada nas Figuras \ref{base_marcadores_indentacao},
-\ref{left_marcadores_indentacao},
-\ref{right_marcadores_indentacao}, enquanto que o resultado da execução do \emph{diff3} pode ser visto na figura
-\ref{diff3_marcadores_indentacao}
+Figura~\ref{csdiff_process_indentation} e seu resultado ilustrada nas Figuras~\ref{base_marcadores_indentacao},
+~\ref{left_marcadores_indentacao},
+~\ref{right_marcadores_indentacao}, enquanto que o resultado da execução do \emph{diff3} pode ser visto na figura
+~\ref{diff3_marcadores_indentacao}
 
 \begin{figure}[ht]
 	\begin{center}
@@ -33,7 +33,7 @@ Figura~\ref{csdiff_process_indentation} e seu resultado ilustrada nas Figuras \r
 				sempre que a linha anterior está em um nível de
 				indentação diferente da linha atual.
 			\end{compactenum}
-			\item Chama o \emph{merge} textual do Diff3, passando como entrada os arquivos gerados por 1;
+			\item Chama o \emph{merge} textual do \emph{Diff3}, passando como entrada os arquivos gerados por 1;
 			\item No arquivo resultante do Passo 2, remove as linhas extras e marcadores adicionados no Passo 1.
 		\end{compactenum}
 	\end{center}
@@ -69,7 +69,7 @@ Figura~\ref{csdiff_process_indentation} e seu resultado ilustrada nas Figuras \r
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/diff3_temp.py}
 		\caption{Arquivo resultante após a execução do Passo 2 da Figura \ref{csdiff_process_indentation} nos arquivos
-			\emph{base}, \emph{left} e \emph{right}. Note que agora o diff3 conseguiu resolver todos
+			\emph{base}, \emph{left} e \emph{right}. Note que agora o \emph{Diff3} conseguiu resolver todos
 			os conflitos de forma automática.
 		}\label{diff3_marcadores_indentacao}
 	\end{center}
@@ -84,7 +84,3 @@ Figura~\ref{csdiff_process_indentation} e seu resultado ilustrada nas Figuras \r
 \end{figure}
 
 Com essas modificações, fizemos o experimento descrito na seção seguinte.
-
-
-
-
