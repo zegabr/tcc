@@ -15,12 +15,27 @@ else
   set shortmess=aoO
 endif
 badd +25 monografia/latex/template.tex
-badd +13 monografia/latex/ufpethesis.cls
+badd +1 ~/tcc/monografia/latex/motivacao.tex
+badd +8 monografia/latex/main.tex
+badd +512 monografia/latex/avaliacao.tex
+badd +8 monografia/latex/solucao.tex
 argglobal
 %argdel
-edit monografia/latex/ufpethesis.cls
+edit monografia/latex/main.tex
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
 argglobal
-balt monografia/latex/template.tex
+balt monografia/latex/avaliacao.tex
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -31,11 +46,11 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 92 - ((38 * winheight(0) + 35) / 70)
+let s:l = 8 - ((7 * winheight(0) + 29) / 59)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 92
+keepjumps 8
 normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
@@ -44,6 +59,8 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
