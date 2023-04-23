@@ -21,7 +21,7 @@ mencionadas), para comprovar sua equivalência em relação ao script inicial
 
 \subsection{Inserindo Marcadores ao Detectar Mudanças de Indentação}
 
-Após a simplicicação acima, foi criada uma nova versão do \emph{CSDiff} cujo
+Após a simplificação acima, foi criada uma nova versão do \emph{CSDiff} cujo
 processo é descrito na Figura~\ref{csdiff_process_indentation} e seu resultado
 ilustrada nas Figuras~\ref{base_marcadores_indentacao},
 ~\ref{left_marcadores_indentacao}, ~\ref{right_marcadores_indentacao}, enquanto
@@ -35,7 +35,7 @@ ser visto na figura ~\ref{diff3_marcadores_indentacao}
 			\begin{compactenum}
                 \item Transforma os arquivos, fazendo com que os separadores
                     sintáticos dados como entrada fiquem em linhas separadas;
-                    essas novas linhas são marcadas com a sequencia de
+                    essas novas linhas são marcadas com a sequência de
                     caracteres: '\verb|$$$$$$$$|', e adiciona uma linha de
                     marcadores a mais acima da linha atual sempre que a linha
                     anterior está em um nível de indentação diferente da linha
@@ -53,7 +53,7 @@ ser visto na figura ~\ref{diff3_marcadores_indentacao}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/base.py_temp.py}
-		\caption{Arquivo \emph{base} após a o Passo 1 da Figura
+		\caption{Arquivo \emph{base} após o Passo 1 da Figura
 			\ref{csdiff_process_indentation}}\label{base_marcadores_indentacao}
 	\end{center}
 \end{figure}
@@ -61,7 +61,7 @@ ser visto na figura ~\ref{diff3_marcadores_indentacao}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/left.py_temp.py}
-		\caption{Arquivo \emph{left} após a o Passo 1 da Figura
+		\caption{Arquivo \emph{left} após o Passo 1 da Figura
 			\ref{csdiff_process_indentation}}\label{left_marcadores_indentacao}
 	\end{center}
 \end{figure}
@@ -69,7 +69,7 @@ ser visto na figura ~\ref{diff3_marcadores_indentacao}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/right.py_temp.py}
-		\caption{Arquivo \emph{right} após a o Passo 1 da Figura
+		\caption{Arquivo \emph{right} após o Passo 1 da Figura
 			\ref{csdiff_process_indentation}}\label{right_marcadores_indentacao}
 	\end{center}
 \end{figure}
@@ -87,10 +87,20 @@ ser visto na figura ~\ref{diff3_marcadores_indentacao}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/csdiff.py}
-		\caption{Arquivo resultante após a o Passo 3 da Figura
+		\caption{Arquivo resultante após o Passo 3 da Figura
 			\ref{csdiff_process_indentation}}\label{csdiff_indentacao}
 	\end{center}
 \end{figure}
+
+Como podemos ver nas
+Figuras~\ref{base_marcadores_indentacao},~\ref{left_marcadores_indentacao}
+e~\ref{right_marcadores_indentacao}, foi adicionada uma nova linha de
+marcadores entre os dois \emph{return}s, de forma que todas as linhas
+conflitantes deixaram de estar em posições consecutivas, pois a linha de
+marcadores (mais especificamente o da linha 15) é idêntica em todos os
+arquivos. Isso foi suficiente para que o Passo 2 da
+Figura~\ref{csdiff_process_indentation} resolvesse todos os conflitos de forma
+automática.
 
 Com essas modificações, executamos o experimento descrito na seção seguinte.
 

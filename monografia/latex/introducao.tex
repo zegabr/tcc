@@ -41,7 +41,7 @@ Esse benefício advém da exploração da estrutura gerada pela análise sintát
 também chamada de análise gramatical. Ela envolve o agrupamento dos tokens
 (palavras) do programa fonte em frases. Cada linguagem possui conjuntos de
 tokens, onde alguns servem como divisores de elementos sintáticos e escopo
-semântico, como por exemplo as chaves ('{', '}') numa linguagem como Java.
+semântico, como por exemplo as chaves ('\verb|{|', '\verb|}|') numa linguagem como Java.
 Estes tokens são definidos aqui como
 \textbf{separadores} sintáticos.
 
@@ -49,8 +49,9 @@ A solução não estruturada mais utilizada, o \emph{Diff3}, se baseia somente n
 quebra de linha como o divisor de contexto para detecção de conflitos. Assim, o
 algoritmo de \emph{merge} compara as linhas mantidas, adicionadas, e removidas
 por cada desenvolvedor e, com base nisso, reporta conflito quando as mudanças
-ocorrem em uma mesma área do texto, isto é, uma área onde  não há uma linha
-mantida que separa as mudanças feitas pelos dois desenvolvedores.
+ocorrem em uma mesma área do texto, isto é, uma área onde não há uma mesma
+linha (ou linhas consecutivas) mantida que separa as mudanças feitas pelos dois
+desenvolvedores.
 
 Como forma de melhorar os resultados do \emph{Diff3}, o \emph{CSDiff}, proposto
 em trabalhos anteriores~\cite{clem21}, utiliza-se dos separadores mencionados
@@ -59,13 +60,14 @@ acima para dividir o contexto de cada linha de código. Assim, o algoritmo de
 contanto que esses conflitos estejam separados por pelo menos um dos
 separadores definidos.
 
-Contudo, o \emph{CSDiff} possui limitações, pois linguagens como Python,
-possuem poucos separadores (seu principal separador é a própria indentação do
-código, que não é considerado pelo \emph{CSDiff} atual). Este trabalho propõe
-uma modificação para o \emph{CSDiff}, que utiliza a indentação como um
-separador sintático, de forma a tentar resolver esse problema, e analisa os
-resultados em comparação ao \emph{merge} não estruturado puramente textual. Em
-particular, investiga-se as seguintes perguntas de pesquisa:
+Apesar de funcionar bem para linguagens como Java, o \emph{CSDiff} possui
+limitações, pois linguagens como Python, possuem poucos separadores (seu
+principal separador é a própria indentação do código, que não é considerado
+pelo \emph{CSDiff} atual). Este trabalho propõe uma modificação para o
+\emph{CSDiff}, que utiliza a indentação como um separador sintático, de forma a
+tentar resolver esse problema, e analisa os resultados em comparação ao
+\emph{merge} não estruturado puramente textual. Em particular, investiga-se as
+seguintes perguntas de pesquisa:
 
 \begin{compactenum}[1)]
 	\item PP1: A nova solução de \emph{merge} não estruturado, utilizando indentação,
@@ -86,12 +88,18 @@ particular, investiga-se as seguintes perguntas de pesquisa:
 Os resultados obtidos mostram que além de aumentar a quantidade de conflitos
 reportados (como esperado considerando os resultados dos trabalhos anteriores),
 o \emph{merge} não estruturado utilzando separadores e indentação, demonstra,
-para a amostra utilizada, um aumento de aFN proporcional a quantidade de aFP
-reduzido quando comparado ao \emph{Diff3}.
+para a amostra utilizada, um aumento de cenários \emph{aFN} (Falsos Negativos
+Adicionados, ou seja, cenários onde a ferramenta resolveu conflitos de forma
+errada, enquanto a ferramenta \emph{Diff3} resolveu corretamente) proporcional
+a quantidade de cenários \emph{aFP} (Falsos Positivos Adicionados, ou seja,
+cenários onde a ferramenta reportou conflitos enquanto a ferramenta Diff3 não
+reportou nenhum e seu resultado era igual ao do merge do repositório) reduzido
+quando comparado ao \emph{Diff3}.
 
 Por outro lado, ao se fazer a análise de aumento de produtividade considerando
 o ato de resolver e reduzir conflitos, além de considerar geração de falsos
 conflitos reais e resolução errada de conflitos, notou-se um bom aumento de
-produtividade com a utilização do \emph{CSDiff}. Os conceitos utilizados para
-esta análise são explicados na seção~\ref{concept_PP5}.
+produtividade com a utilização do \emph{CSDiff} original, enquanto que o
+\emph{CSDiff} modificado demonstrou um resultado levemente pior. Os conceitos
+utilizados para esta análise são explicados na seção~\ref{concept_PP5}.
 
