@@ -137,7 +137,7 @@ definidas a seguir e não são consideradas nas outras perguntas de pesquisa.
 Dessa forma, conseguimos analisar com um pouco mais de detalhes as vantagens e
 desvantagens de se utilizar o \emph{CSDiff} ao invés do \emph{Diff3}.
 
-\paragraph{Conflito Reduzido}
+\subsubsection{Conflito Reduzido}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/conflito_reduzido.py}
@@ -152,7 +152,7 @@ menor). Dessa forma, a pontuação escolhida para o aumento de produtividade
 nessa situação foi +1, dado que uma redução no tamanho de um conflito implica
 numa resolução mais rápida pelo desenvolvedor.
 
-\paragraph{Conflito Resolvido}
+\subsubsection{Conflito Resolvido}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/conflito_resolvido.py}
@@ -169,7 +169,7 @@ menos para o desenvolvedor resolver (um conflito resolvido automaticamente pelo
 \emph{CSDiff} mas nao pelo \emph{Diff3}). Dessa forma, escolhemos a pontuação
 +2 para essa situação.
 
-\paragraph{Falso Conflito Real}
+\subsubsection{Falso Conflito Real}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/falso_conflito_real.py}
@@ -184,7 +184,7 @@ situação pode ser causada por conflito que foi automaticamente resolvido pelo
 desenvolvedor resolver caso ele utilize o \emph{CSDiff} ao invés do
 \emph{Diff3}. Por isso, escolhemos a pontuação -1 para essa situação.
 
-\paragraph{Falso Negativo Real}
+\subsubsection{Falso Negativo Real}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/falso_negativo_real.py}
@@ -353,7 +353,7 @@ novo algoritmo não é tão benéfico quando comparado com a versão já existen
 Além disso, podemos ver na Tabela~\ref{tabelaPP1_sem_matplotlib} que ao
 desconsiderar o projeto matplotlib, obtemos uma redução pequena no número de
 conflitos em relação ao \emph{Diff3} (aproximadamente 10\% menos conflitos).
-Isso é um resultado inesperado considerand os resultados anteriores. Isso pode
+Isso é um resultado inesperado considerando os resultados anteriores. Isso pode
 ter sido causado pelo fato de que o matplotlib representa aproximadamente 70\%
 da amostra (considerando quantidade de conflitos), indicando que sem o
 matplotlib a amostra talvez não seja representativa o suficiente para tirar
@@ -461,7 +461,7 @@ demonstrar uma possível desvantagem de uma ferramenta em relação a outra.
 % \end{table}
 
 Analisando as
-tabelas~\ref{csdiff_minus_afp_afn},~\ref{csdiff_plus_afp_afn},~\ref{csdiff_indentation_plus_afp_afn}
+tabelas~\ref{csdiff_plus_afp_afn},~\ref{csdiff_minus_afp_afn},~\ref{csdiff_indentation_plus_afp_afn}
 e \ref{csdiff_indentation_minus_afp_afn}, conseguimos notar uma pequena
 desvantagem da ferramenta \emph{Diff3} em relação ao \emph{CSDiff}, visto que
 enquanto a ferramenta \emph{Diff3} relata falsos positivos em aproximadamente
@@ -519,7 +519,7 @@ aproximadamente metade da quantidade relatada nas outras.
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
 			\hline
-			\textbf{ }          & \textbf{CSDiffI+} & \textbf{\emph{Diff3}} \\
+			\textbf{ }          & \textbf{\emph{CSDiffI}+} & \textbf{\emph{Diff3}} \\
 			\hline
 			\emph{aFP} cenários & 1                 & 3                     \\
 			\emph{aFP} arquivos & 30                & 6                     \\
@@ -550,7 +550,7 @@ aproximadamente metade da quantidade relatada nas outras.
 	\begin{center}
 		\begin{tabular}{|l|c|c|}
 			\hline
-			\textbf{ }          & \textbf{CSDiffI-} & \textbf{\emph{Diff3}} \\
+			\textbf{ }          & \textbf{\emph{CSDiffI}-} & \textbf{\emph{Diff3}} \\
 			\hline
 			\emph{aFP} cenários & 1                 & 3                     \\
 			\emph{aFP} arquivos & 31                & 7                     \\
