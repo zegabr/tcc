@@ -3,7 +3,9 @@
 
 Primeiramente, para que conseguíssemos fazer o \emph{CSDiff} detectar mudanças
 de indentação, era necessário que o programa iterasse linha por linha, no Passo
-1 da Figura~\ref{csdiff_process}. Então, escolhemos a ferramenta
+1 da Figura~\ref{csdiff_process}. Então, ao pesquisar por ferramentas
+alternativas ao \emph{sed} (que, ao contrário do \emph{awk}, faz a substituição
+no arquivo inteiro de uma vez), encontramos e escolhemos utilizar a ferramenta
 \emph{awk}~\cite{awk}, utilizada primeiramente para simplificar alguns dos
 scripts feitos com a ferramenta \emph{sed} que foram utilizados
 em~\cite{clem21,heitor21}. Esta simplificação foi feita através do conceito
@@ -28,13 +30,15 @@ ilustrada nas Figuras~\ref{base_marcadores_indentacao},
 que o resultado da execução do \emph{diff3} nos arquivos modificados pode
 ser visto na figura ~\ref{diff3_marcadores_indentacao}
 
+% TODO: trocar pra listagem e suas referencias
 \begin{figure}[ht]
 	\begin{center}
 		\begin{compactenum}[(1)]
 			\item Iterando linha a linha nos arquivos \emph{base}, \emph{left} e \emph{right}:
 			\begin{compactenum}
                 \item Transforma os arquivos, fazendo com que os separadores
-                    sintáticos dados como entrada fiquem em linhas separadas;
+                    sintáticos dados como entrada fiquem em linhas separadas,
+                    adicionando uma linha antes e uma depois de cada separador;
                     essas novas linhas são marcadas com a sequência de
                     caracteres: '\verb|$$$$$$$$|', e adiciona uma linha de
                     marcadores a mais acima da linha atual sempre que a linha
@@ -101,6 +105,15 @@ marcadores (mais especificamente o da linha 15) é idêntica em todos os
 arquivos. Isso foi suficiente para que o Passo 2 da
 Figura~\ref{csdiff_process_indentation} resolvesse todos os conflitos de forma
 automática.
+
+Por questão de simplicidade, utilizamos apenas dois separadores nos exemplos
+acima ``(`` e ``)`` (abre parênteses e fecha parênteses). Entretanto, Python também possui outros separadores
+possivelmente relevantes, como ``,`` (vírgula) e ``:`` (dois pontos), que
+utilizamos na avaliação desse trabalho. Apesar disso, vale resslatar que na
+linguagem, o separadoor ``:`` normalmente vem precedido de um ``)`` e/ou
+seguido de uma mudança de indentação. Isso faz com que o \emph{CSDiff} crie
+linhas marcadoras redundantes, e como veremos mais a frente, tem influência
+direta na geração de falsos conflitos.
 
 Com essas modificações, executamos o experimento descrito na seção seguinte.
 

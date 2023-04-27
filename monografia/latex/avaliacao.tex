@@ -23,26 +23,23 @@ que chamaremos aqui de \emph{base}, \emph{left}, \emph{right} e \emph{merge}. O
 integração das mudanças foi feita no repositório.
 
 \subsection{Falso Positivo Adicionado}
-Seguindo as mesmas definições descritas em~\cite{clem21}, um falso positivo
-ocorre quando a ferramenta de \emph{merge} relata um conflito que na verdade
-não deveria ter ocorrido, ou seja, as modificações relativas ao conflito não
-interferm entre si. Para comparar duas ferramentas de merge X e Y, usamos o
-conceito de Falso Positivo Adicionado \emph{aFP}, que acontece quando a
-ferramenta X relata conflito em um determinado cenário de \emph{merge},
-enquanto a ferramenta Y não relata conflito no mesmo cenário e as mudanças
-integradas pelas ferramentas não interferem uma na outra. É importante usar o
-conceito de \emph{aFP} porque o conjunto de falsos conflitos de uma ferramenta
-não é um subconjunto da outra.
+
+Seguindo as mesmas definições descritas em~\cite{heitor21}, um falso positivo
+para uma dada ferramenta em relação a outra ocorre quando a ferramenta de
+\emph{merge} relata um conflito que na verdade não deveria ter ocorrido. Para
+comparar duas ferramentas de merge X e Y, usamos o conceito de Falso Positivo
+Adicionado \emph{aFP}, que acontece quando a ferramenta X relata conflito em um
+determinado cenário de \emph{merge}, enquanto a ferramenta Y não relata
+conflito no mesmo cenário. É importante usar o conceito de \emph{aFP} porque o
+conjunto de falsos conflitos de uma ferramenta não é um subconjunto da outra.
 
 \subsection{Falso Negativo Adicionado}
 Um falso negativo ocorre quando a ferramenta de \emph{merge} não relata um
-conflito que deveria ter sido reportado, pois as mudanças que estão sendo
-integradas interferem uma na outra. Ao comparar duas ferramentas de
+conflito que deveria ter sido reportado. Ao comparar duas ferramentas de
 \emph{merge} X e Y, usamos o conceito de Falso Negativo Adicionado
 (\emph{aFN}), que acontece quando a ferramenta X não relata conflito em um
 determinado cenário de \emph{merge}, enquanto a ferramenta Y relata conflito no
-mesmo cenário e as mudanças que estão sendo integradas pelas ferramentas
-interferem uma na outra (ou seja, deveria ocorrer conflito). É importante usar
+mesmo cenário. É importante usar
 o conceito de aFN porque o conjunto de falsos negativos de uma ferramenta não é
 um subconjunto da outra.
 
@@ -115,18 +112,22 @@ falsos negativos, os códigos foram analisados manualmente.
 
 Além das 4 primeiras perguntas de pesquisa, foi criada uma outra forma de
 analisar os benefícios do \emph{CSDiff} em relação ao \emph{Diff3}. Para isso,
-foram definidas as 4 situações abaixo e cada situação foi associada a uma
+foram definidas as 4 situações abaixo, e cada situação foi associada a uma
 pontuação, de forma que uma maior pontuação em um determinado arquivo ou
 cenário, indica um aumento na produtividade do desenvolvedor ao utilizar o
-\emph{CSDiff} como ferramenta ao invés do \emph{Diff3}. Essa análise foi feita
-comparando manualmente, em cada arquivo de cada cenário de \emph{merge}, os
-conflitos relatados pela ferramenta \emph{CSDiff} com os relatados pela
-ferramenta \emph{Diff3}, bem como foi comparado seus resultados com o resultado
-final do \emph{merge}, nos casos onde um deles não relatava conflitos. Essa
-análise foi possível pois, apesar de a amostra ter sido consideravelmente
-grande (mais de 3000 cenários de \emph{merge}), houveram somente 32 cenários
-(com um total de 255 arquivos) onde tais comportamentos fossem possíveis de
-acontecer. Isso será melhor explicado na seção~\ref{metodologia}.
+\emph{CSDiff} como ferramenta ao invés do \emph{Diff3}. As situações foram
+selecionadas ao comparar visualmente as diferenças de resultados entre as
+ferramentas e suas pontuações foram escolhidas arbitrariamente pelo autor. 
+
+A identificação das situações foi feita comparando manualmente, em cada arquivo
+de cada cenário, os conflitos relatados pela ferramenta \emph{CSDiff} com os
+relatados pela ferramenta \emph{Diff3}, bem como foi comparado seus resultados
+com o resultado final do \emph{merge}, nos casos onde um deles não relatava
+conflitos. Essa análise foi possível pois, apesar de a amostra ter sido
+consideravelmente grande (mais de 3000 cenários de \emph{merge}), houveram
+somente 32 cenários (com um total de 255 arquivos) onde tais comportamentos
+fossem possíveis de acontecer. Isso será melhor explicado na
+seção~\ref{metodologia}.
 
 Essa análise é importante pois considera também falsos conflitos que ocorrem
 quando as duas ferramentas (\emph{CSDiff} e \emph{Diff3}) acusam conflitos,
@@ -223,10 +224,13 @@ Por isso, escolhemos a pontuação -2 para esse caso.
 	\end{center}
 	\caption{Projetos selecionados para o experimento}\label{tabela_projeto}
 \end{table}
-Como amostra para essa pesquisa, utilizamos os mesmos critérios de escolha
-usados nos trabalhos anteriores e foram selecionados 10 projetos open source
-majoritariamente escritos em Python, cada um com mais de 13000 estrelas no
-github e mais de 350 contribuidores cada. Os números podem ser conferidos na
+
+Como amostra para essa pesquisa, utilizamos os critários também usados em
+trabalhos anteriores, cuja ideia é procurar por projetos com boas chances de
+ter commits de merge, ou seja, projetos com muitos contribuidores e muitas
+estrelas no GitHub. Foram selecionados 10 projetos open source majoritariamente
+escritos em Python, cada um com mais de 13000 estrelas no github e mais de 350
+contribuidores cada. Os números podem ser conferidos na
 Figura~\ref{tabela_projeto}.
 
 \section{METODOLOGIA}\label{metodologia}
@@ -265,7 +269,6 @@ Além disso, alguns scripts feitos em Bash pelo autor foram necessários para
 complementar os dados que não eram obtidos diretamente destas tabelas geradas
 pela ferramenta. Todos esses scripts estão disponibilizados em um repositório
 público.\footnote{https://github.com/zegabr/miningframework/tree/test-branch} %
-% TODO: change this to zegabr/tcc
 
 Para contar conflitos por arquivo, cenário, etc., os scripts buscam por
 marcadores de conflito nos textos dos arquivos. Para identificar se as
@@ -367,7 +370,7 @@ Observando a quarta linha da Tabela~\ref{tabelaPP1_com_matplotlib}, conseguimos
 também responder a esta pergunta. Notamos que há uma redução na quantidade de
 cenários com conflitos, com a maior redução ocorrendo para o \emph{CSDiff}-
 (23\%) e a menor para o \emph{CSDiffI}+ (13.3\%), seguindo também a mesma ordem
-de grandeza reportado por~\cite{heitor21} em seu estudo com TypeScript e Ruby
+de grandeza reportado por Souza~\cite{heitor21} em seu estudo com TypeScript e Ruby
 (apresentando redução de 13.78\% e 16.32\%, respectivamente).
 
 Também relatamos uma redução na quantidade de arquivos com conflitos,
@@ -638,7 +641,6 @@ total (que nomeamos aqui de ``Aumento de produtividade``) do arquivo, cenário e
 projeto no qual a situação se encontrava. Todos os scripts usados pelo autor se
 encontram num repositório público no
 Github.\footnote{https://github.com/zegabr/miningframework/tree/test-branch} %
-% TODO: change this to zegabr/tcc
 
 Na tabela~\ref{tabela_produtividade} podemos ver os resultados por projeto,
 cuja fórmula para os valores foi simplesmente a soma das quantidades

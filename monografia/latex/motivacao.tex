@@ -86,7 +86,7 @@ por um nó diferente, pois o identificador do método é parte do nó, e os dois
 nós são mantidos na árvore resultante da integração.
 
 Apesar da melhora em relação ao relato de falsos positivos,
-Guilherme~\cite{cavalcanti17} argumenta que ferramentas semiestruturadas tendem
+Cavalcanti~\cite{cavalcanti17} argumenta que ferramentas semiestruturadas tendem
 a gerar falsos negativos que são mais difíceis de detectar e resolver, além de
 não encontrar evidências de que essas ferramentas reduzem a quantidade de
 falsos negativos relatados em comparação a ferramentas não estruturadas.
@@ -118,12 +118,14 @@ mas que também considera a estrutura sintática do programa por meio de um
 conjunto de separadores da linguagem, escolhidos pelo usuário e passados como
 parâmetro.
 
+% TODO: trocar pra listagem e suas referencias
 \begin{figure}[ht]
 	\begin{center}
 		\begin{compactenum}[(1)]
             \item Transforma os arquivos \emph{base}, \emph{left} e
                 \emph{right}, fazendo com que os separadores sintáticos dados
-                como entrada fiquem em linhas separadas; essas novas linhas são
+                como entrada fiquem em linhas separadas, adicionando uma linha
+                antes e uma depois de cada separador; essas novas linhas são
                 marcadas com a sequência de caracteres: '\verb|$$$$$$$$|';
             \item Chama o \emph{merge} textual do \emph{Diff3}, passando como
                 entrada os arquivos gerados por 1;
