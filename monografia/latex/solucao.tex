@@ -24,64 +24,60 @@ mencionadas), para comprovar sua equivalência em relação ao script inicial
 \subsection{Inserindo Marcadores ao Detectar Mudanças de Indentação}
 
 Após a simplificação acima, foi criada uma nova versão do \emph{CSDiff} cujo
-processo é descrito na Figura~\ref{csdiff_process_indentation} e seu resultado
+processo é descrito na Listagem 3.1 e seu resultado
 ilustrada nas Figuras~\ref{base_marcadores_indentacao},
 ~\ref{left_marcadores_indentacao}, ~\ref{right_marcadores_indentacao}, enquanto
 que o resultado da execução do \emph{diff3} nos arquivos modificados pode
 ser visto na figura ~\ref{diff3_marcadores_indentacao}
 
-% TODO: trocar pra listagem e suas referencias
-\begin{figure}[ht]
-	\begin{center}
-		\begin{compactenum}[(1)]
-			\item Iterando linha a linha nos arquivos \emph{base}, \emph{left} e \emph{right}:
-			\begin{compactenum}
-                \item Transforma os arquivos, fazendo com que os separadores
-                    sintáticos dados como entrada fiquem em linhas separadas,
-                    adicionando uma linha antes e uma depois de cada separador;
-                    essas novas linhas são marcadas com a sequência de
-                    caracteres: '\verb|$$$$$$$$|', e adiciona uma linha de
-                    marcadores a mais acima da linha atual sempre que a linha
-                    anterior está em um nível de indentação diferente da linha
-                    atual.
-			\end{compactenum}
-            \item Chama o \emph{merge} textual do \emph{Diff3}, passando como
-                entrada os arquivos gerados por 1;
-            \item No arquivo resultante do Passo 2, remove as linhas extras e
-                marcadores adicionados no Passo 1.
+\begin{center}
+	\centering
+	\begin{compactenum}[(1)]
+		\item Iterando linha a linha nos arquivos \emph{base}, \emph{left} e \emph{right}:
+		\begin{compactenum}
+			\item Transforma os arquivos, fazendo com que os separadores
+			sintáticos dados como entrada fiquem em linhas separadas,
+			adicionando uma linha antes e uma depois de cada separador;
+			essas novas linhas são marcadas com a sequência de
+			caracteres: '\verb|$$$$$$$$|', e adiciona uma linha de
+			marcadores a mais acima da linha atual sempre que a linha
+			anterior está em um nível de indentação diferente da linha
+			atual.
 		\end{compactenum}
-	\end{center}
-	\caption{Processo do \emph{CSDiff} considerando mudanças de indentação}\label{csdiff_process_indentation}
-\end{figure}
+		\item Chama o \emph{merge} textual do \emph{Diff3}, passando como
+		entrada os arquivos gerados por 1;
+		\item No arquivo resultante do Passo 2, remove as linhas extras e
+		marcadores adicionados no Passo 1.
+	\end{compactenum}
+	{Listagem 3.1: Processo do \emph{CSDiff} considerando mudanças de indentação}\\
+	\label{csdiff_process_indentation}
+\end{center}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/base.py_temp.py}
-		\caption{Arquivo \emph{base} após o Passo 1 da Figura
-			\ref{csdiff_process_indentation}}\label{base_marcadores_indentacao}
+		\caption{Arquivo \emph{base} após o Passo 1 da Listagem 3.1}\label{base_marcadores_indentacao}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/left.py_temp.py}
-		\caption{Arquivo \emph{left} após o Passo 1 da Figura
-			\ref{csdiff_process_indentation}}\label{left_marcadores_indentacao}
+		\caption{Arquivo \emph{left} após o Passo 1 da Listagem 3.1}\label{left_marcadores_indentacao}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/right.py_temp.py}
-		\caption{Arquivo \emph{right} após o Passo 1 da Figura
-			\ref{csdiff_process_indentation}}\label{right_marcadores_indentacao}
+		\caption{Arquivo \emph{right} após o Passo 1 da Listagem 3.1}\label{right_marcadores_indentacao}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/diff3_temp.py}
-		\caption{Arquivo resultante após a execução do Passo 2 da Figura~\ref{csdiff_process_indentation} nos arquivos
+		\caption{Arquivo resultante após a execução do Passo 2 da Listagem 3.1 nos arquivos
 			\emph{base}, \emph{left} e \emph{right}. Note que agora o \emph{Diff3} conseguiu resolver todos
 			os conflitos de forma automática.
 		}\label{diff3_marcadores_indentacao}
@@ -91,8 +87,7 @@ ser visto na figura ~\ref{diff3_marcadores_indentacao}
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/indentation/csdiff.py}
-		\caption{Arquivo resultante após o Passo 3 da Figura
-			\ref{csdiff_process_indentation}}\label{csdiff_indentacao}
+		\caption{Arquivo resultante após o Passo 3 da Listagem 3.1}\label{csdiff_indentacao}
 	\end{center}
 \end{figure}
 
@@ -103,7 +98,7 @@ marcadores entre os dois \emph{return}s, de forma que todas as linhas
 conflitantes deixaram de estar em posições consecutivas, pois a linha de
 marcadores (mais especificamente o da linha 15) é idêntica em todos os
 arquivos. Isso foi suficiente para que o Passo 2 da
-Figura~\ref{csdiff_process_indentation} resolvesse todos os conflitos de forma
+Listagem 3.1 resolvesse todos os conflitos de forma
 automática.
 
 Por questão de simplicidade, utilizamos apenas dois separadores nos exemplos
@@ -116,4 +111,5 @@ linhas marcadoras redundantes, e como veremos mais a frente, tem influência
 direta na geração de falsos conflitos.
 
 Com essas modificações, executamos o experimento descrito na seção seguinte.
+
 

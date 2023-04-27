@@ -155,6 +155,7 @@ grau de \@degree\ em \@majorfield.}
 % Portuguese
 \if\@language0
   \gdef\@notdefined{NÃO DEFINIDO}
+  \gdef\@itemlistname{Listagem}
   \gdef\acknowledgementsname{Agradecimentos}
   \gdef\@axiomname{Axioma}
   \gdef\@conjecturename{Conjectura}

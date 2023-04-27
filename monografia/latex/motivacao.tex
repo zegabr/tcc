@@ -112,35 +112,33 @@ computacional maior em relação a abordagens puramente textuais.
 
 Para reduzir essas desvantagens, Clementino~\cite{clem21} propôe uma nova
 ferramenta chamada \textbf{Custom Separators
-Diff}\footnote{https://github.com/JonatasDeOliveira/custom-separators-merge-tool/blob/main/csdiff.sh}
+	Diff}\footnote{https://github.com/JonatasDeOliveira/custom-separators-merge-tool/blob/main/csdiff.sh}
 (\emph{CSDiff}), cujo funcionamento baseia-se na abordagem puramente textual,
 mas que também considera a estrutura sintática do programa por meio de um
 conjunto de separadores da linguagem, escolhidos pelo usuário e passados como
 parâmetro.
 
-% TODO: trocar pra listagem e suas referencias
-\begin{figure}[ht]
-	\begin{center}
-		\begin{compactenum}[(1)]
-            \item Transforma os arquivos \emph{base}, \emph{left} e
-                \emph{right}, fazendo com que os separadores sintáticos dados
-                como entrada fiquem em linhas separadas, adicionando uma linha
-                antes e uma depois de cada separador; essas novas linhas são
-                marcadas com a sequência de caracteres: '\verb|$$$$$$$$|';
-            \item Chama o \emph{merge} textual do \emph{Diff3}, passando como
-                entrada os arquivos gerados por 1;
-            \item No arquivo resultante do Passo 2, remove as linhas extras e
-                marcadores adicionados no Passo 1.
-		\end{compactenum}
-	\end{center}
-	\caption{Processo do \emph{CSDiff}}\label{csdiff_process}
-\end{figure}
-
+\begin{center}
+	\centering
+	\begin{compactenum}[(1)]
+		\item Transforma os arquivos \emph{base}, \emph{left} e
+		\emph{right}, fazendo com que os separadores sintáticos dados
+		como entrada fiquem em linhas separadas, adicionando uma linha
+		antes e uma depois de cada separador; essas novas linhas são
+		marcadas com a sequência de caracteres: '\verb|$$$$$$$$|';
+		\item Chama o \emph{merge} textual do \emph{Diff3}, passando como
+		entrada os arquivos gerados por 1;
+		\item No arquivo resultante do Passo 2, remove as linhas extras e
+		marcadores adicionados no Passo 1.
+	\end{compactenum}
+	{Listagem 2.1: Processo do \emph{CSDiff}}\\ % add bold centered text as title
+	\label{csdiff_process}
+\end{center}
 
 Para ilustrar o funcionamento do \emph{CSDiff} e seu potencial para resolver
 falsos conflitos, observamos as Figuras
 \ref{base_marcadores},~\ref{left_marcadores} e~\ref{right_marcadores} onde
-executamos o processo descrito na figura~\ref{csdiff_process} utilizando os
+executamos o processo descrito na Listagem 2.1 utilizando os
 separadores sintáticos de Python ``(``, ``)``  e ``,``.
 
 Nota-se na Figura~\ref{diff3_marcadores} que ao executar o \emph{CSDiff} nos
@@ -151,43 +149,43 @@ foi parcialmente resolvido automaticamente).
 
 \begin{figure}[ht]
 	\begin{center}
-        \lstinputlisting[language=Python]{./example/no_indentation/base.py_temp.py}
-        \caption{Arquivo \emph{base} após a o Passo 1 da
-        Figura~\ref{csdiff_process}}\label{base_marcadores}
+		\lstinputlisting[language=Python]{./example/no_indentation/base.py_temp.py}
+		\caption{Arquivo \emph{base} após a o Passo 1 da
+			Listagem 2.1}\label{base_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/left.py_temp.py}
-        \caption{Arquivo \emph{left} após a o Passo 1 da
-        Figura~\ref{csdiff_process}}\label{left_marcadores}
+		\caption{Arquivo \emph{left} após a o Passo 1 da
+			Listagem 2.1}\label{left_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/right.py_temp.py}
-        \caption{Arquivo \emph{right} após a o Passo 1 da
-        Figura~\ref{csdiff_process}}\label{right_marcadores}
+		\caption{Arquivo \emph{right} após a o Passo 1 da
+			Listagem 2.1}\label{right_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
 		\lstinputlisting[language=Python]{./example/no_indentation/diff3_temp.py}
-        \caption{Arquivo resultante após a execução do Passo 2 da
-        Figura~\ref{csdiff_process} nos arquivos \emph{base}, \emph{left} e
-    \emph{right}}\label{diff3_marcadores}
+		\caption{Arquivo resultante após a execução do Passo 2 da
+			Listagem 2.1 nos arquivos \emph{base}, \emph{left} e
+			\emph{right}}\label{diff3_marcadores}
 	\end{center}
 \end{figure}
 
 \begin{figure}[ht]
 	\begin{center}
-        \lstinputlisting[language=Python]{./example/no_indentation/csdiff.py}
-        \caption{Arquivo resultante após a execução do Passo 3 da
-        Figura~\ref{csdiff_process} nos arquivos \emph{base}, \emph{left} e
-    \emph{right}}\label{csdiff_before}
+		\lstinputlisting[language=Python]{./example/no_indentation/csdiff.py}
+		\caption{Arquivo resultante após a execução do Passo 3 da
+			Listagem 2.1 nos arquivos \emph{base}, \emph{left} e
+			\emph{right}}\label{csdiff_before}
 	\end{center}
 \end{figure}
 
@@ -205,5 +203,7 @@ Dada esta limitação, propomos neste trabalho uma modificação no algoritmo do
 fazer isso, modificamos o algoritmo para que também adicione marcadores ao
 encontrar mudanças na indentação do programa. Ilustraremos isso no próximo
 capítulo.
+
+
 
 
